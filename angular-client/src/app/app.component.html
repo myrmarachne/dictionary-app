@@ -1,0 +1,11 @@
+<ng-container *ngIf="dataLoaded">
+  <div>
+    <h1>Kategorie</h1>
+    <ul>
+      <li *ngFor="let category of categories">
+        {{category.name}}
+      </li>
+    </ul>
+  </div>
+  <router-outlet></router-outlet>
+</ng-container>

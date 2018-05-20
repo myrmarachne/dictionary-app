@@ -1,0 +1,14 @@
+<h1>Ostatnio dodane słówka:</h1>
+<ul>
+  <li *ngFor="let lastWord of lastWords">
+    {{lastWord.word}}
+  </li>
+</ul>
+
+<h1>Trudne słówka:</h1>
+<ul>
+  <li *ngFor="let hardWord of hardWords">
+    {{hardWord.word}}
+  </li>
+</ul>
+<button (click)="resetHardWords()">Reset</button>

@@ -18,6 +18,12 @@ function injectModel(controllerMethod) {
 
 app.use(bodyParser.json());
 
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 app.route('/categories')
   .get(injectModel(categoryController.getAll))
   .post(injectModel(categoryController.add));

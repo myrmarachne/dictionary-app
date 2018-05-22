@@ -1,0 +1,280 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans';
+    font-size: 12pt;
+}
+
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('fonts/OpenSans-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Semibold';
+    src: url('fonts/OpenSans-SemiBold.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Bold';
+    src: url('fonts/OpenSans-Bold.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RockSalt-Regular';
+    src: url('fonts/RockSalt-Regular.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Navigation Panel */
+
+.navigation-panel {
+    position: relative;
+    
+    min-height: 100%;
+    width: 272px;
+
+    background-color: #232323;
+}
+
+/* Logo */
+
+.navigation-panel .logo {
+    display: block;
+    height: 144px;
+    width: 272px;
+
+    background-repeat: no-repeat;
+    background: url('images/logo.png');
+    background-size: 272px 144px;
+
+    border-bottom: 1px solid #3C3C3C;
+}
+
+/* Main page button */
+
+.navigation-panel .main-page-button {
+    display: block;
+    height: 40px;
+    width: 192px;
+    
+    box-sizing: border-box;
+
+    margin: 8px 40px 0 40px; 
+
+    background-color: #3c3c3c;
+
+    line-height: 40px;
+    text-align: center;
+    color: white;    
+    letter-spacing: 2.4px;
+    text-decoration: none;
+
+}
+
+/* Word searching */
+
+.navigation-panel .search-input {
+    position: relative;
+    width: 192px;
+
+    margin: 12px 40px 28px 40px;
+}
+
+.navigation-panel .search-input .main-search {
+    width: 192px;
+    height: 20px;
+
+    padding: 0 32px;
+   
+    border-radius: 7px;
+    border: none;
+    outline: none; /* TODO: zastanowic sie czy nie dac jakiegos outline */
+
+    line-height: 100%;
+    text-align: center;
+
+}
+
+.navigation-panel .search-input .search-icon{
+    top: 50%;
+    right: 0;
+    position: absolute;
+    transform: scaleX(-1) translateY(-50%) translateX(50%);
+    font-size: 10px;
+    line-height: 100%;
+    color: #a8a8a8;
+}
+
+.navigation-panel .main-search::placeholder{
+    color: #a8a8a8;
+    font-style: italic;
+}
+
+/* Categories */
+
+.navigation-panel .categories-header {
+    position: relative;
+
+    width: inherit;
+    height: 40px;
+    box-sizing: border-box;
+
+    padding: 0 40px;
+
+    background-color: #272A35;
+    text-align: center;
+
+}
+
+.navigation-panel .categories-header .categories-header-text{
+    line-height: 40px;
+    color: #ffffff;
+    font-family: 'Open Sans Semibold';
+    letter-spacing: 2.4px;
+    font-size: 1.2em;
+}
+
+.navigation-panel .categories-header .add-icon {
+    display: block;
+
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+
+    width: 12px;
+    height: 12px;
+
+    padding: 4px;
+
+    line-height: 12px;
+    font-size: 12px;
+
+    border: 2px solid white; 
+    border-radius: 16px;
+    
+    color: white;
+
+    cursor: pointer;
+}
+
+.navigation-panel .categories {
+    list-style-type: none;
+}
+
+.navigation-panel .panel-item {
+    position: relative;
+    width: inherit;
+    height: 38.6px;
+
+    margin: 0 40px;
+    border-bottom: 1px solid #3C3C3C;
+
+}
+
+.navigation-panel .category-link {
+    display: block;
+    height: inherit;
+
+    padding: 0 24px;
+
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+}
+
+.navigation-panel .categories-item:hover {
+    background-color: #3C3C3C;
+}
+
+
+/* Text with categories in the list */
+
+.navigation-panel .category-link .category-text, .navigation-panel .all-words-link .category-link {
+    line-height: 38.6px;
+    font-size: 0.9em;
+    letter-spacing: 2.4px;
+}
+
+/* Emphasizing the "wszystkie słówka" text */
+
+.navigation-panel .all-words-link .category-link {
+    padding: 0;
+
+    text-align: center;
+    font-family: 'Open Sans Bold';
+    
+}
+
+/* Category search */
+
+.navigation-panel .category-search {
+    font-size: inherit;
+    letter-spacing: inherit;
+
+    border: none;
+    outline: none;
+
+    background-color: inherit;
+
+}
+
+.navigation-panel .category-search::placeholder {
+    letter-spacing: 0;
+    font-style: italic;
+    color: rgba(255,255,255,0.37);
+    text-transform: none;
+}
+
+
+/* The number of words in each of the categories */
+
+.navigation-panel .categories-item .number-of-words {
+    position: absolute;
+    top: 50%;
+    right: 0;
+
+    padding: 1px 4px;
+    border-radius: 6px;
+
+    transform: translateY(-50%);
+    background-color: #0d0d0d;
+
+    font-size: 10px;
+}
+
+/* Buttons on the bottom of panel */
+
+.navigation-panel .bottom-buttons {
+    position: absolute;
+    bottom: 0;
+}
+
+.navigation-panel .bottom-button {
+    display: inline-block;
+    height: 30px;
+    width: 120px;
+    box-sizing: border-box;
+
+    margin: 8px;
+
+    background-color: #3c3c3c;
+
+    line-height: 30px;
+    text-align: center;
+    color: white;    
+    letter-spacing: 2.4px;
+    text-decoration: none;
+}

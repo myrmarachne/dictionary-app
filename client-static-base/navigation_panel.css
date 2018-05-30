@@ -606,7 +606,7 @@ body {
 
     /* Value calculated so, that it is in the same 
     line as the trashes under it - for translations */
-    right: calc(50px); 
+    right: 50px; 
 
     font-size: 0.8em;
     transform: translateY(-50%) translateX(50%);
@@ -979,6 +979,7 @@ body {
 }
 
 .word-translation {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     margin: 5px 0;
@@ -1160,7 +1161,7 @@ body {
 }
 
 .word-content.content-block .word-translation {
-    padding-right: 20px;
+    padding-right: 40px;
 }
 
 .translations-header::before {
@@ -1184,10 +1185,9 @@ body {
 }
 
 
-
 .translation-category .far.fa-trash-alt {
     position: absolute;
-    right: 0;
+    right: -20px;
     top: 50%;
     transform: translateX(50%) translateY(-50%);
 
@@ -1197,3 +1197,27 @@ body {
     cursor: pointer;
 }
 
+/* Edit icon */
+
+.editable:hover .fas.fa-pencil-alt.pencil-icon {
+    display: block;
+}
+
+.fas.fa-pencil-alt.pencil-icon {
+    display: none;
+
+    position: absolute;
+    top: 50%;
+    right: 90px;
+    font-size: 0.8em;
+    transform: translateY(-50%) translateX(50%);
+    cursor: pointer;
+}
+
+.word-translation .fas.fa-pencil-alt.pencil-icon {
+    top: 50%;
+    right: 0;
+
+    color: #0d0d0d;
+    font-size: 12px;
+}

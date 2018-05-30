@@ -606,7 +606,7 @@ body {
 
     /* Value calculated so, that it is in the same 
     line as the trashes under it - for translations */
-    right: calc(5% - 2px + 20px); 
+    right: calc(50px); 
 
     font-size: 0.8em;
     transform: translateY(-50%) translateX(50%);
@@ -1159,6 +1159,10 @@ body {
     letter-spacing: 3px;
 }
 
+.word-content.content-block .word-translation {
+    padding-right: 20px;
+}
+
 .translations-header::before {
     content: "";
     position: absolute;
@@ -1174,7 +1178,7 @@ body {
 
 .translations-header .add-icon {
     position: absolute;
-    right: 5%;
+    right: 30px;
     top: 50%;
     transform: translateX(50%) translateY(-50%);
 }
@@ -1183,7 +1187,7 @@ body {
 
 .translation-category .far.fa-trash-alt {
     position: absolute;
-    right: calc(5% - 9px);
+    right: 0;
     top: 50%;
     transform: translateX(50%) translateY(-50%);
 
@@ -1192,3 +1196,4 @@ body {
     font-size: 1.2em;
     cursor: pointer;
 }
+

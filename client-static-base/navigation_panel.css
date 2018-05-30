@@ -433,7 +433,7 @@ body {
     margin: 6.5px 0;    
 }
 
-.right-panel .black-box .bottom-part .black-box-photo img{
+.right-panel .black-box .bottom-part .black-box-photo img {
     position: absolute;
     max-width: 100%;
     max-height: 100%;
@@ -603,10 +603,13 @@ body {
 .top-panel .far.fa-trash-alt {
     position: absolute;
     top: 50%;
-    right: 10%; /* TODO dobrac wartosc by bylo rowno z innymi smietnikami itp */
+
+    /* Value calculated so, that it is in the same 
+    line as the trashes under it - for translations */
+    right: calc(5% - 2px + 20px); 
 
     font-size: 0.8em;
-    transform: translateY(-50%);
+    transform: translateY(-50%) translateX(50%);
 
     cursor: pointer;
 }
@@ -804,13 +807,13 @@ body {
 
 }
 
-.categories-content.content-block {
+.categories-content.content-block  {
     width: calc(100% - 40px);
 
-    /* Top content margin (45px) + fixed top panel height (132px)
+    /* Top content margin (17px) + fixed top panel height (132px)
         + margin-top (20px) + bottm space (38px, accordingly to 
-        "Konto / Wyloguj" buttons = 235px */
-    min-height: calc(100% - 235px); 
+        "Konto / Wyloguj" buttons = 207px */
+    min-height: calc(100% - 207px); 
     margin: 20px;
 
 }
@@ -967,7 +970,7 @@ body {
 
 /* Descriptions with words translations */
 
-.word-descriptions {
+.categories-content .word-descriptions {
     /* Calculate the width taking into account the greyed area:
        scroll (~20px) + right margin (16px) + greyed area (60px) */
     width: calc(100% - 96px);
@@ -978,9 +981,11 @@ body {
 .word-translation {
     display: flex;
     flex-wrap: wrap;
+    margin: 5px 0;
 }
 
 .word-translation .translation-category {
+    position: relative;
     flex-basis: 100%;
     
     padding: 2px 0;
@@ -1076,18 +1081,114 @@ body {
 
 .words-statistics .fancy-button {
     position: absolute;
+
     bottom: 12px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
     background-color: #425CBB;
     color: white;
     
 }
 
 .words-statistics .hard-words-block .fancy-button {
-    left: 50%;
     width: 100px;
-    transform: translateX(-50%);
 
     padding: 0;
     text-align: center;
+}
 
+/* Word page */
+
+.word-content.content-block {
+    width: calc(100% - 40px);
+    box-sizing: border-box;
+    padding: 10px;
+
+    /* Top content margin (17px) + fixed top panel height (80px)
+    + margin-top (20px) + bottm space (38px, accordingly to 
+    "Konto / Wyloguj" buttons = 207px */
+    min-height: calc(100% - 155px);
+
+    margin: 20px;
+    background-color: white;
+
+}
+
+/* Picture */
+.content .word-photo {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-left: auto;   
+    margin-right: auto; 
+}
+
+.content .word-photo img {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    left: 50%;
+    top: 50%;
+
+    transform: translateX(-50%) translateY(-50%);
+
+    box-shadow: 0 0 5px 5px #0d0d0d;
+}
+
+/* Header above Translations */
+
+.translations-header {
+    position: relative;
+    left: -20px;
+    width: calc(100% + 30px);
+    height: 32px;
+    box-sizing: border-box;
+
+    padding: 0 20px;
+    margin: 10px 0;
+
+
+    background-color: #A2A2A2;
+
+    line-height: 32px;
+    color: white;
+    font-family: 'Open Sans Bold';
+    font-size: 1.3em;
+    letter-spacing: 3px;
+}
+
+.translations-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+
+    width: 100%;
+    height: inherit;
+
+    z-index: -10;
+    
+    box-shadow: -6px 5px 5px rgba(0,0,0,0.65);
+}
+
+.translations-header .add-icon {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateX(50%) translateY(-50%);
+}
+
+
+
+.translation-category .far.fa-trash-alt {
+    position: absolute;
+    right: calc(5% - 9px);
+    top: 50%;
+    transform: translateX(50%) translateY(-50%);
+
+    color: #0d0d0d;
+
+    font-size: 1.2em;
+    cursor: pointer;
 }

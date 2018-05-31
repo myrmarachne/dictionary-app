@@ -32,7 +32,7 @@ module.exports = {
   modify: function(model, req, res) {
     const newTranslation = req.body;
     const translationId = parseInt(req.params.translationId);
-    const translationIndex = utils.findModelIndexInCollection(model.wordTranslations, translationIndex);
+    const translationIndex = utils.findModelIndexInCollection(model.wordTranslations, translationId);
     if (translationIndex === -1 || translationId !== newTranslation.id) {
       res.statusCode = 404;
       res.send('');

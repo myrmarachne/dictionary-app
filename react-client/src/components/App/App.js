@@ -3,10 +3,14 @@ import { Route, Switch } from 'react-router-dom';
 import Home from '../Home/Home';
 import Category from '../Category/Category';
 import Word from '../Word/Word';
+import NavigationPanel from '../NavigationPanel/NavigationPanel';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './App.css';
 import { loadCategories, createCategory } from '../../modules/categories';
+
+import { withRouter } from 'react-router-dom'
+
 
 class App extends Component {
   componentDidMount() {
@@ -18,23 +22,23 @@ class App extends Component {
       name: 'nowaKategoria',
     });
   }
+ 
 
   render() {
-    const categoriesList = (this.props.categories.categories || []).map(category =>
-      <li key={category.id}>{category.name}</li>
-    );
-
     return (
       <div className="app">
-        <h1>Kategorie</h1>
+
+        <NavigationPanel />
+
+        {/*<h1>Kategorie</h1>
         <button onClick={() => this.testCreateCategory()}>Utwórz nową kategorię</button>
         <ul>
           {categoriesList}
-        </ul>
+        </ul>*/}
         <Switch>
           <Route exact path="/category/:categoryId" component={Category} />
           <Route exact path="/word/:wordId" component={Word} />
-          <Route path="/" component={Home} />
+          <Route path="/" component={Home} /> 
         </Switch>
       </div>
     );
@@ -51,4 +55,4 @@ const mapDispatchToProps = dispatch =>
     loadCategories,
   }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

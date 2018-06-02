@@ -43,7 +43,7 @@ module.exports = {
     {
       id: 3,
       word: 'Tangerine',
-      imageUrl: null,
+      imageUrl: 'https://cdn.pixabay.com/photo/2015/09/06/00/29/tangerines-926634_960_720.jpg',
       creationTime: "Sun May 20 2018 00:33:30 GMT+0200 (CEST)",
       learnedTime: "Sun May 20 2018 00:33:30 GMT+0200 (CEST)",
       categories: [2],

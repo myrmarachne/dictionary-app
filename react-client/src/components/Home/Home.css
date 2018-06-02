@@ -1,0 +1,93 @@
+
+/* Content of Main page */
+
+.statistics-container {
+    display: flex;
+    flex-direction: column;
+  
+    /* 100% - top margin (17px) top panel (80px) - bottom (38px) */
+    height: calc(100% - 135px);
+    box-sizing: border-box;
+    padding: 24px 0;
+  }
+  
+  .statistics-container .content-block {
+    margin: 24px;
+    padding: 44px 24px 60px 24px;
+  }
+  
+  .words-statistics {
+    display: flex;
+    justify-content: space-around;    
+    flex: 1;
+  
+    min-height: 124px;
+  
+  }
+  
+  .words-statistics .last-added-block, .words-statistics .hard-words-block {
+    position: relative;
+    display: flex;
+    flex: 1;
+    max-width: 250px;
+  }
+  
+  .progress-block {
+    flex: 1;
+  }
+  
+  .statistics-container .box-title {
+    background-color: #0d0d0d;
+    color: white;
+  }
+  
+  .list-of-words {
+    display: flex;
+    flex-direction: column;
+  
+    width: 192px;
+    margin: 0 auto;
+  
+    font-size: 1.2em;
+    letter-spacing: 3px;
+  
+    list-style-type: none;
+    overflow: hidden;
+  }
+  
+  .list-of-words li {
+    display: block;
+    flex: 1;
+    
+  }
+  
+  .list-of-words .link-to-word {
+    text-decoration: none;
+    color: #0d0d0d;
+  }
+  
+  .words-statistics .fancy-button {
+    position: absolute;
+  
+    bottom: 12px;
+    left: 50%;
+  
+    transform: translateX(-50%);
+  
+    background-color: #425CBB;
+    color: white;
+    
+  }
+  
+  .words-statistics .hard-words-block .fancy-button {
+    width: 100px;
+  
+    padding: 0;
+    text-align: center;
+
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  
+

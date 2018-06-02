@@ -5,11 +5,14 @@ import { bindActionCreators } from 'redux';
 import { deleteCategory, updateCategory } from '../../modules/categories';
 
 class Category extends Component {
+
   constructor(props) {
     super(props);
+
     this.state = {
       categoryNotFound: false,
     }
+
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -43,6 +46,11 @@ class Category extends Component {
   }
 
   render() {
+    if (this.state.category)
+      document.title = this.state.category.name.toUpperCase();
+    else
+      document.title = "Kategoria";
+
     return (
       <div className="category">
         {this.state.category ? (

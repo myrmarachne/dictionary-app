@@ -1,0 +1,196 @@
+
+/* Navigation Panel */
+
+.navigation-panel {
+    position: fixed;
+    left: 0;
+    top: 0;
+  
+    display: flex;
+    flex-direction: column;
+  
+    height: 100%;
+    width: 272px;
+    box-sizing: border-box;    
+    background-color: #232323;
+  } 
+  
+  /* Logo */
+  
+  .navigation-panel .logo {
+    display: block;
+    min-height: 144px;
+    width: 272px;
+  
+    background-repeat: no-repeat;
+    background: url('../../images/logo.png');
+    background-size: 272px 144px;
+  
+    border-bottom: 1px solid #3C3C3C;
+  }
+  
+  /* Main page button */
+  
+  .navigation-panel .main-page-button {
+    display: block;
+    height: 40px;
+    width: 192px;
+    
+    box-sizing: border-box;
+  
+    margin: 8px 40px 0 40px; 
+  
+    background-color: #3c3c3c;
+  
+    line-height: 40px;
+    text-align: center;
+    color: white;    
+    letter-spacing: 2.4px;
+    font-size: 1.4em;
+    text-decoration: none;
+  
+  } 
+
+
+/* Categories */
+
+
+.navigation-panel .categories-header {
+    position: relative;
+  
+    width: inherit;
+    height: 40px;
+    box-sizing: border-box;
+  
+    padding: 0 40px;
+  
+    background-color: #272A35;
+    text-align: center;
+  
+  }
+  
+  .navigation-panel .categories-header .categories-header-text{
+    line-height: 40px;
+    color: #ffffff;
+    font-family: 'Open Sans Semibold';
+    letter-spacing: 2.4px;
+    font-size: 1.2em;
+  }
+  
+
+/* The white circle plus - add icon */
+
+
+.navigation-panel .categories-header .add-icon {
+
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+  
+  }
+
+
+.navigation-panel .categories {
+    flex-grow: 1;
+    min-height: 40px;
+  }
+  
+  .navigation-panel .panel-item {
+    position: relative;
+    height: 38.6px;
+    margin: 0 39.5px 0 40px;
+  
+  }
+  
+  .navigation-panel .categories .panel-item {
+    margin: 0 30px 0 40px;
+    border-bottom: 1px solid #3C3C3C;
+  
+  }
+  
+  .navigation-panel .category-link {
+    display: block;
+    height: inherit;
+    padding: 0 24px;
+  }
+
+
+.navigation-panel .categories-item:hover {
+    background-color: #3C3C3C;
+  }
+  
+  
+  /* Emphasizing the "wszystkie słówka" text */
+  
+  .navigation-panel .all-words-link .category-link {
+    padding: 0;
+  
+    text-align: center;
+    font-family: 'Open Sans Bold';
+    
+  }
+
+
+/* Category search */
+
+.navigation-panel .category-search {
+    max-width: 100%;
+
+    border: none;
+    outline: none;
+    border-bottom: none;
+    background-color: inherit;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+ 
+  
+  .navigation-panel .category-search::placeholder, .navigation-panel .categories-item .category-search::placeholder  {
+    letter-spacing: 0;
+    font-style: italic;
+    color: rgba(255,255,255,0.37);
+    text-transform: none;
+  }
+  
+  
+  /* The number of words in each of the categories */
+  
+  .navigation-panel .categories-item .number-of-words {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+  
+    padding: 1px 4px;
+    border-radius: 6px;
+  
+    transform: translateY(-50%);
+    background-color: #0d0d0d;
+  
+    font-size: 0.8em;
+  }
+  
+  /* Buttons on the bottom of panel */
+  
+  
+  .navigation-panel .bottom-button {
+    display: inline-block;
+    height: 30px;
+    width: 120px;
+    box-sizing: border-box;
+  
+    margin: 48px 8px 8px 8px;
+  
+    background-color: #3c3c3c;
+  
+    line-height: 30px;
+    text-align: center;
+    color: white;    
+    letter-spacing: 2.4px;
+    text-decoration: none;
+    font-size: 1.4em;
+  }
+  

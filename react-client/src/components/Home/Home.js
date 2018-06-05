@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import configuration from '../../configuration';
 import fetch from 'cross-fetch';
 import { Link } from 'react-router-dom';
+import LearnChart from '../LearnChart/LearnChart';
 
 import { loadCategories } from '../../modules/categories';
 
@@ -101,7 +102,7 @@ class Home extends Component {
   resetHardWords() {
     this.setState({
       ...this.state,
-      hardWords: undefined,
+      hardWords: [],
     })
   }
 
@@ -216,7 +217,11 @@ class Home extends Component {
                 
                 <div className="progress-block content-block">
                     <div className="box-title">Postępy w nauce</div>
-
+                    {this.props.categories.categories ? (
+                      <LearnChart categories={this.props.categories.categories} />
+                    ) : (
+                      <p>Ładowanie kategorii...</p>
+                    )}
                 </div>
 
             </div>

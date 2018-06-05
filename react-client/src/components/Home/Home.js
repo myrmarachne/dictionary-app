@@ -146,7 +146,7 @@ class Home extends Component {
         <div className="box-title">Słówko dnia</div>
         <div className="upper-part"><span className="fancy-text">{this.state.wordOfTheDay.word}</span></div>
         <div className="bottom-part">
-            <div className="black-box-photo"><img src={this.state.wordOfTheDay.imageUrl}/></div>
+            <div className="black-box-photo"><img src={this.state.wordOfTheDay.imageUrl} alt={this.state.wordOfTheDay.word}/></div>
             <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation}</div>
         </div>
         <Link className="fancy-button not-selectable" to={`/words/${this.state.wordOfTheDay.id}`}>Przejdź do słówka<i className="fas fa-play-circle"></i></Link>
@@ -204,7 +204,7 @@ class Home extends Component {
                         <div className="hard-words-block content-block">
                             <div className="box-title">Trudne słówka</div>
                             {this.state.hardWords ? (
-                              <ul class="list-of-words">
+                              <ul className="list-of-words">
                                 {hardWordsList}
                               </ul>
                             ) : (

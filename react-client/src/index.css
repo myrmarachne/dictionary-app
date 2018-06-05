@@ -399,12 +399,14 @@ body {
 
   display: block;
   height: 56px;
+  padding: 5px 0;
+  box-sizing: border-box;
 
 
   background-color: #425CBB;
 
   text-align: center;
-  line-height: 56px;
+  line-height: 46px;
   color: white;
   font-size: 2.4em;
   letter-spacing: 2px;

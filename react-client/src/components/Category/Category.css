@@ -1,0 +1,12 @@
+.top-panel .panel-title .editable {
+    margin: 0 auto;
+    height: 46px;
+
+    outline: none;
+    border: none;
+    border-bottom: 1px solid white;
+
+    font-size: inherit;
+    line-height: inherit;
+    text-transform: uppercase;
+}

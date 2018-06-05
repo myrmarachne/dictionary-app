@@ -73,18 +73,20 @@ class TranslationsList extends Component {
 
   render() {
    return this.state.translations ? (
-      <ul className="translations-list">
+    <div className="word-descriptions">
         {this.state.translations.map((translation, index) => {
           return (
-            <li key={translation.id}>
-              {index + 1}. {translation.domain}<br />
-              {translation.word} - {translation.wordTranslation}<br />
-              {translation.example} - {translation.exampleTranslation}
-              {this.props.deleteTranslation && <button onClick={() => this.deleteTranslation(translation)}>Delete</button>}
-            </li>
+            <div key={translation.id} className="word-translation">
+              <div className="translation-category">{index + 1}. {translation.domain}</div>
+              <div className="original-word translation-header">{translation.word}</div>
+              <div className="translated-word translation-header">{translation.wordTranslation}</div>
+              <div className="original-word">{translation.exampleTranslation}</div>
+              <div className="translated-word">{translation.example}</div>
+            </div>
+
           );
         })}
-      </ul>
+    </div>
     ) : (
         <p>Ładowanie translacji...</p>
     );
@@ -92,3 +94,4 @@ class TranslationsList extends Component {
 }
 
 export default TranslationsList;
+// {this.props.deleteTranslation && <button onClick={() => this.deleteTranslation(translation)}>Delete</button>}

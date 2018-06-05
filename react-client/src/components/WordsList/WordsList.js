@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import fetch from 'cross-fetch';
 import configuration from '../../configuration';
+
 import WordsListItem from '../WordsListItem/WordsListItem';
 
 class WordList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      category: undefined,
       words: undefined,
       wordsLoading: false,
       wordsLoadError: null,
@@ -14,26 +16,30 @@ class WordList extends Component {
   }
 
   componentDidMount() {
-    this.loadWords();
+    this.loadWords(this.props.category);
   }
 
-  loadWords() {
+  componentWillReceiveProps(props){
+    const category = this.props.category;
+
+    if (props.category !== category) {
+      this.loadWords(props.category);
+    }
+  }
+  
+  loadWords(category) {
+
     this.setState({
       words: undefined,
       wordsLoading: true,
       wordsLoadError: null,
     })
-    Promise.all(this.props.category.words.map(id =>
+
+    Promise.all(category.words.map(id =>
       fetch(configuration.backendUrl + '/words/' + id)
         .then(response => response.json())
     ))
-    .then(words => {
-      this.setState({
-        words,
-        wordsLoading: false,
-        wordsLoadError: null,
-      })
-    })
+    .then(words => this.refreshWordsList(words))
     .catch((error) => {
       this.setState({
         words: undefined,
@@ -41,6 +47,18 @@ class WordList extends Component {
         wordsLoadError: error,
       })
     });
+  }
+
+  refreshWordsList(words){
+
+    const groupedWords = this.groupByFirstLetter(words || []);
+    this.setState({
+      words : groupedWords,
+      wordsLoading: false,
+      wordsLoadError: null,
+    });
+
+    this.props.setActiveletters(Object.keys(groupedWords));
   }
 
   deleteWord(word) {
@@ -51,9 +69,55 @@ class WordList extends Component {
     });
   }
 
+  groupByFirstLetter(list) {
+    // Group words by first letter
+    return list.reduce(function(grouped, item){
+      var key = item.word.charAt(0).toUpperCase();
+      grouped[key] = grouped[key] || [];
+      grouped[key].push(item);
+      return grouped;
+    }, {});
+  }
+
   render() {
+
+    const groupedWords = this.state.words || [];
+    
+    var alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
+
+    var wordsForLetter = function(letter){
+      return groupedWords[letter].map(word => 
+        {
+        return <WordsListItem key={word.id} word={word} checked={this.props.checkedWords[word.id]}
+          selectWords={(word, value) => this.props.selectWords(word, value)}
+           />}
+      );
+    }.bind(this);
+
+    const letterCategory = alphabet.map(letter => {
+      if (groupedWords[letter] != null)
+        return (
+          <div id={"category"+letter} key={"category"+letter} className="letter-category">
+            <div className="letter-header">{letter}</div>
+            {wordsForLetter(letter)}
+          </div>
+        );
+      else return null;
+    }
+    );
+
     return (
-      <ul className="words-list">
+      <div className="content-block categories-content">
+        {letterCategory}
+      </div>
+
+    );
+  }
+}
+
+export default WordList;
+
+      /* <ul className="words-list">
       {
         this.state.words ? (
           this.state.words.map(word =>
@@ -62,9 +126,4 @@ class WordList extends Component {
           <p>Ladowanie słów...</p>
         )
       }
-      </ul>
-    );
-  }
-}
-
-export default WordList;
+    </ul>*/

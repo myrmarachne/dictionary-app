@@ -1,0 +1,114 @@
+.chart-container {
+  position: relative;
+  background-color: #f6f6f6;
+}
+
+.ct-chart {
+  height: 300px;
+  width: calc(100% - 150px);
+}
+
+.ct-series line {
+  stroke-width: 35px;
+}
+
+.ct-series-a line {
+  stroke: black;
+}
+
+.ct-series-b line {
+  stroke: #425CBB;
+}
+
+.ct-labels foreignObject {
+  text-align: center;
+  overflow: hidden !important;
+}
+
+.ct-labels foreignObject:last-child .ct-vertical.ct-start {
+  margin-top: 5px;
+}
+
+.ct-label.ct-vertical.ct-start {
+  text-align: right;
+  float: right;
+}
+.ct-label.ct-vertical.ct-start::after { 
+  content: '';
+  display: block;
+  width: 100%;
+  border-right: 5px solid black;
+  height: 1px;
+  margin-top: -0.7em;
+  margin-left: 0.2em;
+}
+
+.ct-label.ct-horizontal {
+  text-transform: uppercase;
+  font-size: 1em;
+  letter-spacing: 1px;
+}
+
+.ct-grid.ct-horizontal:first-child, .ct-grid.ct-vertical {
+  stroke: black;
+}
+
+.ct-grid.ct-vertical ~ .ct-grid.ct-vertical {
+  stroke: none;
+}
+
+.chart-legend {
+  position: absolute;
+  padding: 6px;
+  top: 20px;
+  right: 20px;
+  width: 130px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.chart-legend h1 {
+  font-size: 1.2em;
+  font-weight: normal;
+  text-align: center;
+}
+
+.chart-legend-items {
+  font-size: 0.9em;
+  list-style-type: none;
+}
+
+.chart-legend-items li {
+  position: relative;
+  padding-left: 15px;
+}
+
+.chart-legend-items li:before {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+}
+
+.chart-legend-items li.series-b:before {
+  background-color: #425CBB;
+}
+
+.chart-legend-items li {
+  margin-top: 5px;
+}
+
+.chart-footer {
+  position: absolute;
+  bottom: -30px;
+  width: 100%;
+  font-size: 1.3em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+}

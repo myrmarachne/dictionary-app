@@ -17,6 +17,7 @@ class WordList extends Component {
 
   componentDidMount() {
     this.loadWords(this.props.category);
+
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -38,6 +39,10 @@ class WordList extends Component {
 
       /* update the Visible Words List */
       this.updateVisibleWords(filteredList);
+
+      /* update the Visible Hard Words List */
+      this.updateHardWords(filteredList);
+
     }
   }
   
@@ -59,9 +64,12 @@ class WordList extends Component {
         words : words,
         wordsLoading: false,
         wordsLoadError: null,
+      }, () => {
+        this.updateHardWords(words);
+        this.updateLetterIndex(words);
       });
-  
-      this.updateLetterIndex(words);
+      
+
     })
     .catch((error) => {
       this.setState({
@@ -85,6 +93,15 @@ class WordList extends Component {
     filtering, in Category component */
 
     this.props.setVisibleWords((words || []).map(word => word.id));
+  }
+
+  updateHardWords(words){
+    /* Update the array of hard word's ids, which are visible after 
+    filtering, in Category component */    
+
+    const hardWords = (words || []).filter(word => (word.learnedTime == null));
+    this.props.setHardWords(hardWords.map(word => word.id));
+
   }
 
   deleteWord(word) {

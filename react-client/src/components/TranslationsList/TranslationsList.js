@@ -9,11 +9,17 @@ class TranslationsList extends Component {
       translations: undefined,
       translationsLoading: false,
       translationsLoadError: null,
+      isMounted: false,
     }
   }
 
   componentDidMount() {
+    this.setState({ isMounted: true });
     this.loadTranslations();
+  }
+
+  componentWillUnmount() {
+    this.setState({ isMounted: false });
   }
 
   loadTranslations() {
@@ -27,18 +33,22 @@ class TranslationsList extends Component {
         .then(response => response.json())
     ))
     .then(translations => {
-      this.setState({
-        translations,
-        translationsLoading: false,
-        translationsLoadError: null,
-      })
+      if (this.state.isMounted) {
+        this.setState({
+          translations,
+          translationsLoading: false,
+          translationsLoadError: null,
+        });
+      }
     })
     .catch((error) => {
-      this.setState({
-        translations: undefined,
-        translationsLoading: false,
-        translationsLoadError: error,
-      })
+      if (this.state.isMounted) {
+        this.setState({
+          translations: undefined,
+          translationsLoading: false,
+          translationsLoadError: error,
+        });
+      }
     });
   }
 

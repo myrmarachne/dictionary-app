@@ -10,3 +10,340 @@
     line-height: inherit;
     text-transform: uppercase;
 }
+
+.top-panel .panel-actions .content-panel-item {
+    display: inline-block;
+    min-width: 120px;
+    height: inherit;
+    box-sizing: border-box;
+    
+    line-height: 24px;
+    vertical-align: top;
+  
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+  
+    border-right: 1px solid #3C3C3C;
+  
+    cursor: pointer;
+  }
+  
+  .top-panel .panel-actions .content-panel-item:hover {
+    background-color: #3c3c3c;
+  }
+  
+  /* Letter index in top panel */
+  
+  .letter-index {
+    display: flex;
+    flex-direction: row;
+  
+    padding: 5px 20px;
+  
+    list-style-type: none;
+  }
+  
+  .letter-index .letter-index-item {
+    display: inline-block;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .letter-index .letter-index-item {
+    display: inline-block;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .letter-index .letter-index-item .letter-index-link {
+    text-decoration: none;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    font-family: 'Open Sans Bold';
+    color: #0d0d0d;
+  }
+  
+  .letter-index .letter-index-item .letter-index-link.deactivated-link {
+    cursor: default;
+    pointer-events: none;
+    
+    color: #00000036;
+  }
+  
+  /* Category search in top panel */
+  
+  .top-panel .search-input {
+    min-width: 240px;
+    height: 20px;
+    width: 30%;
+    margin: auto;
+  
+  }
+  .top-panel .search-input .main-search {
+    width: 100%;
+    height: inherit;
+    border: 1px solid #a8a8a8;
+  }
+  
+  /* Select words button in top panel of Categories */
+  
+  .select-words {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+  
+    width: 124px;
+    height: 20px;
+  }
+  
+  .select-words-button {
+    display: inline-block;
+    height: inherit;
+  
+    border: none;
+    outline: none;
+  
+    cursor: pointer;
+  }
+  
+  .select-words-text {
+    width: 90%;
+  
+    background-color: #425CBB;
+  
+    color: white;
+    font-size: 0.9em;
+    letter-spacing: 0.7px;
+  
+  }
+  
+  .select-words-arrow {
+    position: relative;
+    float: right;
+    width: 10%;
+  
+    background-color: #232323;
+  }
+  
+  /* White arrow - triangle, on the button */
+  
+  .select-words-arrow::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translateY(-50%) translateX(50%);
+  
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+  
+    border-top: 5px solid white;
+  }
+
+
+.select-words .select-words-menu.show-menu {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 0.5s linear;
+
+}
+
+
+/* Menu that shows up after the arrow button click */
+
+.select-words .select-words-menu {
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+  
+    position: absolute;
+    width: inherit;
+    padding: inherit;
+  
+    z-index: 2;
+    list-style-type: none;
+  
+    background-color: #232323;
+  }
+  
+  .select-words .select-words-menu .menu-item {
+    display: block;
+
+    height: 20px;
+    box-sizing: border-box;
+    padding: 0 5px;
+  
+    border-top: 1px solid #3C3C3C;
+  
+    line-height: 20px;
+    font-size: 0.9em;
+    letter-spacing: 0.7px;
+    color: white;
+  
+    cursor: pointer;
+  }
+  
+  .select-words .select-words-menu .menu-item:hover {
+    background-color: #3c3c3c;
+  }
+  
+  .number-of-selected-words {
+    position: absolute;
+    right: 0;
+    width: inherit;
+    height: 20px;
+  
+    z-index: 1;
+  
+    font-family: 'Open Sans Bold';
+    letter-spacing: 4px;
+    font-size: 9px;
+    text-align: center;
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
+/* Main Content Block */
+
+.categories-content.content-block  {
+    width: calc(100% - 40px);
+  
+    /* Top content margin (17px) + fixed top panel height (132px)
+        + margin-top (20px) + bottm space (38px, accordingly to 
+        "Konto / Wyloguj" buttons = 207px */
+    min-height: calc(100% - 207px); 
+    margin: 20px;
+  
+  }
+  
+  /* The grey tape through the block */
+  .categories-content.content-block::before {
+    content: "";
+  
+    position: absolute;
+    bottom: 0;
+    top : -20px;
+    right: 30px;
+  
+    width: 60px;
+    background-color: rgba(247,247,247,0.4);
+  }
+  
+  
+  /* Block with selected letter */
+  
+  .letter-category {
+    padding: 10px 0;
+    background-color: white;
+  
+  }
+  
+  .letter-category .letter-header {
+    position: relative;
+    left: -10px;
+    width: 96px;
+    height: 32px;
+    box-sizing: border-box;
+  
+    padding: 0 20px;
+  
+    background-color: #A2A2A2;
+  
+    line-height: 32px;
+    color: white;
+    font-family: 'Open Sans Bold';
+    font-size: 1.8em;
+  }
+  
+  .letter-category .letter-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+  
+    width: inherit;
+    height: inherit;
+  
+    z-index: -1;
+    
+    box-shadow: -6px 5px 5px rgba(0,0,0,0.65);
+  }
+
+/* Checkboxes */
+
+.checkbox-container {
+    position: absolute;
+    display: block;
+  
+    width: 60px;
+    height: 100%;
+  
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  
+    cursor: pointer;
+  
+  }
+  
+  .letter-word-description .word-header .checkbox-container {
+    right: 60px;
+    top: 50%;
+  
+    transform: translateX(50%) translateY(-50%);
+  }
+  
+  .checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translateY(-50%) translateX(50%);
+  
+    height: 16px;
+    width: 16px;
+  
+    background-color: #dedede;
+  }
+  
+  .checkbox-container:hover input ~ .checkmark {
+    background-color: #cecccc;
+  }
+  
+  .checkbox-container input:checked ~ .checkmark {
+    background-color: #425CBB;
+    border: none;
+  }
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  .checkbox-container .checkmark:after {
+    left: 5.75px;
+    top: 3.2px;
+    width: 3.2px;
+    height: 6.4px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }  

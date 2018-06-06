@@ -58,7 +58,7 @@ class LearnChart extends Component {
             <li className="series-a">Słówka opanowane przed początkiem tego tygodnia</li>
           </ul>
         </div>
-        <div class="chart-footer">Top 5 kategorii</div>
+        <div className="chart-footer">Top 5 kategorii</div>
       </div>
     );
   }

@@ -11,17 +11,38 @@ class Category extends Component {
   constructor(props) {
     super(props);
 
+    this.dropdownOptions = {
+      "1" : {
+        "textField" : "Zaznacz wszystkie",
+        "handler" : this.selectAllWords.bind(this)
+      },
+      "2" : {
+        "textField" : "Zaznacz trudne",
+        "handler" : this.selectHardWords.bind(this)
+      },
+      "3" : {
+        "textField" : "Odznacz wszystkie",
+        "handler" : this.unSelectAllWords.bind(this)
+      }
+    };
+
     this.state = {
       categoryNotFound: false,
       categoryEditable : false,
       categoryName : undefined,
+
       selectedWords : undefined,
       activeLetters : [],
       wordsFilter : "",
-      visibleWords : undefined
+      visibleWords : undefined,
+      hardWords : undefined,
+
+      dropdownVisible : false,
+      activeButton : this.dropdownOptions["1"]
     }
 
-    console.log("A");
+    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+    this.showDropdownMenu = this.showDropdownMenu.bind(this);
 
   }
 
@@ -82,12 +103,45 @@ class Category extends Component {
     /* Select (check) all words, that are currently visible and
     leave the not visible words without any change */
 
-    const value = true;
+    var selectedWords = Object.keys(this.state.selectedWords).map(Number).reduce(
+      function(acc, item){
+        acc[item] = (this.state.visibleWords.indexOf(item) > -1) ? 
+          true : this.state.selectedWords[item];
+
+        return acc;
+      }.bind(this), {});
+
+    this.setState({
+      selectedWords,
+    });
+  }
+
+  unSelectAllWords(){
+    /* Unselect (uncheck) all words, that are currently visible and
+    leave the not visible words without any change */
+
 
     var selectedWords = Object.keys(this.state.selectedWords).map(Number).reduce(
       function(acc, item){
         acc[item] = (this.state.visibleWords.indexOf(item) > -1) ? 
-          value : this.state.selectedWords[item];
+          false : this.state.selectedWords[item];
+
+        return acc;
+      }.bind(this), {});
+
+    this.setState({
+      selectedWords,
+    });
+  }  
+
+  selectHardWords(){
+    /*Selects only the words that are marked as hard from the currently visible
+    words, and leaves the rest of words without any change */
+
+    var selectedWords = Object.keys(this.state.selectedWords).map(Number).reduce(
+      function(acc, item){
+        acc[item] = (this.state.hardWords.indexOf(item) > -1) ? 
+          true : this.state.selectedWords[item];
 
         return acc;
       }.bind(this), {});
@@ -124,11 +178,14 @@ class Category extends Component {
     }
   }
 
-  deleteWord(word) {
+  deleteSelected(){
     const category = Object.assign({}, this.state.category);
-    category.words = category.words.filter(wordId => wordId !== word.id);
+    category.words = category.words.filter(word => 
+      (this.state.selectedWords[word]) ? false : true
+    );
     return this.props.updateCategory(category);
   }
+
 
   handleWordSelection(word, value) {
     var selectedWords = Object.assign({}, this.state.selectedWords);
@@ -155,9 +212,42 @@ class Category extends Component {
     }
   }
 
+  setHardWords(hardWords){
+    if(hardWords !== this.state.hardWords){
+      this.setState({
+        hardWords
+      });
+    }
+  }
+
   filterWords(event){
     this.setState({
       wordsFilter : event.target.value
+    });
+  }
+
+  showDropdownMenu(event){
+    /* Clicking outside the opened dropdown menu should hide it - 
+    add mouse listener to the docuemnt */
+    event.preventDefault();
+    
+    this.setState({
+        dropdownVisible : true
+      }, () => { document.addEventListener('click', this.hideDropdownMenu);}
+    );
+
+  }
+
+  hideDropdownMenu(event){
+      this.setState({
+          dropdownVisible : false
+        }, () => {document.removeEventListener('click', this.hideDropdownMenu);}
+      );
+  }
+
+  setActiveButton(event, id){
+    this.setState({
+      activeButton : this.dropdownOptions[id]
     });
   }
 
@@ -165,6 +255,7 @@ class Category extends Component {
 
     const categoryName = (this.state.categoryName) ? this.state.categoryName.toUpperCase() : "Ładowanie kategorii";
     
+    /* Input for editing category name */
     const categoryNameEdit = (this.state.categoryEditable) ? (
       <input type="text" className="panel-title editable"
         defaultValue={categoryName} autoFocus
@@ -182,7 +273,7 @@ class Category extends Component {
                     <div className="bottom-part">
                         <div className="black-box-text">Wybierz słówka i przejdź do ćwiczeń, aby poprawić swój wynik</div>
                     </div>
-                    <a className="fancy-button not-selectable" href="#">Przejdź do ćwiczeń<i className="fas fa-play-circle"></i></a>
+                    <a className="fancy-button not-selectable" >Przejdź do ćwiczeń<i className="fas fa-play-circle"></i></a>
                 </div>
             </div>
     );
@@ -203,6 +294,19 @@ class Category extends Component {
       );      
     });
 
+    /* Number of currently selected, visible words*/
+    const numberOfSelected = (this.state.visibleWords || []).reduce(
+      function(acc, key){
+        return acc + ((this.state.selectedWords[key]) ? 1 : 0);
+    }.bind(this), 0)
+
+    const selectButton = (this.state.activeButton) ? (
+      <button onClick={this.state.activeButton.handler}
+        className="select-words-text select-words-button">
+        {this.state.activeButton.textField}
+      </button>
+    ) : (null);
+
     return (
       
       <div className="category">
@@ -219,7 +323,9 @@ class Category extends Component {
               </h1>
               <ul className="panel-actions">
                   <li className="content-panel-item">Dodaj słówka</li>                      
-                  <li className="content-panel-item">Usuń słówka</li>
+                  <li className="content-panel-item" onClick={(event) => this.deleteSelected(event)}>
+                    Usuń słówka
+                  </li>
               </ul>
               <ul className="letter-index">
                 {letterIndex}
@@ -235,22 +341,28 @@ class Category extends Component {
                 </div>
 
                 <div className="select-words">
-                    <button onClick={() => this.selectAllWords()}
-                    className="select-words-text select-words-button">
-                      Wybierz wszystkie
-                    </button><button className="select-words-arrow select-words-button"></button>
+                    {selectButton}
+                    <button className="select-words-arrow select-words-button"
+                      onClick={(event) => this.showDropdownMenu(event)}>
+                    </button>
                     <div className="number-of-selected-words">Wybrano: {
-                      (this.state.category) ? (this.state.visibleWords || []).reduce(
-                        function(acc, key){
-                          return acc + ((this.state.selectedWords[key]) ? 1 : 0);
-                      }.bind(this), 0) : (null)
-
+                      (this.state.category) ? numberOfSelected : null
                       }
                       </div>
-                    <ul className="select-words-menu">
-                        <li className="menu-item ">Wybierz wszystkie</li>
-                        <li className="menu-item">Wybierz trudne</li>
+                    <ul className={(this.state.dropdownVisible) ? 
+                      ("select-words-menu show-menu") : ("select-words-menu")}>
+                        <li className="menu-item" onClick={(event) => this.setActiveButton(event, "1")}>
+                          Zaznacz wszystkie
+                        </li>
+                        <li className="menu-item" onClick={(event) => this.setActiveButton(event, "2")}>
+                          Zaznacz trudne
+                        </li>
+                        <li className="menu-item" onClick={(event) => this.setActiveButton(event, "3")}>
+                          Odznacz wszystkie
+                        </li>
+
                     </ul>
+                    
                 </div>              
           </div>
 
@@ -261,6 +373,7 @@ class Category extends Component {
                 deleteWord={(word) => this.deleteWord(word)}
                 checkedWords={this.state.selectedWords}
                 setVisibleWords={words => this.setVisibleWords(words)}
+                setHardWords={words => this.setHardWords(words)}
                 selectWords={(word, value) => this.handleWordSelection(word, value)} 
                 setActiveletters={(letters) => this.setActiveletters(letters)} />
             ) : (null)}

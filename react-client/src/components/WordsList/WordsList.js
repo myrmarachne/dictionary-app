@@ -19,16 +19,31 @@ class WordList extends Component {
     this.loadWords(this.props.category);
   }
 
-  componentWillReceiveProps(props){
-    const category = this.props.category;
+  componentDidUpdate(prevProps, prevState, snapshot){
 
-    if (props.category !== category) {
-      this.loadWords(props.category);
+    if (prevProps.category !== this.props.category) {
+      this.loadWords(this.props.category);
+    } 
+
+    /* If the filter passed from the parent changed:
+     * update the active letter index
+     * pass the list of words id's which are visible to the paren
+     * */
+
+    if (prevProps.filter !== this.props.filter){
+      
+      const filteredList = this.filterWords(this.props.filter);
+      /* update Active Letters Index */
+      this.updateLetterIndex(filteredList);
+
+      /* update the Visible Words List */
+      this.updateVisibleWords(filteredList);
     }
   }
   
   loadWords(category) {
-
+    /* Fetch the data for this category */
+        
     this.setState({
       words: undefined,
       wordsLoading: true,
@@ -39,7 +54,15 @@ class WordList extends Component {
       fetch(configuration.backendUrl + '/words/' + id)
         .then(response => response.json())
     ))
-    .then(words => this.refreshWordsList(words))
+    .then(words => {
+      this.setState({
+        words : words,
+        wordsLoading: false,
+        wordsLoadError: null,
+      });
+  
+      this.updateLetterIndex(words);
+    })
     .catch((error) => {
       this.setState({
         words: undefined,
@@ -47,18 +70,21 @@ class WordList extends Component {
         wordsLoadError: error,
       })
     });
+
   }
 
-  refreshWordsList(words){
-
+  updateLetterIndex(words){
+    /* Update the active letters in the index, 
+    in Category component */
     const groupedWords = this.groupByFirstLetter(words || []);
-    this.setState({
-      words : groupedWords,
-      wordsLoading: false,
-      wordsLoadError: null,
-    });
-
     this.props.setActiveletters(Object.keys(groupedWords));
+  }
+
+  updateVisibleWords(words){
+    /* Update the array of word's ids, which are visible after 
+    filtering, in Category component */
+
+    this.props.setVisibleWords((words || []).map(word => word.id));
   }
 
   deleteWord(word) {
@@ -70,7 +96,8 @@ class WordList extends Component {
   }
 
   groupByFirstLetter(list) {
-    // Group words by first letter
+    /* Group words from the list by their first letter and 
+    return an object, where the key = first letter of words */
     return list.reduce(function(grouped, item){
       var key = item.word.charAt(0).toUpperCase();
       grouped[key] = grouped[key] || [];
@@ -79,31 +106,34 @@ class WordList extends Component {
     }, {});
   }
 
+  filterWords(passedFilter){
+    /* Find all words that start with the passedFilter value */
+    const filter = (passedFilter) ? passedFilter.toUpperCase() : "";
+    return (this.state.words || []).filter(
+      word => word.word.toUpperCase().startsWith(filter)
+    );
+  }
+
   render() {
 
-    const groupedWords = this.state.words || [];
+    /* Grouped words, after applying the passed from Category filter */
+    const groupedWords = this.groupByFirstLetter(this.filterWords(this.props.filter));
     
-    var alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
-
-    var wordsForLetter = function(letter){
-      return groupedWords[letter].map(word => 
-        {
-        return <WordsListItem key={word.id} word={word} checked={this.props.checkedWords[word.id]}
-          selectWords={(word, value) => this.props.selectWords(word, value)}
-           />}
+    /* Function which maps words objects into WordsListItem */
+    var wordsForLetter = function(wordsList){
+      return wordsList.map(word => 
+         <WordsListItem key={word.id} word={word} 
+          checked={this.props.checkedWords[word.id]}
+          selectWords={(word, value) => this.props.selectWords(word, value)} />
       );
     }.bind(this);
 
-    const letterCategory = alphabet.map(letter => {
-      if (groupedWords[letter] != null)
-        return (
+    /* Map each letter, which contains words, with appropriate list of words */
+    const letterCategory = Object.keys(groupedWords).map(letter => 
           <div id={"category"+letter} key={"category"+letter} className="letter-category">
             <div className="letter-header">{letter}</div>
-            {wordsForLetter(letter)}
+            {wordsForLetter(groupedWords[letter])}
           </div>
-        );
-      else return null;
-    }
     );
 
     return (
@@ -116,14 +146,3 @@ class WordList extends Component {
 }
 
 export default WordList;
-
-      /* <ul className="words-list">
-      {
-        this.state.words ? (
-          this.state.words.map(word =>
-            <WordsListItem key={word.id} word={word} deleteWord={() => this.deleteWord(word)} />
-        )) : (
-          <p>Ladowanie słów...</p>
-        )
-      }
-    </ul>*/

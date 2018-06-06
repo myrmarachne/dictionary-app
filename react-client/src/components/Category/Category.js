@@ -15,29 +15,42 @@ class Category extends Component {
       categoryNotFound: false,
       categoryEditable : false,
       selectedWords : undefined,
-      activeLetters : []
+      activeLetters : [],
+      wordsFilter : "",
+      visibleWords : undefined
     }
 
   }
 
   static getDerivedStateFromProps(props, state) {
+
     const newState = {};
-    // search for category in store
+
+    /* Search for category in store */
     const categories = props.categories.categories;
+    
     if (props.categories.categories) {
+
       const category = categories
         .filter(c => String(c.id) === props.match.params.categoryId)[0];
-      if (category) {
-        newState.category = category;
 
-        // Refresh the "selected words" counter on categories change
+      if (category) {
+
+        newState.category = category;
+        
+        /* Refresh the "selected (checked) words" counter on categories change */
         if (state.selectedWords == null || state.category !== category){
+
           newState.selectedWords = category.words.reduce(function(acc, item){
             acc[item] = true;
             return acc;
           }, {});
-
         }
+
+        if (state.visibleWords == null || state.category !== category){
+          newState.visibleWords = category.words;
+        }
+
       } else{
         newState.categoryNotFound = true;
       }
@@ -46,24 +59,47 @@ class Category extends Component {
   }
 
   deleteCategory() {
+    /* Delete current category */
     this.props.deleteCategory(this.state.category);    
-    // Navigate to home page
+
+    /* Navigate to home page */
     // TODO: Some information box "category succesfully deleted"
     window.location = '/';
   }
 
-  editCategoryName(){
+  selectAllWords(){
+    /* Select (check) all words, that are currently visible and
+    leave the not visible words without any change */
+
+    const value = true;
+
+    var selectedWords = Object.keys(this.state.selectedWords).map(Number).reduce(
+      function(acc, item){
+        acc[item] = (this.state.visibleWords.indexOf(item) > -1) ? 
+          value : this.state.selectedWords[item];
+
+        return acc;
+      }.bind(this), {});
+
+    this.setState({
+      selectedWords,
+    });
+  }
+
+  toggleCategoryNameEditability(){
     this.setState({
       categoryEditable : !this.state.categoryEditable
     });
   }
 
   updateCategoryName(event) {
+
     if (event.key === "Enter" && event.target.value.length > 0){
       this.props.updateCategory(Object.assign({}, this.state.category, {name: event.target.value}));
       this.setState({
         categoryEditable : false
       });
+
     } else if (event.key === "Escape"){
       this.setState({
         categoryEditable : false
@@ -78,7 +114,6 @@ class Category extends Component {
   }
 
   handleWordSelection(word, value) {
-
     var selectedWords = Object.assign({}, this.state.selectedWords);
     selectedWords[word.id] = value;
 
@@ -93,6 +128,20 @@ class Category extends Component {
         activeLetters,
       });
     }
+  }
+
+  setVisibleWords(visibleWords){
+    if(visibleWords !== this.state.visibleWords){
+      this.setState({
+        visibleWords,
+      })
+    }
+  }
+
+  filterWords(event){
+    this.setState({
+      wordsFilter : event.target.value
+    });
   }
 
   render() {
@@ -135,7 +184,6 @@ class Category extends Component {
       );      
     });
 
-    console.log(this.state.selectedWords);
     return (
       
       <div className="category">
@@ -148,7 +196,7 @@ class Category extends Component {
           <div className="top-panel">
               <h1 className="panel-title editable">
                 {categoryNameEdit}
-                <i onClick={() => this.editCategoryName()} className="fas fa-pencil-alt pencil-icon"></i>
+                <i onClick={() => this.toggleCategoryNameEditability()} className="fas fa-pencil-alt pencil-icon"></i>
                 <i onClick={() => this.deleteCategory()} className="far fa-trash-alt"></i>
               </h1>
               <ul className="panel-actions">
@@ -160,17 +208,20 @@ class Category extends Component {
               </ul>
 
                 <div className="search-input">
-                    <input tpe="text" className="main-search" placeholder="Szukaj słówka w kategorii..." />
+                    <input tpe="text" className="main-search" 
+                      onChange={(event) => this.filterWords(event)}
+                      placeholder="Szukaj słówka w kategorii..." />
                     <i className="fas fa-search search-icon"></i>
                 </div>
 
                 <div className="select-words">
-                    <button className="select-words-text select-words-button">
-                      Zaznacz wszystkie
+                    <button onClick={() => this.selectAllWords()}
+                    className="select-words-text select-words-button">
+                      Wybierz wszystkie
                     </button><button className="select-words-arrow select-words-button"></button>
                     <div className="number-of-selected-words">Wybrano: {
                       
-                      Object.keys(this.state.selectedWords || {}).reduce(function(acc, key){
+                      (this.state.visibleWords || []).reduce(function(acc, key){
                         return acc + ((this.state.selectedWords[key]) ? 1 : 0);
                       }.bind(this), 0)
 
@@ -186,8 +237,10 @@ class Category extends Component {
           {this.state.category ? (
             <WordsList 
                 category={this.state.category}
+                filter={this.state.wordsFilter}
                 deleteWord={(word) => this.deleteWord(word)}
                 checkedWords={this.state.selectedWords}
+                setVisibleWords={words => this.setVisibleWords(words)}
                 selectWords={(word, value) => this.handleWordSelection(word, value)} 
                 setActiveletters={(letters) => this.setActiveletters(letters)} />
             ) : (null)}

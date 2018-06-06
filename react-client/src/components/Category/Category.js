@@ -240,10 +240,10 @@ class Category extends Component {
                       Wybierz wszystkie
                     </button><button className="select-words-arrow select-words-button"></button>
                     <div className="number-of-selected-words">Wybrano: {
-                      
-                      (this.state.visibleWords || []).reduce(function(acc, key){
-                        return acc + ((this.state.selectedWords[key]) ? 1 : 0);
-                      }.bind(this), 0)
+                      (this.state.category) ? (this.state.visibleWords || []).reduce(
+                        function(acc, key){
+                          return acc + ((this.state.selectedWords[key]) ? 1 : 0);
+                      }.bind(this), 0) : (null)
 
                       }
                       </div>

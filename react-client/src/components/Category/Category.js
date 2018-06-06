@@ -14,11 +14,14 @@ class Category extends Component {
     this.state = {
       categoryNotFound: false,
       categoryEditable : false,
+      categoryName : undefined,
       selectedWords : undefined,
       activeLetters : [],
       wordsFilter : "",
       visibleWords : undefined
     }
+
+    console.log("A");
 
   }
 
@@ -37,8 +40,10 @@ class Category extends Component {
       if (category) {
 
         newState.category = category;
+        newState.categoryName = category.name;
         
         /* Refresh the "selected (checked) words" counter on categories change */
+        
         if (state.selectedWords == null || state.category !== category){
 
           newState.selectedWords = category.words.reduce(function(acc, item){
@@ -49,6 +54,12 @@ class Category extends Component {
 
         if (state.visibleWords == null || state.category !== category){
           newState.visibleWords = category.words;
+        }
+
+        /* Clear the input for searching in category, after catergory change */
+        if (state.category !== category){
+          newState.wordsFilter = "";
+          newState.categoryEditable = false;
         }
 
       } else{
@@ -92,12 +103,18 @@ class Category extends Component {
     });
   }
 
+  setCategoryName(event){
+    this.setState({
+      categoryName : event.target.value
+    });
+  }
+
   updateCategoryName(event) {
 
-    if (event.key === "Enter" && event.target.value.length > 0){
+    if (event.key === "Enter" && this.state.categoryName.length > 0){
       this.props.updateCategory(Object.assign({}, this.state.category, {name: event.target.value}));
       this.setState({
-        categoryEditable : false
+        categoryEditable : false,
       });
 
     } else if (event.key === "Escape"){
@@ -146,10 +163,12 @@ class Category extends Component {
 
   render() {
 
-    const categoryName = (this.state.category) ? this.state.category.name.toUpperCase() : "Ładowanie kategorii";
+    const categoryName = (this.state.categoryName) ? this.state.categoryName.toUpperCase() : "Ładowanie kategorii";
+    
     const categoryNameEdit = (this.state.categoryEditable) ? (
       <input type="text" className="panel-title editable"
         defaultValue={categoryName} autoFocus
+        onChange = {(event) => this.setCategoryName(event)}
         onKeyUp={(event) => this.updateCategoryName(event)} />
     ) : (categoryName);
 
@@ -192,7 +211,6 @@ class Category extends Component {
 
       <div className="content"> 
 
-
           <div className="top-panel">
               <h1 className="panel-title editable">
                 {categoryNameEdit}
@@ -208,9 +226,11 @@ class Category extends Component {
               </ul>
 
                 <div className="search-input">
-                    <input tpe="text" className="main-search" 
+                    <input tpe="text" className="main-search"
+                      value={this.state.wordsFilter}      
                       onChange={(event) => this.filterWords(event)}
                       placeholder="Szukaj słówka w kategorii..." />
+
                     <i className="fas fa-search search-icon"></i>
                 </div>
 
@@ -246,19 +266,6 @@ class Category extends Component {
             ) : (null)}
 
       </div>
-      {/*
-        {this.state.category ? (
-          <div>
-            <h1>{this.state.category.name}</h1>
-            <button onClick={() => this.deleteCategory()}>Delete</button>
-            <button onClick={() => this.updateDemo()}>test update</button>
-            <WordsList
-              category={this.state.category}
-              deleteWord={(word) => this.deleteWord(word)} />
-          </div>
-         ) : (
-          <p>Ładowanie kategorii...</p>
-        )}*/}
       </div>
     );
   }

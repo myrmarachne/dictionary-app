@@ -1,0 +1,97 @@
+
+/* Word page */
+
+.word-content.content-block {
+    width: calc(100% - 40px);
+    box-sizing: border-box;
+    padding: 10px;
+  
+    /* Top content margin (17px) + fixed top panel height (80px)
+    + margin-top (20px) + bottm space (38px, accordingly to 
+    "Konto / Wyloguj" buttons = 207px */
+    min-height: calc(100% - 155px);
+  
+    margin: 20px;
+    background-color: white;
+  
+  }
+  
+  /* Picture */
+  .content .word-photo {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-left: auto;   
+    margin-right: auto; 
+  }
+  
+  .content .word-photo img {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    left: 50%;
+    top: 50%;
+  
+    transform: translateX(-50%) translateY(-50%);
+  
+    box-shadow: 0 0 5px 5px #0d0d0d;
+  }
+  
+  /* Header above Translations */
+  
+  .translations-header {
+    position: relative;
+    left: -20px;
+    width: calc(100% + 30px);
+    height: 32px;
+    box-sizing: border-box;
+  
+    padding: 0 20px;
+    margin: 10px 0;
+  
+  
+    background-color: #A2A2A2;
+  
+    line-height: 32px;
+    color: white;
+    font-family: 'Open Sans Bold';
+    font-size: 1.3em;
+    letter-spacing: 3px;
+  }
+  
+  .word-content.content-block .word-translation {
+    padding-right: 40px;
+  }
+  
+  .translations-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+  
+    width: 100%;
+    height: inherit;
+  
+    z-index: -10;
+    
+    box-shadow: -6px 5px 5px rgba(0,0,0,0.65);
+  }
+  
+  .translations-header .add-icon {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateX(50%) translateY(-50%);
+  }
+  
+  
+  .translation-category .far.fa-trash-alt {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateX(50%) translateY(-50%);
+  
+    color: #0d0d0d;
+  
+    font-size: 1.2em;
+    cursor: pointer;
+  }

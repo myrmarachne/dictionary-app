@@ -134,7 +134,7 @@
 
 /* Category search */
 
-.navigation-panel .category-search {
+.category-search {
     max-width: 100%;
 
     border: none;
@@ -149,7 +149,7 @@
 
  
   
-  .navigation-panel .category-search::placeholder, .navigation-panel .categories-item .category-search::placeholder  {
+  .category-search::placeholder, .categories-item .category-search::placeholder  {
     letter-spacing: 0;
     font-style: italic;
     color: rgba(255,255,255,0.37);

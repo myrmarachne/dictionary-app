@@ -30,16 +30,12 @@ class App extends Component {
 
         <NavigationPanel />
 
-        {/*<h1>Kategorie</h1>
-        <button onClick={() => this.testCreateCategory()}>Utwórz nową kategorię</button>
-        <ul>
-          {categoriesList}
-        </ul>*/}
         <Switch>
           <Route exact path="/category/:categoryId" component={Category} />
-          <Route exact path="/word/:wordId" component={Word} />
+          <Route exact path="/words/:wordId" component={Word} />
           <Route path="/" component={Home} /> 
         </Switch>
+        
       </div>
     );
   }

@@ -25,6 +25,20 @@ class NavigationPanel extends Component {
         addCategoryInputVisible : PropTypes.bool
     };
 
+    static getDerivedStateFromProps(props, state){
+
+        const newState = {};
+        
+        if (props.categories.categories !== state.categories){
+            newState.categories = props.categories.categories;
+        }
+
+        console.log(state.categories);
+        console.log(props.categories.categories);
+
+        return newState;
+    }
+
     categoryFilterChange(event) {
         this.setState({categoryFilterValue : event.target.value.toUpperCase()});
     }
@@ -64,7 +78,7 @@ class NavigationPanel extends Component {
 
     render() {
 
-        const categoriesList = (this.props.categories.categories || [])
+        const categoriesList = (this.state.categories || [])
             .filter(category => category.name.toUpperCase().startsWith(this.state.categoryFilterValue))
             .map(category =>
                 <li key={category.id} className="panel-item categories-item">

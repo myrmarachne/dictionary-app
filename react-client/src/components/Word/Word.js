@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import TranslationsList from '../TranslationsList/TranslationsList';
 import configuration from '../../configuration';
 import fetch from 'cross-fetch';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import { createCategory, updateCategory, deleteCategory } from '../../modules/categories';
-import { bindActionCreators } from 'redux';
 import './Word.css' 
+import WordsCategories from '../WordsCategories/WordsCategories';
+
+import { connect } from 'react-redux';
+
+import { createCategory, updateCategory } from '../../modules/categories';
+import { bindActionCreators } from 'redux';
 
 class Word extends Component {
   constructor(props) {
@@ -16,23 +18,7 @@ class Word extends Component {
       word: undefined,
       wordLoading: false,
       wordLoadError: null,
-
-      addCategoryInputVisible: false,
-      newCategoryName: '',
-      categories: undefined,
     }
-  }
-
-  static getDerivedStateFromProps(props, state){
-
-    const newState = {};
-    
-    if (props.categories.categories !== state.categories){
-      newState.categories = props.categories.categories;
-      console.log("E");
-    }
-
-    return newState;
   }
 
   componentDidMount() {
@@ -111,138 +97,14 @@ class Word extends Component {
     });
   }
 
-  updateWord(word){
-    return fetch(configuration.backendUrl + '/words/' + word.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(word),
-    })
-    .then(response => response.json());    
-  }
 
-  setNameOfNewCategory(event) {
-    this.setState({newCategoryName : event.target.value});        
-}
 
-toggleNewCategoryInput(){
-    this.setState({
-        addCategoryInputVisible : !this.state.addCategoryInputVisible,
-        newCategoryName: ''
-    });
-}
-
-deleteWordFromCategory(categoryId){
-  const newWord = Object.assign({}, this.state.word);
-  newWord.categories = this.state.word.categories.filter(cid => cid != categoryId);
-
-  this.updateWord(newWord);
-}
-
-createCategory(event){
-
-    if (event.key === "Enter" && this.state.newCategoryName.length > 0){
-        
-      /* Check if category with the provided name already exists, and if not - 
-      create it and add the word to it */
-
-        const category = (Object.values(this.props.categories.categories).find(c => 
-          c.name.toUpperCase() == this.state.newCategoryName.toUpperCase()));
-        
-        const nameOfCategory = this.state.newCategoryName;
-
-        if (category == null){
-          this.props.createCategory({
-            name: nameOfCategory,
-          }).then(() => {
-
-            const category = (Object.values(this.props.categories.categories).find(c => 
-              c.name.toUpperCase() == nameOfCategory.toUpperCase()));
-            
-            const newCategory = Object.assign({}, category);
-
-            if (newCategory.words.indexOf(this.state.word.id) < 0)
-              newCategory.words.push(this.state.word.id);
-  
-            this.props.updateCategory(newCategory);
-            
-          });
-          
-         // TODO
-        } else {
-
-          const newCategory = Object.assign({}, category);
-
-          if (newCategory.words.indexOf(this.state.word.id) < 0)
-            newCategory.words.push(this.state.word.id);
-
-          this.props.updateCategory(newCategory);
-          
-        }
-
-        this.setState({
-          addCategoryInputVisible: false,
-          newCategoryName: ''              
-        });
-
-    } else if (event.key === "Escape") {
-        this.setState({
-            addCategoryInputVisible: false,
-            newCategoryName: ''              
-          });
-    }
-}
 
   render() {
     if (this.state.word) {
-      const categories = (this.state.word.categories || []).map(categoryId => {
-
-          const category = (this.props.categories.categories || []).find(category =>
-            (category.id === categoryId)
-          );
-
-          if (category){
-            return (
-              <li key={category.id} className="panel-item categories-item">
-              <Link className="category-link" to={`/category/${category.id}`}>
-                <span className="category-text">
-                {(category) ? category.name : null}
-                </span>
-              </Link><i onClick={() => this.deleteWordFromCategory(category.id)} className="far fa-trash-alt"></i>
-            </li>
-            );
-          } else return null;     
-        });
-
-      const categoryAddInput = this.state.addCategoryInputVisible ? (
-        <li className="panel-item categories-item">
-            <input type="text" value={this.state.newCategoryName}
-                onChange = {(event) => this.setNameOfNewCategory(event)}
-                onKeyUp = {(event) => this.createCategory(event)}
-                autoFocus
-                className="category-link category-search" placeholder="Nowa kategoria" />
-        </li>
-      ) : (null);
-
-      const rightPanel = (        
-        <div className="right-panel">
-          <div className="black-box upper-box">
-            <div className="upper-part"><span className="fancy-text">Kategorie słówka</span>
-            <i className="fas fa-plus add-icon" onClick={(event) => this.toggleNewCategoryInput()}></i></div>
-              <div className="bottom-part">
-                <ul className="categories">
-                  {categoryAddInput}
-                  {categories}
-                </ul>
-              </div>
-            </div>
-        </div>
-      );
-
       return (
         <div className="word">
-          {rightPanel}
+          <WordsCategories word={this.state.word} />
         </div>
       );
 
@@ -254,17 +116,18 @@ createCategory(event){
     }
   }
 
+
+
 const mapStateToProps = state => ({
-  categories: state.categories,
+    categories: state.categories,
 });
 
 const mapDispatchToProps = dispatch =>
-bindActionCreators({
-  createCategory,
-  updateCategory,
-}, dispatch);
+    bindActionCreators({
+    updateCategory,
+    }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Word);
+  export default connect(mapStateToProps, mapDispatchToProps)(Word);
 
 /*            <h1>{this.state.word.word}</h1>
             <TranslationsList

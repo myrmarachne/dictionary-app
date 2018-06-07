@@ -8,6 +8,7 @@ export const CREATE_CATEGORY = 'categories/CREATE_CATEGORY';
 export const UPDATE_CATEGORY = 'categories/UPDATE_CATEGORY';
 export const DELETE_CATEGORY = 'categories/DELETE_CATEGORY';
 
+
 const initialState = {
   categories: undefined,
   categoriesLoading: false,
@@ -105,22 +106,31 @@ export const createCategory = (category) => {
 };
 
 
-export const updateCategory = (category) => {
-  return dispatch => {
-    return fetch(configuration.backendUrl + '/categories/' + category.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(category),
-    })
-    .then(() => {
+export const updateCategory = (category, writeOnServer=true) => {
+  if (writeOnServer){
+    return dispatch => {
+      return fetch(configuration.backendUrl + '/categories/' + category.id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(category),
+      })
+      .then(() => {
+        dispatch({
+          type: UPDATE_CATEGORY,
+          category,
+        });
+      });
+    };
+  } else {
+    return dispatch => {
       dispatch({
         type: UPDATE_CATEGORY,
         category,
       });
-    });
-  };
+    }
+  }
 };
 
 export const deleteCategory = (category) => {

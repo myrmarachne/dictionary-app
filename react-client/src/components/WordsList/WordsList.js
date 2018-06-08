@@ -33,11 +33,12 @@ class WordList extends Component {
   }
 
   componentDidMount() {
-    if(this.props.category)//todo change it for a cleaner look
+    if(this.props.category)
       this.loadWords(this.props.category);
   }
 
   static getDerivedStateFromProps(props, state) {
+    console.log(props);
 
     const newState = {};
 
@@ -54,14 +55,14 @@ class WordList extends Component {
     if (props.category){
       if (state.selectedWords == null || state.category !== props.category){
 
-        newState.selectedWords = props.category.words.reduce(function(acc, item){
+        newState.selectedWords = (props.category.words || []).reduce(function(acc, item){
           acc[item] = true;
           return acc;
         }, {});
       }
 
       if (state.visibleWords == null || state.category !== props.category){
-        newState.visibleWords = props.category.words;
+        newState.visibleWords = (props.category.words || []);
       }
     }
 
@@ -69,7 +70,7 @@ class WordList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if (prevProps.category !== this.props.category) {
+    if (prevProps.category !== this.props.category && (this.props.category !=null && this.props.category.id > 0)) {
       this.loadWords(this.props.category);
     } 
   }
@@ -169,11 +170,7 @@ class WordList extends Component {
     this.setState({
       hardWords
     });
-    
-    /* Set the amount of learned percantage */
-    const learnedPercentage = (Object.keys(words).length > 0) ?
-      Math.floor((hardWords.length)/(Object.keys(words).length) * 100) : (0);
-    this.props.learned(learnedPercentage);
+
   }
 
   deleteWord(word) {

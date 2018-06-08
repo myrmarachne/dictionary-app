@@ -18,22 +18,21 @@ class Category extends Component {
     this.state = {
       category: undefined,
       categoryNotFound: false,
-      learnedPercentage : 0,
+
       words: [],
       wordsLoading: false,
       wordsLoadError: null,
+
+      allWordsCategory: false
     }
 
   }
 
-  componentDidMount() {
-    this.loadWords();
-  }
 
   static getDerivedStateFromProps(props, state) {
 
     const newState = {};
-    console.log(props);
+    console.log("e");
 
     /* Search for category in store */
     const categories = props.categories.categories;
@@ -47,44 +46,18 @@ class Category extends Component {
       if (category) {
         newState.category = category;
 
-      } else if (categoryId === "all") {
+      } else if (categoryId === "all" /*&& (!state.category || state.category && state.category.id !== -1)*/) {
         /* The category with all words */
-        newState.words = [];
-
+        newState.allWordsCategory = true;
+        newState.category = {id: 1, name: "wszystkie", words: Array(0), learnedWordsThisWeek: 0, learnedWordsBeforeThisWeek: 0};
       } else {
         newState.categoryNotFound = true;
-        console.log("elo");
 
       }
     }
     return newState;
   }
 
-
-  loadWords() {
-    this.setState({
-      ...this.state,
-      words: undefined,
-      wordsLoading: true,
-      wordsLoadError: null,
-    })
-    fetch(configuration.backendUrl + '/words/')
-      .then(response => response.json())
-      .then(words => {
-        this.setState({
-          words,
-          wordsLoading: false,
-          wordsLoadError: null,
-        })
-      })
-      .catch((error) => {
-        this.setState({
-          words: undefined,
-          wordsLoading: false,
-          wordsLoadError: error,
-        })
-      });
-  }
 
   deleteCategory(category) {
     /* Delete current category */
@@ -95,18 +68,19 @@ class Category extends Component {
     window.location = '/';
   }
 
-  setLearnedPercentage(learnedPercentage){
-    this.setState({
-      learnedPercentage,
-    });
-  }
 
   render() {
+
+    const learnedPercentage = (this.state.category) ? (
+      (this.state.category.words.length > 0) ? (
+        Math.floor((this.state.category.learnedWordsBeforeThisWeek + this.state.category.learnedWordsThisWeek) * 100 / this.state.category.words.length)
+      ) : (0)
+    ) : (0);
 
     /* Texts renderred fot information box */
     const upperPartText = (
       <div>
-        Opanowałeś ten dział w <span className="fancy-text">{this.state.learnedPercentage}</span>%
+        Opanowałeś ten dział w <span className="fancy-text">{learnedPercentage}</span>%
       </div>
     );
 
@@ -142,13 +116,12 @@ class Category extends Component {
 
       {rightPanel}
 
-      <WordsList 
+       <WordsList 
         category={this.state.category}
         deleteWord={(word) => this.props.deleteWord(word)}
         updateCategory={(category) => this.props.updateCategory(category)} 
-        deleteCategory={(category) => this.deleteCategory(category)}
-        learned={(learnedPercentage) => this.setLearnedPercentage(learnedPercentage)}/>
-        
+        deleteCategory={(category) => this.deleteCategory(category)} />
+     
       </div>
     );
   }

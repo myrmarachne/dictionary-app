@@ -25,7 +25,6 @@ class App extends Component {
         <NavigationPanel />
 
         <Switch>
-          <Route exact path="/category/allwords" component={Category} type="all" />
           <Route exact path="/category/:categoryId" component={Category} />
           <Route exact path="/words/:wordId" component={Word} />
           <Route path="/" component={Home} /> 

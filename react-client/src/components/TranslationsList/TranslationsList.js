@@ -3,6 +3,7 @@ import fetch from 'cross-fetch';
 import configuration from '../../configuration';
 
 class TranslationsList extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -10,6 +11,7 @@ class TranslationsList extends Component {
       translationsLoading: false,
       translationsLoadError: null,
       isMounted: false,
+      word: undefined
     }
   }
 
@@ -22,13 +24,29 @@ class TranslationsList extends Component {
     this.setState({ isMounted: false });
   }
 
+  static getDerivedStateFromProps(props, state){
+    const newState = {};
+
+    if (props.word != state.word){
+        newState.word = props.word;
+    }
+
+    return newState;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+      if (prevState.word !== this.state.word){
+         this.loadTranslations();
+      }
+  }
+
   loadTranslations() {
     this.setState({
       translations: undefined,
       translationsLoading: true,
       translationsLoadError: null,
     })
-    Promise.all(this.props.word.translations.map(id =>
+    Promise.all(this.state.word.translations.map(id =>
       fetch(configuration.backendUrl + '/word-translations/' + id)
         .then(response => response.json())
     ))
@@ -52,49 +70,34 @@ class TranslationsList extends Component {
     });
   }
 
-  createTranslation(translation) {
-    this.props.createTranslation(translation)
-      .then(translation => {
-        this.setState({
-          translations: [translation, ...this.state.translations],
-        });
-        return translation;
-      });
-  }
-
-  updateTranslation(translation) {
-    this.props.updateTranslation(translation)
-      .then(translation => {
-        const translations = this.state.translations.slice(0);
-        translations[this.state.translations.map(t => t.id).indexOf(translation.id)] = translation;
-        this.setState({
-          translations,
-        })
-        return translation;
-      });
-  }
-
-  deleteTranslation(translation) {
-    this.props.deleteTranslation(translation);
-    this.setState({
-      translations: this.state.translations.filter(t => t !== translation),
-    });
-  }
-
   render() {
    return this.state.translations ? (
     <div className="word-descriptions">
         {this.state.translations.map((translation, index) => {
-          return (
-            <div key={translation.id} className="word-translation">
-              <div className="translation-category">{index + 1}. {translation.domain}</div>
-              <div className="original-word translation-header">{translation.word}</div>
-              <div className="translated-word translation-header">{translation.wordTranslation}</div>
-              <div className="original-word">{translation.exampleTranslation}</div>
-              <div className="translated-word">{translation.example}</div>
-            </div>
+          if (translation)
+            return (
+              <div key={translation.id} 
+                className={this.props.editable ? ("word-translation editable") : ("word-translation") }>
+                <div className="translation-category">
+                  {index + 1}. {translation.domain}
+                  {
+                    (this.props.editable) ? (
+                      <span>
+                        <i className="fas fa-pencil-alt pencil-icon"></i>
+                        <i className="far fa-trash-alt"
+                          onClick={() => this.props.deleteTranslation(translation)}></i>
+                      </span>
+                    ) : (null)
+                  }
+                </div>
+                <div className="original-word translation-header">{translation.word}</div>
+                <div className="translated-word translation-header">{translation.wordTranslation}</div>
+                <div className="original-word">{translation.exampleTranslation}</div>
+                <div className="translated-word">{translation.example}</div>
+              </div>
 
-          );
+            );
+          else return null;
         })}
     </div>
     ) : (

@@ -29,7 +29,6 @@ class Category extends Component {
 
   }
 
-
   static getDerivedStateFromProps(props, state) {
 
     const newState = {};
@@ -72,14 +71,17 @@ class Category extends Component {
     return fetch(configuration.backendUrl + '/words')
       .then(response => response.json())
       .then(words => {
+
         const category = Object.assign({}, (this.state.category || {}));
         category.words = words;
+
 
         this.setState({
           wordsLoaded: true,
           words,
           category,
         });
+
       })
       .catch((error) => {
           this.setState({

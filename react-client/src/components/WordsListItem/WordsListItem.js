@@ -23,11 +23,12 @@ class WordsListItem extends Component {
   render() {
 
     const word = this.props.word;
-    
+    const wordText = word.word.charAt(0).toUpperCase() + word.word.slice(1).toLowerCase();
+
     return (
       <div className="letter-word-description">
         <div className="word-header">
-            <Link className="word-header-link" to={`/words/${word.id}`}>{word.word}</Link>
+            <Link className="word-header-link" to={`/words/${word.id}`}>{wordText}</Link>
             <label className="checkbox-container">
                 <input type="checkbox"
                   checked={this.state.checked} 

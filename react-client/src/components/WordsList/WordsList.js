@@ -50,6 +50,7 @@ class WordList extends Component {
       newState.wordsFilter = "";
       /* Make the name uneditable after switching category */
       newState.categoryEditable = false;
+
     }
 
     if (props.category){
@@ -72,8 +73,9 @@ class WordList extends Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     if (prevProps.category !== this.props.category) {
       this.loadWords(this.props.category);
-
     } 
+
+
   }
   
   loadWords(category) {
@@ -171,7 +173,6 @@ class WordList extends Component {
     this.setState({
       hardWords
     });
-
   }
 
   deleteWord(word) {
@@ -287,6 +288,7 @@ class WordList extends Component {
     this.setState({
       selectedWords,
     });
+
   }
 
 

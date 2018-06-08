@@ -5,12 +5,13 @@ import fetch from 'cross-fetch';
 import { Link } from 'react-router-dom';
 import './Word.css' 
 import WordsCategories from '../WordsCategories/WordsCategories';
-
+import EditableImage from '../EditableImage/EditableImage';
+import WordDescriptions from '../WordDescriptions/WordDescriptions';
 import { connect } from 'react-redux';
 
 import { createCategory, updateCategory } from '../../modules/categories';
 import { bindActionCreators } from 'redux';
-
+ 
 class Word extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +20,9 @@ class Word extends Component {
       wordLoading: false,
       wordLoadError: null,
       categories : undefined,
+
+      wordName: undefined,
+      wordnameEditable: false
     }
   }
 
@@ -32,9 +36,18 @@ class Word extends Component {
     
     if (props.categories.categories !== state.categories){
       newState.categories = props.categories.categories;
+
+    /* Make the name uneditable after switching word */
+      newState.wordnameEditable = false;
     }
 
     return newState;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if (this.state.word && (this.props.match.params.wordId != this.state.word.id)){
+      this.loadWord();
+    }
   }
 
 
@@ -50,6 +63,7 @@ class Word extends Component {
       .then(word => {
         this.setState({
           word,
+          wordName: word.word,
           wordLoading: false,
           wordLoadError: null,
         })
@@ -63,59 +77,104 @@ class Word extends Component {
       });
   }
 
-  createTranslation(translation) {
-    return fetch(configuration.backendUrl + '/word-translations', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(translation),
-    })
-    .then(response => response.json())
-    .then(translation => {
-      this.setState({
-        word: Object.assign({}, this.state.word, { translations: [...this.state.word.translations, translation.id] })
-      });
-      return translation;
+
+  toggleWordNameEditability(){
+    /* Toggle the editability of the word name after clicking
+    on the edit icon */
+    this.setState({
+      wordnameEditable : !this.state.wordnameEditable
     });
   }
 
-  updateTranslation(translation) {
-    return fetch(configuration.backendUrl + '/word-translations/' + translation.id, {
+  setWordName(event){
+    this.setState({
+      wordName : event.target.value
+    });
+  }
+
+  updateWord(word){
+    return fetch(configuration.backendUrl + '/words/' + word.id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(translation),
-    })
-    .then(response => response.json());
-  }
-
-  
-  deleteTranslation(translation) {
-    const translations = this.state.word.translations
-      .filter(id => id !== translation.id);
-    const word = Object.assign({}, this.state.word, { translations });
-    return fetch(configuration.backendUrl + '/words/' + this.state.word.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
       },
       body: JSON.stringify(word),
     })
-    .then(() => {
-      this.setState({
-        word,
-      });
-    });
+    .then(response => response.json())
+    .then(() => this.setState({
+      word,
+    }));
   }
 
+  updateWordName(event) {
+    /* Change the name of the word after clicking enter */
+    if (event.key === "Enter" && this.state.wordName.length > 0){
+      this.updateWord(Object.assign({}, this.state.word, {word: event.target.value}));
+      this.setState({
+        wordnameEditable : false,
+      });
+
+    } else if (event.key === "Escape"){
+      this.setState({
+        wordnameEditable : false
+      });
+    }
+  }
+
+  deleteWord(word) {
+    return fetch(configuration.backendUrl + '/words/' + word.id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(word),
+    })
+    .then(response => response.json())
+    .then(() => 
+      /* Navigate to home page */
+      window.location = '/'
+    );
+  }
 
   render() {
     if (this.state.word) {
+
+      const wordName = (this.state.wordName) ? this.state.wordName.toUpperCase() : "Ładowanie słówka";
+    
+      /* Input for editing word name */
+      const wordNameEdit = (this.state.wordnameEditable) ? (
+        <input type="text" className="panel-title editable"
+          defaultValue={wordName} autoFocus
+          onChange = {(event) => this.setWordName(event)}
+          onKeyUp={(event) => this.updateWordName(event)} />
+      ) : (wordName);
+  
+      document.title = wordName;
+
       return (
         <div className="word">
           <WordsCategories word={this.state.word} />
+
+          <div className="content">
+            <div className="top-panel">
+
+              <h1 className="panel-title editable">
+                {wordNameEdit}
+                <i onClick={() => this.toggleWordNameEditability()} className="fas fa-pencil-alt pencil-icon"></i>    
+                <i onClick={() => this.deleteWord(this.state.word)} className="far fa-trash-alt"></i>
+              </h1>
+              <ul className="panel-actions"></ul>
+            </div>
+
+            <div className="word-content content-block">
+              {(this.state.word.imageUrl != null) ? (
+                <EditableImage word={this.state.word} />
+              ) : (null)}
+              
+              <WordDescriptions word={this.state.word} />
+
+            </div>
+          </div>
         </div>
       );
 

@@ -11,21 +11,6 @@ class Category extends Component {
   constructor(props) {
     super(props);
 
-    this.dropdownOptions = {
-      "1" : {
-        "textField" : "Zaznacz wszystkie",
-        "handler" : this.selectAllWords.bind(this)
-      },
-      "2" : {
-        "textField" : "Zaznacz trudne",
-        "handler" : this.selectHardWords.bind(this)
-      },
-      "3" : {
-        "textField" : "Odznacz wszystkie",
-        "handler" : this.unSelectAllWords.bind(this)
-      }
-    };
-
     this.state = {
       categoryNotFound: false,
       categoryEditable : false,
@@ -37,8 +22,7 @@ class Category extends Component {
       visibleWords : undefined,
       hardWords : undefined,
 
-      dropdownVisible : false,
-      activeButton : this.dropdownOptions["1"]
+      dropdownVisible : false
     }
 
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -245,11 +229,6 @@ class Category extends Component {
       );
   }
 
-  setActiveButton(event, id){
-    this.setState({
-      activeButton : this.dropdownOptions[id]
-    });
-  }
 
   render() {
 
@@ -295,17 +274,18 @@ class Category extends Component {
     });
 
     /* Number of currently selected, visible words*/
+
     const numberOfSelected = (this.state.visibleWords || []).reduce(
       function(acc, key){
         return acc + ((this.state.selectedWords[key]) ? 1 : 0);
     }.bind(this), 0)
 
-    const selectButton = (this.state.activeButton) ? (
-      <button onClick={this.state.activeButton.handler}
+    const selectButton = (
+      <button onClick={() => this.selectAllWords()}
         className="select-words-text select-words-button">
-        {this.state.activeButton.textField}
+        Zaznacz wszystkie
       </button>
-    ) : (null);
+    );
 
     return (
       
@@ -351,13 +331,13 @@ class Category extends Component {
                       </div>
                     <ul className={(this.state.dropdownVisible) ? 
                       ("select-words-menu show-menu") : ("select-words-menu")}>
-                        <li className="menu-item" onClick={(event) => this.setActiveButton(event, "1")}>
+                        <li className="menu-item" onClick={() => this.selectAllWords()}>
                           Zaznacz wszystkie
                         </li>
-                        <li className="menu-item" onClick={(event) => this.setActiveButton(event, "2")}>
+                        <li className="menu-item" onClick={() => this.selectHardWords()}>
                           Zaznacz trudne
                         </li>
-                        <li className="menu-item" onClick={(event) => this.setActiveButton(event, "3")}>
+                        <li className="menu-item" onClick={() => this.unSelectAllWords()}>
                           Odznacz wszystkie
                         </li>
 

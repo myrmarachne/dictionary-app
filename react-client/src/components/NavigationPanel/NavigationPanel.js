@@ -41,7 +41,7 @@ class NavigationPanel extends Component {
                 <CategoryAdder />
 
                 <div className="panel-item categories-item all-words-link clickable-menu-item">
-                    <Link className="category-link" to={`/`}>Wszystkie słówka</Link>
+                    <Link className="category-link" to={`/category/`}>Wszystkie słówka</Link>
                 </div>
 
                 <div className="panel-item">

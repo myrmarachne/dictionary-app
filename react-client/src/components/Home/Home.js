@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import configuration from '../../configuration';
 import fetch from 'cross-fetch';
-import { Link } from 'react-router-dom';
 import LearnChart from '../LearnChart/LearnChart';
+import { Link } from 'react-router-dom';
+import InformationBox from '../InformationBox/InformationBox';
 
 import { loadCategories } from '../../modules/categories';
 
@@ -135,6 +136,7 @@ class Home extends Component {
   }
 
   render() {
+
     const hardWordsList = (this.state.hardWords || []).map(word =>
       <li key={word.id}><Link to={`/words/${word.id}`} className="link-to-word">{word.word}</Link></li>
     );
@@ -142,32 +144,58 @@ class Home extends Component {
       <li key={word.id}><Link to={`/words/${word.id}`} className="link-to-word">{word.word}</Link></li>
     );
 
-    const wordOfTheDayBox = (this.state.wordOfTheDay && this.state.wordOfTheDayTranslation) ? (
-      <div className="black-box bottom-box">
-        <div className="box-title">Słówko dnia</div>
-        <div className="upper-part"><span className="fancy-text">{this.state.wordOfTheDay.word}</span></div>
-        <div className="bottom-part">
-            <div className="black-box-photo"><img src={this.state.wordOfTheDay.imageUrl} alt={this.state.wordOfTheDay.word}/></div>
-            <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation}</div>
-        </div>
-        <Link className="fancy-button not-selectable" to={`/words/${this.state.wordOfTheDay.id}`}>Przejdź do słówka<i className="fas fa-play-circle"></i></Link>
+    /* Information boxes in the right panel */
+    /* Word of the day box */
+
+    const wordOfTheDayName = (this.state.wordOfTheDay) ? (
+      <span className="fancy-text">{this.state.wordOfTheDay.word}</span>
+    ) : ("Ładowanie słówka dnia");
+
+    const pictureWithCaption = (this.state.wordOfTheDay && this.state.wordOfTheDayTranslation) ? (
+      <div>
+        <div className="black-box-photo"><img src={this.state.wordOfTheDay.imageUrl} alt={this.state.wordOfTheDay.word}/></div>
+        <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation}</div>
       </div>
+    ) : ("Ładowanie ilustracji");
+
+    const wordOfTheDayBox = (this.state.wordOfTheDay && this.state.wordOfTheDayTranslation) ? (
+      <InformationBox title="Słówko dnia"
+      upperPart={wordOfTheDayName}
+      bottomPart={pictureWithCaption} 
+      button={`/words/${this.state.wordOfTheDay.id}`} buttonText="Przejdź do słówka"
+      bottomBox />
     ) : (null);
+
+    /* Last learned category box */
 
     const lastCategory = (this.props.categories.categories) ? (
       this.props.categories.categories[Math.floor(Math.random() * this.props.categories.categories.length)]
     ) : (null);
+    
+    const learnedPercentage = (lastCategory) ? (
+      (lastCategory.words.length > 0) ? (
+        Math.floor((lastCategory.learnedWordsBeforeThisWeek + lastCategory.learnedWordsThisWeek) * 100 / lastCategory.words.length)
+      ) : (0)
+    ) : (0);
+
+    const upperPart = lastCategory ? ( 
+      <div>
+        Ostatnio ćwiczyłeś słówka z kategorii <span className="fancy-text">{lastCategory.name}</span>
+      </div>
+    ) : ("Ładowanie postępu nauki");
+
+    const progressText = (
+      <div>
+        <div className="black-box-text">Opanowałeś ją już w <b>{learnedPercentage}%</b></div>
+        <div className="black-box-text">Przejdź do tej kategorii, aby poprawić swój wynik</div>
+      </div>
+    );
 
     const lastLearnedCategory = (lastCategory) ? (
-        <div className="black-box upper-box">
-            <div className="box-title">Ucz się!</div>
-            <div className="upper-part">Ostatnio ćwiczyłeś słówka z kategorii <span className="fancy-text">{lastCategory.name}</span></div>
-            <div className="bottom-part">
-                <div className="black-box-text">Opanowałeś ją już w <b>{Math.floor(Math.random() * 99) + 1}%</b></div>
-                <div className="black-box-text">Przejdź do tej kategorii, aby poprawić swój wynik</div>
-            </div>
-            <Link className="fancy-button not-selectable" to={`/category/${lastCategory.id}`}>Przejdź do kategorii<i className="fas fa-play-circle"></i></Link>
-        </div>
+        <InformationBox title="Ucz się"
+          upperPart={upperPart}
+          bottomPart={progressText} 
+          button={`/category/${lastCategory.id}`} buttonText="Przejdź do kategorii" />
     ) : (null);
 
     const rightPanel = (

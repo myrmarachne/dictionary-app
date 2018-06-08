@@ -371,7 +371,13 @@ class WordList extends Component {
     }.bind(this);
 
     /* Map each letter, which contains words, with appropriate list of words */
-    const letterCategory = Object.keys(groupedWords).map(letter => 
+    const letterCategory = Object.keys(groupedWords)
+      .sort((a, b) => {
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
+      })
+      .map(letter => 
           <div id={"category"+letter} key={"category"+letter} className="letter-category">
             <div className="letter-header">{letter}</div>
             {wordsForLetter(groupedWords[letter])}

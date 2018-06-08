@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class InformationBox extends Component {
 
@@ -23,16 +24,18 @@ class InformationBox extends Component {
         ) : (null);
         
         const button = (this.props.button) ? (
-            <a className="fancy-button not-selectable">Przejdź do ćwiczeń<i className="fas fa-play-circle"></i></a>
+            <Link className="fancy-button not-selectable" to={this.props.button}>{
+                (this.props.buttonText) ? (this.props.buttonText) : (null)
+            } <i className="fas fa-play-circle"></i></Link>
         ) : (null);
 
         return(
-            <div className="black-box upper-box">
+            <div className={(this.props.bottomBox) ? ("black-box bottom-box") : ("black-box upper-box")}>
                 {title}
                 {upperPart}
                 {bottomPart}
                 {button}
-        </div>
+            </div>
         );
     }
 }

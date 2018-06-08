@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import configuration from '../../configuration';
 
 import WordsList from '../WordsList/WordsList';
 import InformationBox from '../InformationBox/InformationBox';
@@ -15,16 +16,24 @@ class Category extends Component {
     super(props);
 
     this.state = {
-      category : undefined,
+      category: undefined,
       categoryNotFound: false,
-      learnedPercentage : 0
+      learnedPercentage : 0,
+      words: [],
+      wordsLoading: false,
+      wordsLoadError: null,
     }
 
+  }
+
+  componentDidMount() {
+    this.loadWords();
   }
 
   static getDerivedStateFromProps(props, state) {
 
     const newState = {};
+    console.log(props);
 
     /* Search for category in store */
     const categories = props.categories.categories;
@@ -36,11 +45,44 @@ class Category extends Component {
 
       if (category) {
         newState.category = category;
+
+      } else if (props.route.type == "all") {
+        /* The category with all words */
+        newState.words = [];
+
       } else {
         newState.categoryNotFound = true;
+        console.log("elo");
+
       }
     }
     return newState;
+  }
+
+
+  loadWords() {
+    this.setState({
+      ...this.state,
+      words: undefined,
+      wordsLoading: true,
+      wordsLoadError: null,
+    })
+    fetch(configuration.backendUrl + '/words/')
+      .then(response => response.json())
+      .then(words => {
+        this.setState({
+          words,
+          wordsLoading: false,
+          wordsLoadError: null,
+        })
+      })
+      .catch((error) => {
+        this.setState({
+          words: undefined,
+          wordsLoading: false,
+          wordsLoadError: error,
+        })
+      });
   }
 
   deleteCategory(category) {
@@ -63,7 +105,7 @@ class Category extends Component {
     /* Texts renderred fot information box */
     const upperPartText = (
       <div>
-        Opanowałeś ten dział w <span className="fancy-text">{this.state.learnedPercentage}</span> %
+        Opanowałeś ten dział w <span className="fancy-text">{this.state.learnedPercentage}</span>%
       </div>
     );
 
@@ -88,7 +130,8 @@ class Category extends Component {
       <div className="right-panel">
         <InformationBox title="Ucz się"
           upperPart={upperPartText}
-          bottomPart={progressText} button />
+          bottomPart={progressText} button={`/`}
+          buttonText="Przejdź do ćwiczeń" />
       </div>
     );
 

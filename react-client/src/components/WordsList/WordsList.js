@@ -33,12 +33,12 @@ class WordList extends Component {
   }
 
   componentDidMount() {
-    if(this.props.category)
+    if(this.props.category){
       this.loadWords(this.props.category);
+    }
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log(props);
 
     const newState = {};
 
@@ -70,8 +70,9 @@ class WordList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if (prevProps.category !== this.props.category && (this.props.category !=null && this.props.category.id > 0)) {
+    if (prevProps.category !== this.props.category) {
       this.loadWords(this.props.category);
+
     } 
   }
   
@@ -387,14 +388,27 @@ class WordList extends Component {
           <div className="top-panel">
               <h1 className="panel-title editable">
                 {categoryNameEdit}
-                <i onClick={() => this.toggleCategoryNameEditability()} className="fas fa-pencil-alt pencil-icon"></i>
-                <i onClick={() => this.props.deleteCategory(this.state.category)} className="far fa-trash-alt"></i>
+                {
+                  (!this.props.allWordsCategory) ? (
+                    <i onClick={() => this.toggleCategoryNameEditability()} className="fas fa-pencil-alt pencil-icon"></i>
+                  ) : (null)
+                }
+                {
+                  (!this.props.allWordsCategory) ? (
+                    <i onClick={() => this.props.deleteCategory(this.state.category)} className="far fa-trash-alt"></i>
+                  ) : (null)
+                }
               </h1>
               <ul className="panel-actions">
-                  <li className="content-panel-item">Dodaj słówka</li>                      
-                  <li className="content-panel-item" onClick={(event) => this.deleteSelected(event)}>
-                    Usuń słówka
-                  </li>
+                  <li className="content-panel-item">Dodaj słówka</li>    
+                  {
+                    (!this.props.allWordsCategory) ? (
+                      <li className="content-panel-item" onClick={(event) => this.deleteSelected(event)}>
+                        Usuń słówka
+                      </li>
+                    ) : (null)
+                  }                  
+
               </ul>
               <ul className="letter-index">
                 {letterIndex}

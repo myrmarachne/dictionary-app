@@ -23,7 +23,8 @@ class Category extends Component {
       wordsLoading: false,
       wordsLoadError: null,
 
-      allWordsCategory: false
+      allWordsCategory: false,
+      wordsLoaded: false,
     }
 
   }
@@ -32,7 +33,6 @@ class Category extends Component {
   static getDerivedStateFromProps(props, state) {
 
     const newState = {};
-    console.log("e");
 
     /* Search for category in store */
     const categories = props.categories.categories;
@@ -45,17 +45,55 @@ class Category extends Component {
 
       if (category) {
         newState.category = category;
+        newState.allWordsCategory = false;
+        newState.wordsLoaded = false;
 
-      } else if (categoryId === "all" /*&& (!state.category || state.category && state.category.id !== -1)*/) {
+      } else if (categoryId === "all" && !state.wordsLoaded) {
         /* The category with all words */
         newState.allWordsCategory = true;
-        newState.category = {id: 1, name: "wszystkie", words: Array(0), learnedWordsThisWeek: 0, learnedWordsBeforeThisWeek: 0};
+        newState.category = {
+          id: -1, 
+          name: "Wszystkie słówka", 
+          words: [], 
+          learnedWordsThisWeek: 0, 
+          learnedWordsBeforeThisWeek: 0
+        };
+
       } else {
         newState.categoryNotFound = true;
 
       }
     }
     return newState;
+  }
+
+  loadAllWordsIds = () => {
+
+    return fetch(configuration.backendUrl + '/words')
+      .then(response => response.json())
+      .then(words => {
+        const category = Object.assign({}, (this.state.category || {}));
+        category.words = words;
+
+        this.setState({
+          wordsLoaded: true,
+          words,
+          category,
+        });
+      })
+      .catch((error) => {
+          this.setState({
+            wordsLoaded: false,
+          })
+      });
+    }
+  
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+
+    if (this.state.allWordsCategory && !this.state.wordsLoaded){
+      this.loadAllWordsIds();
+    }
   }
 
 
@@ -120,7 +158,8 @@ class Category extends Component {
         category={this.state.category}
         deleteWord={(word) => this.props.deleteWord(word)}
         updateCategory={(category) => this.props.updateCategory(category)} 
-        deleteCategory={(category) => this.deleteCategory(category)} />
+        deleteCategory={(category) => this.deleteCategory(category)}
+        allWordsCategory={this.state.allWordsCategory} />
      
       </div>
     );

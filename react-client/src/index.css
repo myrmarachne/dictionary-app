@@ -154,6 +154,8 @@ body {
   line-height: 38.6px;
   box-sizing: border-box;
   letter-spacing: 2.4px;
+
+  font-family: 'Open Sans Light';
 }
 
 .navigation-panel .category-search {

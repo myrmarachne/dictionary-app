@@ -1,1 +1,13 @@
- 
+.black-box .categories-header {
+  position: relative;
+
+  width: 224px;
+  padding: 14px 0;
+
+  text-align: center;
+  font-family: 'AmaticSC-Regular';
+  font-size: 2em;
+  letter-spacing: 1px;
+  font-weight: bold;
+} 
+

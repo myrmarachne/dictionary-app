@@ -18,12 +18,25 @@ class Word extends Component {
       word: undefined,
       wordLoading: false,
       wordLoadError: null,
+      categories : undefined,
     }
   }
 
   componentDidMount() {
     this.loadWord();
   }
+
+  static getDerivedStateFromProps(props, state){
+
+    const newState = {};
+    
+    if (props.categories.categories !== state.categories){
+      newState.categories = props.categories.categories;
+    }
+
+    return newState;
+  }
+
 
   loadWord() {
     this.setState({
@@ -120,12 +133,7 @@ const mapStateToProps = state => ({
     categories: state.categories,
 });
 
-const mapDispatchToProps = dispatch =>
-    bindActionCreators({
-    updateCategory,
-    }, dispatch);
-
-  export default connect(mapStateToProps, mapDispatchToProps)(Word);
+export default connect(mapStateToProps)(Word);
 
 /*            <h1>{this.state.word.word}</h1>
             <TranslationsList

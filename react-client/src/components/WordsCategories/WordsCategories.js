@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 import './WordsCategories.css' 
 import InformationBox from '../InformationBox/InformationBox';
+import CategoryAdder from '../CategoryAdder/CategoryAdder';
 
 
 class WordsCategories extends Component {
@@ -16,10 +17,8 @@ class WordsCategories extends Component {
         super(props);
         this.state = {
           word: undefined,
-    
-          addCategoryInputVisible: false,
-          newCategoryName: '',
-          categories: undefined
+          categories: undefined,
+          hintsVisible: false,
         }
       }
 
@@ -31,12 +30,13 @@ class WordsCategories extends Component {
             newState.categories = props.categories.categories;
         }
 
-        if (props.word !== state.word){
+        if (props.word !== state.word && state.word == null){
             newState.word = props.word;
         }
 
         return newState;
     }
+
 
     toggleNewCategoryInput(){
         this.setState({
@@ -45,82 +45,15 @@ class WordsCategories extends Component {
         });
     }
 
-    deleteWordFromCategory(categoryId){
+    deleteWordFromCategory(categoryId, categories){
         const newWord = Object.assign({}, this.state.word);
+        const oldCategories = this.state.word.categories;
+
         newWord.categories = this.state.word.categories.filter(cid => cid !== categoryId);
-
-        this.updateWordCategories(newWord);
+        this.updateWordCategories(newWord, oldCategories);
     }
 
-
-    setNameOfNewCategory(event) {
-        this.setState({newCategoryName : event.target.value});        
-    }
-
-    createCategory(event){
-
-        if (event.key === "Enter" && this.state.newCategoryName.length > 0){
-            
-            /* Check if category with the provided name already exists, and if not - 
-            create it and add the word to it */
-            const nameOfCategory = this.state.newCategoryName;
-
-            const category = (Object.values(this.state.categories).find(c => 
-            c.name.toUpperCase() === nameOfCategory.toUpperCase()));
-            
-            if (category == null){
-            
-            /* Create the category in case if it does not exist */
-            this.props.createCategory({
-                name: nameOfCategory,
-            }).then(() => {
-                /* Assign this particular word to the newly created category */
-
-                const category = (Object.values(this.state.categories).find(c => 
-                c.name.toUpperCase() === nameOfCategory.toUpperCase()));
-                
-                if (category) {
-                    const word =  Object.assign({}, this.state.word);
-
-                    if (word.categories.indexOf(category.id) < 0){
-                        word.categories.push(category.id);
-                        this.updateWordCategories(word);
-                    }
-                }
-                
-            });
-                
-            } else {
-
-                /* Assign the word to the existing category */
-                const category = (Object.values(this.state.categories).find(c => 
-                    c.name.toUpperCase() === nameOfCategory.toUpperCase()));
-                    
-                    if (category) {
-                        const word =  Object.assign({}, this.state.word);
-    
-                        if (word.categories.indexOf(category.id) < 0){
-                            word.categories.push(category.id);
-                            this.updateWordCategories(word);
-                        }
-                    }
-                
-            }
-
-            this.setState({
-                addCategoryInputVisible: false,
-                newCategoryName: ''              
-            });
-
-        } else if (event.key === "Escape") {
-            this.setState({
-                addCategoryInputVisible: false,
-                newCategoryName: ''              
-                });
-        }
-    }
-
-    updateWordCategories(word){
+    updateWordCategories(word, oldCategories){
         return fetch(configuration.backendUrl + '/words/' + word.id, {
           method: 'PUT',
           headers: {
@@ -133,22 +66,50 @@ class WordsCategories extends Component {
           this.setState({
             word,
           }, () => {
-              (word.categories || []).map(categoryId =>{
-                
+
+            const categories = (oldCategories || [])
+                .filter(x => !word.categories.includes(x))
+                .concat(word.categories.filter(x => !(oldCategories || []).includes(x)));
+
+            (categories || []).map(categoryId => {
+            
                 const category = (this.state.categories || []).find(category =>
                     (category.id === categoryId));
 
-                if (category.words.indexOf(word.id) < 0)
+                const categoryInWordIndex = word.categories.indexOf(categoryId);
+                const wordInCategoryIndex = (category || []).words.indexOf(word.id);
+
+                if (wordInCategoryIndex < 0 && categoryInWordIndex > -1)
                     category.words.push(word.id);
-                
+                else if (wordInCategoryIndex > -1 && categoryInWordIndex < 0)
+                    category.words.splice(wordInCategoryIndex, 1);
+
                 this.props.updateCategory(category, false);
-                }
-            )
+            })
           })
         );
       }
 
-    render(){
+
+    setNameOfNewCategory(event) {
+        this.setState({
+            newCategoryName : event.target.value
+        });        
+    }
+
+    setHintsVisibility(hintsVisible){
+        this.setState({
+            hintsVisible,
+        });
+    }
+
+    
+    render(){        
+        
+        /* If the input for category adding is not visible - show the categories, this word 
+        is belonging to. If it is visible - hide the assigned categories list, and show 
+        list of categories suggestions instead */
+
         /* Map the list of categories assign to this word to a styled list */
         const categories = (this.state.word.categories || []).map(categoryId => {
             
@@ -169,64 +130,31 @@ class WordsCategories extends Component {
             } else return null;     
         });
 
-        /* If the input for category adding is not visible - show the categories, this word 
-        is belonging to. If it is visible - hide the assigned categories list, and show 
-        list of categories suggestions instead */
-
-        const categoryAddInput = (
-
-        <li className="panel-item categories-item">
-            <input type="text" value={this.state.newCategoryName}
-                onChange = {(event) => this.setNameOfNewCategory(event)}
-                onKeyUp = {(event) => this.createCategory(event)}
-                autoFocus
-                className="category-link category-search" placeholder="Nowa kategoria" />
-        </li>
-        
-        );
-
-        const categoriesSuggestions = (this.props.categories.categories || [])
-        .filter(category => category.name.toUpperCase().startsWith(this.state.categoryFilterValue))
-        .map(category =>
-            <li key={category.id} className="panel-item categories-item">
-                <Link className="category-link" to={`/category/${category.id}`}>
-                    <span className="category-text">{category.name}</span>
-                    <span className="number-of-words">{category.words.length}</span>
-                </Link>
-            </li>
-        );
-
 
         /* Part of Information Box, that would be renderred*/
         /* The header of categories with the 'add category' icon */
-        const categoriesHeader = (
-            <div>
-                <span className="fancy-text">Kategorie słówka</span>
-                <i className="fas fa-plus add-icon" onClick={(event) => this.toggleNewCategoryInput()}></i>
-            </div>
-        );
-
         /* The list of all categories assigned to this particular word */
         const bottomPart = (
-            <ul className="categories">
-            {
-                this.state.addCategoryInputVisible ? (
-                    categoryAddInput
-                ) : (categories)
-            }
+            <div>
+                <CategoryAdder word={this.state.word}
+                    updateWordCategories={(word) => this.updateWordCategories(word)}
+                    hintsVisible={(hintsVisible) => this.setHintsVisibility(hintsVisible)}
+                    selectedCategory={this.state.selectedCategory} />
 
-            {
-                this.state.addCategoryInputVisible ? (
-                    categoriesSuggestions
-                ) : (null)
-            }
-            </ul>
+                {(this.state.hintsVisible) ? (
+                    null
+                ) : (
+                    <ul className="categories">
+                        {categories}
+                    </ul>
+                )}
+                
+            </div>
         );
 
         return (
             <div className="right-panel">
-                <InformationBox upperPart={categoriesHeader}
-                    bottomPart={bottomPart}/>
+                <InformationBox bottomPart={bottomPart}/>
             </div>
         );
     }

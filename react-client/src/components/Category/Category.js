@@ -60,6 +60,13 @@ class Category extends Component {
 
   render() {
 
+    /* Texts renderred fot information box */
+    const upperPartText = (
+      <div>
+        Opanowałeś ten dział w <span className="fancy-text">{this.state.learnedPercentage}</span> %
+      </div>
+    );
+
     const progressText = (this.state.learnedPercentage == 0) ? (
       <div className="black-box-text">
        Wybierz słówka, od których chcesz rozpocząć naukę i przejdź do ćwiczeń
@@ -76,12 +83,7 @@ class Category extends Component {
       )
     );
 
-    const upperPartText = (
-      <div>
-        Opanowałeś ten dział w <span className="fancy-text">{this.state.learnedPercentage}</span> %
-      </div>
-    );
-
+    /* Right panel of the page, containing the information box */
     const rightPanel = (
       <div className="right-panel">
         <InformationBox title="Ucz się"
@@ -89,7 +91,6 @@ class Category extends Component {
           bottomPart={progressText} button />
       </div>
     );
-
 
     return (
       
@@ -103,6 +104,7 @@ class Category extends Component {
         updateCategory={(category) => this.props.updateCategory(category)} 
         deleteCategory={(category) => this.deleteCategory(category)}
         learned={(learnedPercentage) => this.setLearnedPercentage(learnedPercentage)}/>
+        
       </div>
     );
   }

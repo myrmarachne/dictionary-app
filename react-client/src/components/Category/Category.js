@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import WordsList from '../WordsList/WordsList';
+import InformationBox from '../InformationBox/InformationBox';
+
 import { bindActionCreators } from 'redux';
 import { deleteCategory, updateCategory } from '../../modules/categories';
+
 import './Category.css' 
 
 class Category extends Component {
@@ -12,21 +15,10 @@ class Category extends Component {
     super(props);
 
     this.state = {
+      category : undefined,
       categoryNotFound: false,
-      categoryEditable : false,
-      categoryName : undefined,
-
-      selectedWords : undefined,
-      activeLetters : [],
-      wordsFilter : "",
-      visibleWords : undefined,
-      hardWords : undefined,
-
-      dropdownVisible : false
+      learnedPercentage : 0
     }
-
-    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
-    this.showDropdownMenu = this.showDropdownMenu.bind(this);
 
   }
 
@@ -43,249 +35,61 @@ class Category extends Component {
         .filter(c => String(c.id) === props.match.params.categoryId)[0];
 
       if (category) {
-
         newState.category = category;
-        newState.categoryName = category.name;
-        
-        /* Refresh the "selected (checked) words" counter on categories change */
-        
-        if (state.selectedWords == null || state.category !== category){
-
-          newState.selectedWords = category.words.reduce(function(acc, item){
-            acc[item] = true;
-            return acc;
-          }, {});
-        }
-
-        if (state.visibleWords == null || state.category !== category){
-          newState.visibleWords = category.words;
-        }
-
-        /* Clear the input for searching in category, after catergory change */
-        if (state.category !== category){
-          newState.wordsFilter = "";
-          newState.categoryEditable = false;
-        }
-
-      } else{
+      } else {
         newState.categoryNotFound = true;
       }
     }
     return newState;
   }
 
-  deleteCategory() {
+  deleteCategory(category) {
     /* Delete current category */
-    this.props.deleteCategory(this.state.category);    
+    this.props.deleteCategory(category);    
 
     /* Navigate to home page */
     // TODO: Some information box "category succesfully deleted"
     window.location = '/';
   }
 
-  selectAllWords(){
-    /* Select (check) all words, that are currently visible and
-    leave the not visible words without any change */
-
-    var selectedWords = Object.keys(this.state.selectedWords).map(Number).reduce(
-      function(acc, item){
-        acc[item] = (this.state.visibleWords.indexOf(item) > -1) ? 
-          true : this.state.selectedWords[item];
-
-        return acc;
-      }.bind(this), {});
-
+  setLearnedPercentage(learnedPercentage){
     this.setState({
-      selectedWords,
+      learnedPercentage,
     });
   }
-
-  unSelectAllWords(){
-    /* Unselect (uncheck) all words, that are currently visible and
-    leave the not visible words without any change */
-
-
-    var selectedWords = Object.keys(this.state.selectedWords).map(Number).reduce(
-      function(acc, item){
-        acc[item] = (this.state.visibleWords.indexOf(item) > -1) ? 
-          false : this.state.selectedWords[item];
-
-        return acc;
-      }.bind(this), {});
-
-    this.setState({
-      selectedWords,
-    });
-  }  
-
-  selectHardWords(){
-    /*Selects only the words that are marked as hard from the currently visible
-    words, and leaves the rest of words without any change */
-
-    var selectedWords = Object.keys(this.state.selectedWords).map(Number).reduce(
-      function(acc, item){
-        acc[item] = (this.state.hardWords.indexOf(item) > -1) ? 
-          true : this.state.selectedWords[item];
-
-        return acc;
-      }.bind(this), {});
-
-    this.setState({
-      selectedWords,
-    });
-  }
-
-  toggleCategoryNameEditability(){
-    this.setState({
-      categoryEditable : !this.state.categoryEditable
-    });
-  }
-
-  setCategoryName(event){
-    this.setState({
-      categoryName : event.target.value
-    });
-  }
-
-  updateCategoryName(event) {
-
-    if (event.key === "Enter" && this.state.categoryName.length > 0){
-      this.props.updateCategory(Object.assign({}, this.state.category, {name: event.target.value}));
-      this.setState({
-        categoryEditable : false,
-      });
-
-    } else if (event.key === "Escape"){
-      this.setState({
-        categoryEditable : false
-      });
-    }
-  }
-
-  deleteSelected(){
-    const category = Object.assign({}, this.state.category);
-    category.words = category.words.filter(word => 
-      (this.state.selectedWords[word]) ? false : true
-    );
-    return this.props.updateCategory(category);
-  }
-
-
-  handleWordSelection(word, value) {
-    var selectedWords = Object.assign({}, this.state.selectedWords);
-    selectedWords[word.id] = value;
-
-    this.setState({
-      selectedWords,
-    });
-  }
-
-  setActiveletters(activeLetters){
-    if (activeLetters !== this.state.activeLetters){
-      this.setState({
-        activeLetters,
-      });
-    }
-  }
-
-  setVisibleWords(visibleWords){
-    if(visibleWords !== this.state.visibleWords){
-      this.setState({
-        visibleWords,
-      })
-    }
-  }
-
-  setHardWords(hardWords){
-    if(hardWords !== this.state.hardWords){
-      this.setState({
-        hardWords
-      });
-    }
-  }
-
-  filterWords(event){
-    this.setState({
-      wordsFilter : event.target.value
-    });
-  }
-
-  showDropdownMenu(event){
-    /* Clicking outside the opened dropdown menu should hide it - 
-    add mouse listener to the docuemnt */
-    event.preventDefault();
-    
-    this.setState({
-        dropdownVisible : true
-      }, () => { document.addEventListener('click', this.hideDropdownMenu);}
-    );
-
-  }
-
-  hideDropdownMenu(event){
-      this.setState({
-          dropdownVisible : false
-        }, () => {document.removeEventListener('click', this.hideDropdownMenu);}
-      );
-  }
-
 
   render() {
 
-    const categoryName = (this.state.categoryName) ? this.state.categoryName.toUpperCase() : "Ładowanie kategorii";
-    
-    /* Input for editing category name */
-    const categoryNameEdit = (this.state.categoryEditable) ? (
-      <input type="text" className="panel-title editable"
-        defaultValue={categoryName} autoFocus
-        onChange = {(event) => this.setCategoryName(event)}
-        onKeyUp={(event) => this.updateCategoryName(event)} />
-    ) : (categoryName);
+    const progressText = (this.state.learnedPercentage == 0) ? (
+      <div className="black-box-text">
+       Wybierz słówka, od których chcesz rozpocząć naukę i przejdź do ćwiczeń
+      </div>
+    ) : (
+      (this.state.learnedPercentage === 100) ? (
+        <div className="black-box-text">
+          Opanowałeś już wszystkie słówka z tego działu. Zawsze możesz tu powrócić, powtórzyć czego się już nauczyłeś."
+        </div>
+      ) : (
+        <div className="black-box-text">
+          "Wybierz słówka i przejdź do ćwiczeń, aby poprawić swój wynik"
+        </div>
+      )
+    );
 
-    document.title = categoryName;
+    const upperPartText = (
+      <div>
+        Opanowałeś ten dział w <span className="fancy-text">{this.state.learnedPercentage}</span> %
+      </div>
+    );
 
     const rightPanel = (
       <div className="right-panel">
-                <div className="black-box upper-box">
-                    <div className="box-title">Ucz się!</div>
-                    <div className="upper-part">Opanowałeś ten dział w  <span className="fancy-text">58%</span></div>
-                    <div className="bottom-part">
-                        <div className="black-box-text">Wybierz słówka i przejdź do ćwiczeń, aby poprawić swój wynik</div>
-                    </div>
-                    <a className="fancy-button not-selectable" >Przejdź do ćwiczeń<i className="fas fa-play-circle"></i></a>
-                </div>
-            </div>
+        <InformationBox title="Ucz się"
+          upperPart={upperPartText}
+          bottomPart={progressText} button />
+      </div>
     );
 
-    var alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
-
-    const letterIndex = alphabet.map(letter => {
-      if (this.state.activeLetters.indexOf(letter) > -1){
-        return (
-          <li key={letter} className="letter-index-item">
-            <a className="letter-index-link" href={`#category`+letter}>{letter}</a>
-          </li>
-        );
-      } else return (
-        <li key={letter} className="letter-index-item">
-          <a className="letter-index-link deactivated-link" >{letter}</a>
-        </li>
-      );      
-    });
-
-    /* Number of currently selected, visible words*/
-
-    const numberOfSelected = (this.state.visibleWords || []).reduce(
-      function(acc, key){
-        return acc + ((this.state.selectedWords[key]) ? 1 : 0);
-    }.bind(this), 0)
-
-    const selectButton = (
-      <button onClick={() => this.selectAllWords()}
-        className="select-words-text select-words-button">
-        Zaznacz wszystkie
-      </button>
-    );
 
     return (
       
@@ -293,72 +97,12 @@ class Category extends Component {
 
       {rightPanel}
 
-      <div className="content"> 
-
-          <div className="top-panel">
-              <h1 className="panel-title editable">
-                {categoryNameEdit}
-                <i onClick={() => this.toggleCategoryNameEditability()} className="fas fa-pencil-alt pencil-icon"></i>
-                <i onClick={() => this.deleteCategory()} className="far fa-trash-alt"></i>
-              </h1>
-              <ul className="panel-actions">
-                  <li className="content-panel-item">Dodaj słówka</li>                      
-                  <li className="content-panel-item" onClick={(event) => this.deleteSelected(event)}>
-                    Usuń słówka
-                  </li>
-              </ul>
-              <ul className="letter-index">
-                {letterIndex}
-              </ul>
-
-                <div className="search-input">
-                    <input tpe="text" className="main-search"
-                      value={this.state.wordsFilter}      
-                      onChange={(event) => this.filterWords(event)}
-                      placeholder="Szukaj słówka w kategorii..." />
-
-                    <i className="fas fa-search search-icon"></i>
-                </div>
-
-                <div className="select-words">
-                    {selectButton}
-                    <button className="select-words-arrow select-words-button"
-                      onClick={(event) => this.showDropdownMenu(event)}>
-                    </button>
-                    <div className="number-of-selected-words">Wybrano: {
-                      (this.state.category) ? numberOfSelected : null
-                      }
-                      </div>
-                    <ul className={(this.state.dropdownVisible) ? 
-                      ("select-words-menu show-menu") : ("select-words-menu")}>
-                        <li className="menu-item" onClick={() => this.selectAllWords()}>
-                          Zaznacz wszystkie
-                        </li>
-                        <li className="menu-item" onClick={() => this.selectHardWords()}>
-                          Zaznacz trudne
-                        </li>
-                        <li className="menu-item" onClick={() => this.unSelectAllWords()}>
-                          Odznacz wszystkie
-                        </li>
-
-                    </ul>
-                    
-                </div>              
-          </div>
-
-          {this.state.category ? (
-            <WordsList 
-                category={this.state.category}
-                filter={this.state.wordsFilter}
-                deleteWord={(word) => this.deleteWord(word)}
-                checkedWords={this.state.selectedWords}
-                setVisibleWords={words => this.setVisibleWords(words)}
-                setHardWords={words => this.setHardWords(words)}
-                selectWords={(word, value) => this.handleWordSelection(word, value)} 
-                setActiveletters={(letters) => this.setActiveletters(letters)} />
-            ) : (null)}
-
-      </div>
+      <WordsList 
+        category={this.state.category}
+        deleteWord={(word) => this.props.deleteWord(word)}
+        updateCategory={(category) => this.props.updateCategory(category)} 
+        deleteCategory={(category) => this.deleteCategory(category)}
+        learned={(learnedPercentage) => this.setLearnedPercentage(learnedPercentage)}/>
       </div>
     );
   }

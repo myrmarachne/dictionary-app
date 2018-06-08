@@ -33,9 +33,6 @@ class NavigationPanel extends Component {
             newState.categories = props.categories.categories;
         }
 
-        console.log(state.categories);
-        console.log(props.categories.categories);
-
         return newState;
     }
 

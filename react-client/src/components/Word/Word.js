@@ -98,8 +98,6 @@ class Word extends Component {
   }
 
 
-
-
   render() {
     if (this.state.word) {
       return (

@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
 import './WordsCategories.css' 
+import InformationBox from '../InformationBox/InformationBox';
 
 
 class WordsCategories extends Component {
@@ -181,6 +182,7 @@ class WordsCategories extends Component {
                 autoFocus
                 className="category-link category-search" placeholder="Nowa kategoria" />
         </li>
+        
         );
 
         const categoriesSuggestions = (this.props.categories.categories || [])
@@ -194,21 +196,37 @@ class WordsCategories extends Component {
             </li>
         );
 
-        return(
+
+        /* Part of Information Box, that would be renderred*/
+        /* The header of categories with the 'add category' icon */
+        const categoriesHeader = (
+            <div>
+                <span className="fancy-text">Kategorie słówka</span>
+                <i className="fas fa-plus add-icon" onClick={(event) => this.toggleNewCategoryInput()}></i>
+            </div>
+        );
+
+        /* The list of all categories assigned to this particular word */
+        const bottomPart = (
+            <ul className="categories">
+            {
+                this.state.addCategoryInputVisible ? (
+                    categoryAddInput
+                ) : (categories)
+            }
+
+            {
+                this.state.addCategoryInputVisible ? (
+                    categoriesSuggestions
+                ) : (null)
+            }
+            </ul>
+        );
+
+        return (
             <div className="right-panel">
-            <div className="black-box upper-box">
-                <div className="upper-part"><span className="fancy-text">Kategorie słówka</span>
-                <i className="fas fa-plus add-icon" onClick={(event) => this.toggleNewCategoryInput()}></i></div>
-                <div className="bottom-part">
-                    <ul className="categories">
-                    {
-                        this.state.addCategoryInputVisible ? (
-                        (categoryAddInput)
-                        ) : (categories)
-                    }
-                    </ul>
-                </div>
-                </div>
+                <InformationBox upperPart={categoriesHeader}
+                    bottomPart={bottomPart}/>
             </div>
         );
     }

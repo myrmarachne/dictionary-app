@@ -40,13 +40,14 @@ class Category extends Component {
     
     if (props.categories.categories) {
 
+      const categoryId = props.match.params.categoryId;
       const category = categories
-        .filter(c => String(c.id) === props.match.params.categoryId)[0];
+        .filter(c => String(c.id) === categoryId)[0];
 
       if (category) {
         newState.category = category;
 
-      } else if (props.route.type == "all") {
+      } else if (categoryId === "all") {
         /* The category with all words */
         newState.words = [];
 

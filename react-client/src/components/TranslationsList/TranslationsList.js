@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fetch from 'cross-fetch';
 import configuration from '../../configuration';
+import TranslationsListItem from '../TranslationsListItem/TranslationsListItem';
 
 class TranslationsList extends Component {
 
@@ -10,8 +11,9 @@ class TranslationsList extends Component {
       translations: undefined,
       translationsLoading: false,
       translationsLoadError: null,
+
       isMounted: false,
-      word: undefined
+      word: undefined,
     }
   }
 
@@ -74,30 +76,16 @@ class TranslationsList extends Component {
    return this.state.translations ? (
     <div className="word-descriptions">
         {this.state.translations.map((translation, index) => {
-          if (translation)
-            return (
-              <div key={translation.id} 
-                className={this.props.editable ? ("word-translation editable") : ("word-translation") }>
-                <div className="translation-category">
-                  {index + 1}. {translation.domain}
-                  {
-                    (this.props.editable) ? (
-                      <span>
-                        <i className="fas fa-pencil-alt pencil-icon"></i>
-                        <i className="far fa-trash-alt"
-                          onClick={() => this.props.deleteTranslation(translation)}></i>
-                      </span>
-                    ) : (null)
-                  }
-                </div>
-                <div className="original-word translation-header">{translation.word}</div>
-                <div className="translated-word translation-header">{translation.wordTranslation}</div>
-                <div className="original-word">{translation.exampleTranslation}</div>
-                <div className="translated-word">{translation.example}</div>
-              </div>
 
+            return (
+              <TranslationsListItem
+                key={translation.id}
+                editable={this.props.editable}
+                index={index}
+                translation={translation}
+                deleteTranslation={(translation) => this.props.deleteTranslation(translation)} />
             );
-          else return null;
+
         })}
     </div>
     ) : (

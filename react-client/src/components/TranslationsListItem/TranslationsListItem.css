@@ -1,0 +1,28 @@
+.word-translation .translation-textarea {
+    width: calc(50% - 10px);
+    margin: 5px;
+
+    resize: none;
+
+    border: none;
+    background-color: #eff0f1;
+}
+
+.translation-header.translation-input {
+    width: calc(50% - 10px);
+    margin: 5px;
+
+    border: none;
+    background-color: #e1e3e5;
+}
+
+.translation-category.translation-input{
+    width: calc(100% - 10px);
+    margin: 5px;
+    box-sizing: border-box;
+
+    border: none;
+    background-color: #425cbb47;
+
+    padding: 5px;
+}

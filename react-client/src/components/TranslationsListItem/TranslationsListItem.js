@@ -13,7 +13,10 @@ class TranslationsListItem extends Component {
         editable: false,
 
         newTranslation: undefined,
-        validity: undefined
+
+        domainValidity: false,
+        wordTranslationValidity: false,
+        wordValidity: false
     }
   }
 
@@ -31,13 +34,8 @@ class TranslationsListItem extends Component {
            
         if(props.translation.id < 0){
             newState.editable = true;
-            newState.validity = {
-                word: false,
-                wordTranslation: false,
-                domain: false
-            };
         }
-
+        
         return newState;
     } else 
         return null;
@@ -65,8 +63,6 @@ class TranslationsListItem extends Component {
     }
   }
 
-
-
   setTranslationParameter(event, parameter){
 
       const translation = Object.assign({}, this.state.newTranslation);
@@ -87,18 +83,29 @@ class TranslationsListItem extends Component {
     });
   }
 
-  setValidity(value, parameter){
-    const validity = Object.assign({}, this.state.validity);
-    validity[parameter] = value;
-
+  setDomainValidity(value){
     this.setState({
-        validity,
+        domainValidity : value,
     });
   }
 
+  setWordValidity(value){
+    this.setState({
+        wordValidity : value,
+    });
+  }
+
+  setWordTranslationValidity(value){
+    this.setState({
+        wordTranslationValidity : value,
+    });
+  }
+
+
   render() {
     const translation = this.state.translation;
-    
+    const validity = this.state.wordValidity && this.state.wordTranslationValidity && this.state.domainValidity;
+
     return this.state.translation ? (
 
         (this.state.editable) ? (
@@ -109,12 +116,12 @@ class TranslationsListItem extends Component {
                         className="translation-category translation-input" 
                         defaultValue={(translation.domain || "")}
                         setTranslationParameter={(event) => this.setTranslationParameter(event, "domain")} 
-                        validate={(value) => this.setValidity(value, "domain")} />
+                        validate={(value) => this.setDomainValidity(value)} />
                     {
                         (this.props.editable) ? (
                             <span>
-
-                                <i className={"far fa-check-circle"}
+                        
+                                <i className={(validity) ? ("far fa-check-circle") : ("far fa-check-circle disabled")}
                                     onClick={() => this.saveNewTranslationData()}></i>
 
                                 <i className="far fa-times-circle" 
@@ -127,12 +134,12 @@ class TranslationsListItem extends Component {
                     className="original-word translation-header translation-input" 
                     defaultValue={(this.state.translation.word || "")}
                     setTranslationParameter={(event) => this.setTranslationParameter(event, "word")}
-                    validate={(value) => this.setValidity(value, "word")} />
+                    validate={(value) => this.setWordValidity(value)} />
                 <TextInput 
                     className="translated-word translation-header translation-input" 
                     defaultValue={(translation.wordTranslation || "")}
                     setTranslationParameter={(event) => this.setTranslationParameter(event, "wordTranslation")} 
-                    validate={(value) => this.setValidity(value, "wordTranslation")} />
+                    validate={(value) => this.setWordTranslationValidity(value)} />
                 <textarea 
                     className="original-word translation-textarea" 
                     defaultValue={(translation.exampleTranslation || "")}

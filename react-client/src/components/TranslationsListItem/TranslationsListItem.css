@@ -69,7 +69,6 @@
     background-color: #e1e3e5;
 }
 
-
   
 
   .translations-header .add-icon {
@@ -94,6 +93,11 @@
 
   .translation-category .far.fa-check-circle {
     color: #266f1e;
+  }
+
+  .translation-category .far.fa-check-circle.disabled {
+    pointer-events: none;
+    color: #00000045;
   }
 
   .translation-category .far.fa-times-circle {

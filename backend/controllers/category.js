@@ -7,7 +7,16 @@ module.exports = {
   },
 
   getById: function(model, req, res) {
-    let result = utils.findModelInCollection(model.categories, parseInt(req.params.categoryId));
+    let result;
+    if (req.params.categoryId === 'all') {
+      result = {
+        id: 'all',
+        name: 'All words',
+        words: model.words.map(word => word.id),
+      }
+    } else {
+      result = utils.findModelInCollection(model.categories, parseInt(req.params.categoryId));
+    }
     if (!result) {
       res.statusCode = 404;
     } else {

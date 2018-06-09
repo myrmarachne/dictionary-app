@@ -84,9 +84,11 @@ class WordDescriptions extends Component {
     }
 
     createNewTranslation(){
-        this.setState({
-            newTranslationsNumber: this.state.newTranslationsNumber+1,
-        });
+        if (this.state.newTranslationsNumber == 0){
+            this.setState({
+                newTranslationsNumber: this.state.newTranslationsNumber+1,
+            });
+        }
     }
 
     render(){

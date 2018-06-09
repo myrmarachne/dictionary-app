@@ -16,7 +16,6 @@ class TranslationsList extends Component {
 
       isMounted: false,
       word: undefined,
-      focus: false
     }
   }
 
@@ -61,11 +60,8 @@ class TranslationsList extends Component {
         newState.newTranslations.push(newTranstlation);  
       }
 
-      newState.focus = true;
 
-    } else {
-      newState.focus = false;
-    }
+    } 
 
     return newState;
   }
@@ -77,6 +73,7 @@ class TranslationsList extends Component {
   }
 
   loadTranslations() {
+    console.log("elo");
     this.setState({
       translations: undefined,
       translationsLoading: true,
@@ -146,11 +143,14 @@ class TranslationsList extends Component {
 
   render() {
   
-  const translations = (this.state.translations || []).concat(this.state.newTranslations || []);
+  const translations = (this.state.newTranslations || []).concat(this.state.translations || []);
+
 
   return this.state.translations ? (
     <div className="word-descriptions">
         {translations.map((translation, index) => {
+          console.log(index);
+          console.log(translation.id);
 
             return (
               
@@ -162,7 +162,7 @@ class TranslationsList extends Component {
                 deleteTranslation={(translation) => this.deleteTranslation(translation)}
                 updateTranslation={(translation) => this.updateTranslation(translation)}
                 word={this.state.word.word}
-                focus={this.state.focus} />
+              />
             );
 
         })}

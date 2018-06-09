@@ -12,7 +12,6 @@ class TranslationsListItem extends Component {
         editable: false,
 
         newTranslation: undefined,
-        focus: false
     }
   }
 
@@ -27,8 +26,6 @@ class TranslationsListItem extends Component {
             newState.translation = props.translation;
             newState.newTranslation = props.translation;
         }
-
-        newState.focus = props.focus;
            
         if(props.translation.id < 0){
             newState.editable = true;
@@ -39,11 +36,6 @@ class TranslationsListItem extends Component {
         return null;
   }
 
-  componentDidMount(){
-      if (this.node && this.state.focus){
-        this.node.scrollIntoView();
-      }
-  }
 
   toggleEditability(){
     /* Toggle the editability of the word name after clicking
@@ -65,7 +57,10 @@ class TranslationsListItem extends Component {
     }
   }
 
+
+
   setTranslationParameter(event, parameter){
+
       const translation = Object.assign({}, this.state.newTranslation);
       translation[parameter] = event.target.value;
 
@@ -91,7 +86,7 @@ class TranslationsListItem extends Component {
     return this.state.translation ? (
 
         (this.state.editable) ? (
-            <div ref={node => this.node = node}
+            <div
                 className={this.props.editable ? ("word-translation editable") : ("word-translation") }>
                 <div className="translation-category">
                     <input type="text" 

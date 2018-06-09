@@ -153,8 +153,13 @@ class Home extends Component {
 
     const pictureWithCaption = (this.state.wordOfTheDay && this.state.wordOfTheDayTranslation) ? (
       <div>
-        <div className="black-box-photo"><img src={this.state.wordOfTheDay.imageUrl} alt={this.state.wordOfTheDay.word}/></div>
-        <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation}</div>
+        <div className="black-box-photo">{
+          (this.state.wordOfTheDay.imageUrl) ? (
+            <img src={this.state.wordOfTheDay.imageUrl} alt={this.state.wordOfTheDay.word}/> 
+          ) : (null)
+        }
+       </div>
+        <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation.toUpperCase()}</div>
       </div>
     ) : ("Ładowanie ilustracji");
 

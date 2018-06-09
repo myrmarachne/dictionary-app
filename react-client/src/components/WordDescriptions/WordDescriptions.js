@@ -10,7 +10,8 @@ class WordDescriptions extends Component {
         super(props);
 
         this.state = {
-            word: undefined
+            word: undefined,
+            newTranslationsNumber: 0
         };
     }
 
@@ -19,11 +20,17 @@ class WordDescriptions extends Component {
 
         if (state.word == null) {
             newState.word = props.word;
+            newState.newTranslationsNumber = 0;
         }
 
         return newState;
     }
 
+    deleteNewTranslation() {
+        this.setState({
+            newTranslationsNumber: this.state.newTranslationsNumber-1
+        });
+    }
 
     createTranslation(translation) {
         return fetch(configuration.backendUrl + '/word-translations', {
@@ -40,6 +47,7 @@ class WordDescriptions extends Component {
         });
         return translation;
         });
+
     }
 
     updateTranslation(translation) {
@@ -50,7 +58,10 @@ class WordDescriptions extends Component {
             },
             body: JSON.stringify(translation),
         })
-        .then(response => response.json());
+        .then(response => response.json())
+        .catch(error => {
+
+        });
     }
 
   
@@ -72,16 +83,31 @@ class WordDescriptions extends Component {
         });
     }
 
+    createNewTranslation(){
+        this.setState({
+            newTranslationsNumber: this.state.newTranslationsNumber+1,
+        });
+    }
+
     render(){
+        
         if(this.state.word){
 
             return (
                 <div>
-                    <div className="translations-header">Tłumaczenia<i className="fas fa-plus add-icon"></i></div>
+                    <div className="translations-header">
+                        Tłumaczenia
+                        <i className="fas fa-plus add-icon"
+                            onClick={() => this.createNewTranslation()}></i>
+                    </div>
 
                     <div className="word-descriptions">
                         <TranslationsList word={this.state.word} editable
-                         deleteTranslation = {(translation) => this.deleteTranslation(translation)} />                                         
+                         deleteTranslation = {(translation) => this.deleteTranslation(translation)}
+                         updateTranslation={(translation) => this.updateTranslation(translation)}
+                         createTranslation={(translation) => this.createTranslation(translation)}
+                         newTranslationsNumber={this.state.newTranslationsNumber}
+                         deleteNewTranslation={() => this.deleteNewTranslation()} />                                         
                     </div>
 
                 </div>

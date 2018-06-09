@@ -8,13 +8,9 @@
     background-color: #eff0f1;
 }
 
-.translation-header.translation-input {
-    width: calc(50% - 10px);
-    margin: 5px;
-
-    border: none;
-    background-color: #e1e3e5;
-}
+.word-content.content-block .word-translation {
+    padding-right: 40px;
+  }
 
 .translation-category.translation-input{
     width: calc(100% - 10px);
@@ -26,3 +22,82 @@
 
     padding: 5px;
 }
+
+
+  /* Header above Translations */
+  
+  .translations-header {
+    position: relative;
+    left: -20px;
+    width: calc(100% + 30px);
+    height: 32px;
+    box-sizing: border-box;
+  
+    padding: 0 20px;
+    margin: 10px 0;
+  
+  
+    background-color: #A2A2A2;
+  
+    line-height: 32px;
+    color: white;
+    font-family: 'Open Sans Bold';
+    font-size: 1.3em;
+    letter-spacing: 3px;
+  }
+
+  .translations-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+  
+    width: 100%;
+    height: inherit;
+  
+    z-index: -10;
+    
+    box-shadow: -6px 5px 5px rgba(0,0,0,0.65);
+  }
+  
+
+
+.translation-header.translation-input {
+    width: calc(50% - 10px);
+    margin: 5px;
+
+    border: none;
+    background-color: #e1e3e5;
+}
+
+
+  
+
+  .translations-header .add-icon {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateX(50%) translateY(-50%);
+  }
+  
+  
+  .translation-category .far.fa-trash-alt, .translation-category .far.fa-check-circle, .translation-category .far.fa-times-circle {
+    position: absolute;
+    right: -20px;  
+    top: 50%;
+    transform: translateX(50%) translateY(-50%);
+
+    color: #0d0d0d;
+  
+    font-size: 1.2em;
+    cursor: pointer;
+  }
+
+  .translation-category .far.fa-check-circle {
+    color: #266f1e;
+  }
+
+  .translation-category .far.fa-times-circle {
+      color: #af0a0a;
+      transform: translateX(50%) translateY(150%);
+      
+  }

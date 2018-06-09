@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import fetch from 'cross-fetch';
 import configuration from '../../configuration';
 import './TranslationsListItem.css'
+import TextInput from '../TextInput/TextInput'
 
 class TranslationsListItem extends Component {
 
@@ -12,6 +13,7 @@ class TranslationsListItem extends Component {
         editable: false,
 
         newTranslation: undefined,
+        validity: undefined
     }
   }
 
@@ -29,6 +31,11 @@ class TranslationsListItem extends Component {
            
         if(props.translation.id < 0){
             newState.editable = true;
+            newState.validity = {
+                word: false,
+                wordTranslation: false,
+                domain: false
+            };
         }
 
         return newState;
@@ -52,7 +59,8 @@ class TranslationsListItem extends Component {
         this.setState({
             editable : !this.state.editable,
           }, () => {
-              this.props.deleteTranslation(this.state.translation);
+              if (this.state.translation.id < 0)
+                this.props.deleteTranslation(this.state.translation);
           });
     }
   }
@@ -69,7 +77,6 @@ class TranslationsListItem extends Component {
       });
   }
 
-
   saveNewTranslationData(){
 
     this.setState({
@@ -77,6 +84,15 @@ class TranslationsListItem extends Component {
         translation: this.state.newTranslation
     }, () => {
         this.props.updateTranslation(this.state.translation);
+    });
+  }
+
+  setValidity(value, parameter){
+    const validity = Object.assign({}, this.state.validity);
+    validity[parameter] = value;
+
+    this.setState({
+        validity,
     });
   }
 
@@ -89,29 +105,34 @@ class TranslationsListItem extends Component {
             <div
                 className={this.props.editable ? ("word-translation editable") : ("word-translation") }>
                 <div className="translation-category">
-                    <input type="text" 
+                    <TextInput
                         className="translation-category translation-input" 
                         defaultValue={(translation.domain || "")}
-                        onChange={(event) => this.setTranslationParameter(event, "domain")} />
+                        setTranslationParameter={(event) => this.setTranslationParameter(event, "domain")} 
+                        validate={(value) => this.setValidity(value, "domain")} />
                     {
                         (this.props.editable) ? (
                             <span>
-                                <i className="far fa-check-circle"
+
+                                <i className={"far fa-check-circle"}
                                     onClick={() => this.saveNewTranslationData()}></i>
+
                                 <i className="far fa-times-circle" 
                                     onClick={() => this.toggleEditability()}></i>
                             </span>
                         ) : (null)
                     }
                 </div>
-                <input 
+                <TextInput 
                     className="original-word translation-header translation-input" 
                     defaultValue={(this.state.translation.word || "")}
-                    onChange={(event) => this.setTranslationParameter(event, "word")} />
-                <input 
+                    setTranslationParameter={(event) => this.setTranslationParameter(event, "word")}
+                    validate={(value) => this.setValidity(value, "word")} />
+                <TextInput 
                     className="translated-word translation-header translation-input" 
                     defaultValue={(translation.wordTranslation || "")}
-                    onChange={(event) => this.setTranslationParameter(event, "wordTranslation")} />
+                    setTranslationParameter={(event) => this.setTranslationParameter(event, "wordTranslation")} 
+                    validate={(value) => this.setValidity(value, "wordTranslation")} />
                 <textarea 
                     className="original-word translation-textarea" 
                     defaultValue={(translation.exampleTranslation || "")}

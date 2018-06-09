@@ -132,6 +132,12 @@ body {
   cursor: pointer;
 }
 
+.add-icon.disabled {
+  pointer-events: none;
+  color: #00000045;
+  border-color: #00000045;
+}
+
 
 .categories {
   

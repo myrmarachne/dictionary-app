@@ -1,0 +1,7 @@
+.translation-input.not-valid {
+    outline-color: #af0a0a;
+
+    border: 2px solid #af0a0a;
+    border-radius: 2px;
+    background-color: #af0a0a1a;
+}

@@ -84,11 +84,9 @@ class WordDescriptions extends Component {
     }
 
     createNewTranslation(){
-        if (this.state.newTranslationsNumber == 0){
-            this.setState({
-                newTranslationsNumber: this.state.newTranslationsNumber+1,
-            });
-        }
+        this.setState({
+            newTranslationsNumber: this.state.newTranslationsNumber+1,
+        });
     }
 
     render(){
@@ -99,7 +97,13 @@ class WordDescriptions extends Component {
                 <div>
                     <div className="translations-header">
                         Tłumaczenia
-                        <i className="fas fa-plus add-icon"
+                        <i className={
+                            (this.state.newTranslationsNumber < 1) ? (
+                                "fas fa-plus add-icon"
+                            ) : (
+                                "fas fa-plus add-icon disabled"
+                            )
+                        }
                             onClick={() => this.createNewTranslation()}></i>
                     </div>
 

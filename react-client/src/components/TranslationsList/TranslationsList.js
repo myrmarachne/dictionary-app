@@ -59,8 +59,6 @@ class TranslationsList extends Component {
         };
         newState.newTranslations.push(newTranstlation);  
       }
-
-
     } 
 
     return newState;
@@ -73,7 +71,6 @@ class TranslationsList extends Component {
   }
 
   loadTranslations() {
-    console.log("elo");
     this.setState({
       translations: undefined,
       translationsLoading: true,
@@ -142,20 +139,24 @@ class TranslationsList extends Component {
   }
 
   render() {
+
+  const sortedTranslations = (this.state.translations || []).sort((a,b) =>{
+    if (a.id < b.id) return 1;
+    else if (a.id > b.id) return -1;
+    else return 0;
+  });
   
-  const translations = (this.state.newTranslations || []).concat(this.state.translations || []);
+  const translations = (this.state.newTranslations || []).concat(sortedTranslations);
 
 
   return this.state.translations ? (
     <div className="word-descriptions">
         {translations.map((translation, index) => {
-          console.log(index);
-          console.log(translation.id);
 
             return (
               
               <TranslationsListItem
-                key={index}
+                key={translation.id}
                 editable={this.props.editable}
                 index={index}
                 translation={translation}

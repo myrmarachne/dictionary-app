@@ -24,7 +24,6 @@ class Category extends Component {
       wordsLoadError: null,
 
       allWordsCategory: false,
-      wordsLoaded: false,
     }
 
   }
@@ -39,46 +38,43 @@ class Category extends Component {
     if (props.categories.categories) {
 
       const categoryId = props.match.params.categoryId;
+
       const category = categories
         .filter(c => String(c.id) === categoryId)[0];
 
       if (category) {
+
         newState.category = category;
         newState.allWordsCategory = false;
         newState.wordsLoaded = false;
 
-      } else if (categoryId === "all" && !state.wordsLoaded) {
+        document.title = category.name.toUpperCase();
+
+      } else if (categoryId === "all") {
         /* The category with all words */
         newState.allWordsCategory = true;
-        newState.category = {
-          id: -1, 
-          name: "Wszystkie słówka", 
-          words: [], 
-          learnedWordsThisWeek: 0, 
-          learnedWordsBeforeThisWeek: 0
-        };
-
+        document.title = "Wszystkie słówka";
       } else {
         newState.categoryNotFound = true;
-
       }
     }
     return newState;
   }
 
-  loadAllWordsIds = () => {
+  componentDidMount(){
+    if (this.state.allWordsCategory && !this.state.wordsLoaded){
+      this.loadAllWordsCategory();
+    }  
+  }
 
-    return fetch(configuration.backendUrl + '/words')
+  loadAllWordsCategory = () => {
+
+    return fetch(configuration.backendUrl + '/categories/all')
       .then(response => response.json())
-      .then(words => {
-
-        const category = Object.assign({}, (this.state.category || {}));
-        category.words = words;
-
+      .then(category => {
 
         this.setState({
           wordsLoaded: true,
-          words,
           category,
         });
 
@@ -89,15 +85,13 @@ class Category extends Component {
           })
       });
     }
-  
+ 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
     if (this.state.allWordsCategory && !this.state.wordsLoaded){
-      this.loadAllWordsIds();
+      this.loadAllWordsCategory();
     }
   }
-
 
   deleteCategory(category) {
     /* Delete current category */

@@ -314,7 +314,9 @@ class WordList extends Component {
   render() {
 
 
-    const categoryName = (this.state.categoryName) ? this.state.categoryName.toUpperCase() : "Ładowanie kategorii";
+    const categoryName = (this.state.categoryName) ? (
+      (this.state.category.id === "all") ? ("Wszystkie słówka") : (this.state.categoryName.toUpperCase()) 
+    ) : ("Ładowanie kategorii");
     
     /* Input for editing category name */
     const categoryNameEdit = (this.state.categoryEditable) ? (
@@ -323,8 +325,6 @@ class WordList extends Component {
         onChange = {(event) => this.setCategoryName(event)}
         onKeyUp={(event) => this.updateCategoryName(event)} />
     ) : (categoryName);
-
-    document.title = categoryName;
 
 
     var alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");

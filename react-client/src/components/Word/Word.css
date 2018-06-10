@@ -16,24 +16,3 @@
   
   }
   
-  /* Picture */
-  .content .word-photo {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin-left: auto;   
-    margin-right: auto; 
-  }
-  
-  .content .word-photo img {
-    position: absolute;
-    max-width: 100%;
-    max-height: 100%;
-    left: 50%;
-    top: 50%;
-  
-    transform: translateX(-50%) translateY(-50%);
-  
-    box-shadow: 0 0 5px 5px #0d0d0d;
-  }
-  

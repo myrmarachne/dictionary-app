@@ -1,7 +1,15 @@
  
 import React, { Component } from 'react';
+import './EditableImage.css'
 
 class EditableImage extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            editIconVisible: true,
+        };
+    }
 
     render(){
 
@@ -9,7 +17,10 @@ class EditableImage extends Component {
 
             return (
                 <div className="word-photo">
-                    <img src={this.props.word.imageUrl} />
+                    <div className="wrapper">
+                    <i className="fas fa-pencil-alt pencil-icon"></i>
+                    <img src={this.props.word.imageUrl} alt={this.props.word.word} />
+                    </div>
                 </div>
             );
         } else return (

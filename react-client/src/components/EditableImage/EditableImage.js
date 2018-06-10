@@ -7,20 +7,27 @@ class EditableImage extends Component {
         super(props);
 
         this.state = {
-            editIconVisible: true,
         };
     }
 
     render(){
 
         if(this.props.word){
-
+            console.log(this.props.word.imageUrl);
             return (
                 <div className="word-photo">
-                    <div className="wrapper">
-                    <i className="fas fa-pencil-alt pencil-icon"></i>
-                    <img src={this.props.word.imageUrl} alt={this.props.word.word} />
-                    </div>
+                        {(this.props.word.imageUrl != null) ? (
+                            <div className="wrapper">
+                                <i className="fas fa-pencil-alt pencil-icon"></i>
+                                <img src={this.props.word.imageUrl} alt={this.props.word.word} />
+                            </div>
+                        ) : (
+                            <div className="wrapper">
+                                <i className="fas fa-pencil-alt pencil-icon"></i>
+                                <div class="empty"></div>
+                            </div>
+                        )} 
+                                            
                 </div>
             );
         } else return (

@@ -167,9 +167,8 @@ class Word extends Component {
             </div>
 
             <div className="word-content content-block">
-              {(this.state.word.imageUrl != null) ? (
+        
                 <EditableImage word={this.state.word} />
-              ) : (null)}
               
               <WordDescriptions word={this.state.word} />
 
@@ -193,10 +192,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(Word);
-
-/*            <h1>{this.state.word.word}</h1>
-            <TranslationsList
-              word={this.state.word}
-              createTranslation={(t) => this.createTranslation(t)}
-              updateTranslation={(t) => this.updateTranslation(t)}
-              deleteTranslation={(t) => this.deleteTranslation(t)} />*/

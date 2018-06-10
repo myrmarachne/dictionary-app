@@ -9,14 +9,15 @@
 
   .content .word-photo .wrapper {
     position: absolute;
+    
     width: 300px;
     box-sizing: border-box;
     margin: auto;
 
+    overflow: hidden;
+
     left: 50%;
     top: 50%;
-
-    background-color: red;
 
     box-shadow: 0 0 5px 5px #0d0d0d;
 
@@ -40,7 +41,7 @@
     padding: 0 40px;
     opacity: 0;
 
-    transition: height 0.5s linear, opacity 0.5s linear;
+    transition: height 0.3s linear, opacity 0.3s linear;
 
     z-index: 1;
     background-color: #232323c2;
@@ -64,28 +65,61 @@
     content: "Zmień ilustrację";
     height: 30px;
     opacity: 1;
-    
   }
 
   .content .word-photo .wrapper:hover .fas.fa-pencil-alt.pencil-icon {
       opacity: 1;
-      transition: opacity 0.3s ease-out 0.4s;
+      height: 14px;
   }
 
   .word-photo .wrapper .fas.fa-pencil-alt.pencil-icon {
-      display: inline;
+      display: inline-block;
       position: absolute;
 
       top: unset;
       right: unset;
       bottom: 0px;
       left: 5px;
+      height: 0;
 
       z-index: 2;
       opacity: 0;
 
-      transition: opacity 0.1s ease-out;
+      transition: opacity 0.2s ease-out, height 0.3s linear;
 
       color:white;
       font-size: 1.2em;
+  }
+
+  .word-photo .wrapper .empty {
+    width: 300px;
+    height: 200px;
+  }
+
+  .word-photo .empty::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    transform: rotate(33.5deg) translate3d(29px,103px,0);    
+    width: 380px;
+    height: 2px;
+
+    border-bottom: 1px solid #232323;
+
+  }
+
+  .word-photo .empty::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    transform: rotate(146.5deg) translate3d(-86px,59px,0);
+    width: 380px;
+    height: 2px;
+
+    border-bottom: 1px solid #232323;
+
   }

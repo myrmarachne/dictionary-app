@@ -153,7 +153,7 @@ class TranslationsListItem extends Component {
             <div
                 className={this.props.editable ? ("word-translation editable") : ("word-translation") }>
                 <div className="translation-category">
-                    {this.props.index + 1}. {translation.domain}
+                    <div className="translation-category-text">{this.props.index + 1 + "." + String.fromCharCode(160)}{translation.domain}</div>
                     {
                         (this.props.editable) ? (
                             <span>

@@ -291,11 +291,18 @@ body {
   margin: auto;
   text-align: center;
   font-size: 1.33em;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Black box - categories list on words page */
 .right-panel .black-box .fancy-text {
   font-size: 1.1em;
+
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .right-panel .black-box .category-text {
@@ -414,9 +421,8 @@ body {
 
   display: block;
   height: 56px;
-  padding: 5px 0;
+  padding: 5px 0px;
   box-sizing: border-box;
-
 
   background-color: #425CBB;
 
@@ -489,8 +495,12 @@ body {
 }
 
 .letter-word-description .word-header .word-header-link {
+  display: block;
   text-decoration: none;
   color: #0d0d0d;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
   
 }
 
@@ -502,7 +512,13 @@ body {
      scroll (~20px) + right margin (16px) + greyed area (60px) */
   width: calc(100% - 96px);
   padding: 2px 10px;
+}
 
+.word-descriptions {
+  /* Calculate the width taking into account the icons */
+  width: calc(100% - 10px);
+  padding: 2px 0px 2px 0px;
+  
 }
 
 .word-translation {
@@ -510,17 +526,20 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin: 5px 0;
+
+  width: inherit;
+  
 }
 
 .word-translation .translation-category {
   position: relative;
   flex-basis: 100%;
+  width: inherit;
   
   padding: 2px 0;
 
   font-family: 'Open Sans Bold';
   color: #425CBB;
-
 }
 
 .word-translation .original-word, .word-translation .translated-word{
@@ -530,6 +549,9 @@ body {
 
   flex: 1 1 auto;
   padding: 5px;
+
+    overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .word-translation .original-word.translation-header {
@@ -538,6 +560,9 @@ body {
 
 .word-translation .translation-header {
   font-family: 'Open Sans Bold';
+
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

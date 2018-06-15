@@ -324,7 +324,9 @@ class WordList extends Component {
         defaultValue={categoryName} autoFocus
         onChange = {(event) => this.setCategoryName(event)}
         onKeyUp={(event) => this.updateCategoryName(event)} />
-    ) : (categoryName);
+    ) : (
+      <div className="panel-title-text">{categoryName}</div>
+    );
 
 
     var alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");

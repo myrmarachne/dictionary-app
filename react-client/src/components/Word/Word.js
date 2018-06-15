@@ -147,7 +147,8 @@ class Word extends Component {
           defaultValue={wordName} autoFocus
           onChange = {(event) => this.setWordName(event)}
           onKeyUp={(event) => this.updateWordName(event)} />
-      ) : (wordName);
+      ) : (
+        <div className="panel-title-text">{wordName}</div>);
   
       document.title = wordName;
 

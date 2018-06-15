@@ -21,7 +21,6 @@ class Word extends Component {
       wordLoadError: null,
       categories : undefined,
 
-      wordName: undefined,
       wordnameEditable: false
     }
   }
@@ -63,7 +62,6 @@ class Word extends Component {
       .then(word => {
         this.setState({
           word,
-          wordName: word.word,
           wordLoading: false,
           wordLoadError: null,
         })
@@ -87,8 +85,10 @@ class Word extends Component {
   }
 
   setWordName(event){
+    const word = this.state.word;
+    word.word = event.target.value;
     this.setState({
-      wordName : event.target.value
+      word
     });
   }
 
@@ -108,7 +108,7 @@ class Word extends Component {
 
   updateWordName(event) {
     /* Change the name of the word after clicking enter */
-    if (event.key === "Enter" && this.state.wordName.length > 0){
+    if (event.key === "Enter" && this.state.word && this.state.word.word.length > 0){
       this.updateWord(Object.assign({}, this.state.word, {word: event.target.value}));
       this.setState({
         wordnameEditable : false,
@@ -139,11 +139,11 @@ class Word extends Component {
   render() {
     if (this.state.word) {
 
-      const wordName = (this.state.wordName) ? this.state.wordName.toUpperCase() : "Ładowanie słówka";
+      const wordName = (this.state.word) ? (this.state.word.word || "").toUpperCase() : "Ładowanie słówka";
     
       /* Input for editing word name */
       const wordNameEdit = (this.state.wordnameEditable) ? (
-        <input type="text" className="panel-titlec editable"
+        <input type="text" className="panel-title editable"
           defaultValue={wordName} autoFocus
           onChange = {(event) => this.setWordName(event)}
           onKeyUp={(event) => this.updateWordName(event)} />

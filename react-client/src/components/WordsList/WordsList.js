@@ -216,7 +216,7 @@ class WordList extends Component {
 
     const filter = (passedFilter) ? passedFilter.toUpperCase() : "";
     return (this.state.words || []).filter(
-      word => word.word.toUpperCase().startsWith(filter)
+      word => word.word.toUpperCase().includes(filter)
     );
   }
 

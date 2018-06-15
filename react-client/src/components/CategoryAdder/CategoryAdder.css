@@ -1,0 +1,40 @@
+.panel-item .far.fa-check-circle, .panel-item .far.fa-times-circle {
+    position: absolute;
+    top: 5px;
+
+    color: white;
+    font-size: 1.5em;
+    
+    cursor: pointer;
+}
+
+.navigation-panel .far.fa-check-circle {
+    right: -30px;
+    top: 2px;
+}
+
+.far.fa-check-circle.disabled {
+    color: #A2A2A2;
+    pointer-events: none;
+}
+
+.navigation-panel .far.fa-times-circle {
+    right: -30px;
+
+    transform: translateY(100%) translateY(2px);
+}
+
+.black-box .far.fa-check-circle {
+    right: -25px;
+    top: -3px;
+
+}
+
+.black-box .far.fa-times-circle {
+    right: -25px;
+    top: 18px;
+}
+
+.panel-item.categories-item.add-category:hover{
+    background-color: #232323;
+}

@@ -114,7 +114,7 @@ class Category extends Component {
     /* Texts renderred fot information box */
     const upperPartText = (
       <div>
-        Opanowałeś ten dział w <span className="fancy-text">{learnedPercentage}</span>%
+        Opanowałeś ten dział w <span className="fancy-text">{learnedPercentage}%</span>
       </div>
     );
 

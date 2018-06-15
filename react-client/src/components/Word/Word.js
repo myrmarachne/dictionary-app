@@ -86,7 +86,7 @@ class Word extends Component {
 
   setWordName(event){
     const word = this.state.word;
-    word.word = event.target.value;
+    word.word = event.target.value.toUpperCase();
     this.setState({
       word
     });
@@ -136,6 +136,13 @@ class Word extends Component {
     );
   }
 
+  changePhoto(link){
+    const word = Object.assign({}, this.state.word);
+    word.imageUrl = link;
+
+    this.updateWord(word);
+  }
+
   render() {
     if (this.state.word) {
 
@@ -169,7 +176,8 @@ class Word extends Component {
 
             <div className="word-content content-block">
         
-                <EditableImage word={this.state.word} />
+                <EditableImage word={this.state.word}
+                  changePhoto={(link) => this.changePhoto(link)} />
               
                 <WordDescriptions word={this.state.word} />
 

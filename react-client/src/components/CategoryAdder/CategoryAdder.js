@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import configuration from '../../configuration';
 import CategoriesHints from '../CategoriesHints/CategoriesHints';
-
+import './CategoryAdder.css'
 
 class CategoryAdder extends Component {
 
@@ -58,66 +58,70 @@ class CategoryAdder extends Component {
         });
     }
 
-    createCategory(event){
+    saveCategoryName(){
+        const word = this.props.word;
 
-        if (event.key === "Enter" && this.state.newCategoryName.length > 0){
+        /* Check if category with the provided name already exists */
+        const nameOfCategory = this.state.newCategoryName;
 
-            const word = this.props.word;
-
-            /* Check if category with the provided name already exists */
-            const nameOfCategory = this.state.newCategoryName;
-
-            const category = (Object.values(this.state.categories).find(c => 
-                c.name.toUpperCase() === nameOfCategory.toUpperCase()));
-            
-            if (category == null){
-
-            /* Create the category in case if it does not exist */                
-                this.props.createCategory({
-                    name: this.state.newCategoryName,
-                  }).then(() => {
-                    /* Assign the word to the newly created category, if it is provided */
-                    if (word){
-                        const category = (Object.values(this.state.categories).find(c => 
-                            c.name.toUpperCase() === nameOfCategory.toUpperCase()));
-                        
-                        if (category){
-                            const newWord =  Object.assign({}, word);
+        const category = (Object.values(this.state.categories).find(c => 
+            c.name.toUpperCase() === nameOfCategory.toUpperCase()));
         
-                            if (newWord.categories.indexOf(category.id) < 0){
-                                const oldCategories = newWord.categories;
-                                newWord.categories.push(category.id);
-                                this.props.updateWordCategories(newWord);
-                            }
+        if (category == null){
+
+        /* Create the category in case if it does not exist */                
+            this.props.createCategory({
+                name: this.state.newCategoryName,
+              }).then(() => {
+                /* Assign the word to the newly created category, if it is provided */
+                if (word){
+                    const category = (Object.values(this.state.categories).find(c => 
+                        c.name.toUpperCase() === nameOfCategory.toUpperCase()));
+                    
+                    if (category){
+                        const newWord =  Object.assign({}, word);
+    
+                        if (newWord.categories.indexOf(category.id) < 0){
+                            const oldCategories = newWord.categories;
+                            newWord.categories.push(category.id);
+                            this.props.updateWordCategories(newWord);
                         }
                     }
-                  });
-    
-                  this.setState({
-                    addCategoryInputVisible: false,
-                    newCategoryName: ''              
-                  });
-
-            } else if (word != null) {
-                /* Assign the word to the existing category, if it is provided */
-
-                const newWord =  Object.assign({}, word);
-    
-                if (newWord.categories.indexOf(category.id) < 0){
-                    const oldCategories = newWord.categories;
-                    newWord.categories.push(category.id);
-                    this.props.updateWordCategories(newWord);
                 }
+              });
 
-                this.setState({
-                    addCategoryInputVisible: false,
-                    newCategoryName: ''              
-                  });
+              this.setState({
+                addCategoryInputVisible: false,
+                newCategoryName: ''              
+              });
 
+        } else if (word != null) {
+            /* Assign the word to the existing category, if it is provided */
+
+            const newWord =  Object.assign({}, word);
+
+            if (newWord.categories.indexOf(category.id) < 0){
+                const oldCategories = newWord.categories;
+                newWord.categories.push(category.id);
+                this.props.updateWordCategories(newWord);
             }
 
-            if (this.props.hintsVisible)
-                this.props.hintsVisible(false);
+            this.setState({
+                addCategoryInputVisible: false,
+                newCategoryName: ''              
+              });
+
+        }
+
+        if (this.props.hintsVisible)
+            this.props.hintsVisible(false);
+
+    }
+
+    createCategory(event){
+
+        if (event.key === "Enter"){
+            this.saveCategoryName();
 
         } else if (event.key === "Escape") {
             this.setState({
@@ -148,16 +152,24 @@ class CategoryAdder extends Component {
         
     }
 
+
+
     render() {
         
+        console.log(this.state.newCategoryName.length);
 
         const categoryAddInput = this.state.addCategoryInputVisible ? (
-            <div className="panel-item categories-item">
+            <div className="panel-item categories-item add-category">
                 <input type="text" value={this.state.newCategoryName}
                     onChange = {(event) => this.setNameOfNewCategory(event)}
                     onKeyUp = {(event) => this.createCategory(event)}
                     autoFocus
                     className="category-link category-search" placeholder="Nowa kategoria" />
+               
+                <i className={(this.state.newCategoryName.length > 0) ? ("far fa-check-circle") : ("far fa-check-circle disabled")}
+                    onClick={() => this.saveCategoryName()}></i>
+                <i className="far fa-times-circle"
+                    onClick={(event) => this.toggleNewCategoryInput()}></i>
             </div>
         ) : (null);
 

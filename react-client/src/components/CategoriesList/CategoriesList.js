@@ -28,7 +28,7 @@ class categoriesList extends Component {
     render() {
 
         const categoriesList = (this.state.categories || [])
-            .filter(category => category.name.toUpperCase().startsWith(this.props.filter || ""))
+            .filter(category => category.name.toUpperCase().includes(this.props.filter || ""))
             .sort((categoryA, categoryB) => categoryB.id-categoryA.id)
             .map(category =>
                 <li key={category.id} className="panel-item categories-item">

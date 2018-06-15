@@ -138,10 +138,18 @@ class Home extends Component {
   render() {
 
     const hardWordsList = (this.state.hardWords || []).map(word =>
-      <li key={word.id}><Link to={`/words/${word.id}`} className="link-to-word">{word.word}</Link></li>
+      <li key={word.id}>
+        <Link to={`/words/${word.id}`} className="link-to-word">
+          {word.word.charAt(0).toUpperCase() + word.word.slice(1).toLowerCase()}
+        </Link>
+      </li>
     );
     const lastWordsList = (this.state.lastWords || []).map(word =>
-      <li key={word.id}><Link to={`/words/${word.id}`} className="link-to-word">{word.word}</Link></li>
+      <li key={word.id}>
+        <Link to={`/words/${word.id}`} className="link-to-word">
+          {word.word.charAt(0).toUpperCase() + word.word.slice(1).toLowerCase()}
+        </Link>
+      </li>
     );
 
     /* Information boxes in the right panel */
@@ -151,6 +159,7 @@ class Home extends Component {
       <span className="fancy-text">{this.state.wordOfTheDay.word}</span>
     ) : ("Ładowanie słówka dnia");
 
+    /* Word of the day - picture */
     const pictureWithCaption = (this.state.wordOfTheDay && this.state.wordOfTheDayTranslation) ? (
       <div>
         <div className="black-box-photo">{

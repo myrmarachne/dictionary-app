@@ -525,10 +525,7 @@ body {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  margin: 5px 0;
-
-  width: inherit;
-  
+  margin: 5px 0;  
 }
 
 .word-translation .translation-category {

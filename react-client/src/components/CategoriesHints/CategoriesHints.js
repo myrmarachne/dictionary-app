@@ -29,7 +29,7 @@ class categoriesList extends Component {
     render() {
 
         const categoriesList = (this.state.categories || [])
-            .filter(category => category.name.toUpperCase().startsWith((this.props.filter || "").toUpperCase()))
+            .filter(category => category.name.toUpperCase().includes((this.props.filter || "").toUpperCase()))
             .filter(category => (this.props.hide.indexOf(category.id) < 0))
             .sort((categoryA, categoryB) => categoryB.id-categoryA.id)
             .map(category =>

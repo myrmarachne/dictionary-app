@@ -3,6 +3,7 @@ import fetch from 'cross-fetch';
 import configuration from '../../configuration';
 
 import WordsListItem from '../WordsListItem/WordsListItem';
+import Tooltip from '../Tooltip/Tolltip';
 
 class WordList extends Component {
 
@@ -24,7 +25,9 @@ class WordList extends Component {
       visibleWords : undefined,
       hardWords : undefined,
 
-      dropdownVisible : false
+      dropdownVisible : false,
+
+      deleteTooltip: true
 
     }
 
@@ -50,6 +53,7 @@ class WordList extends Component {
       newState.wordsFilter = "";
       /* Make the name uneditable after switching category */
       newState.categoryEditable = false;
+      newState.deleteTooltip = true;
 
     }
 
@@ -311,6 +315,12 @@ class WordList extends Component {
     });
   }
 
+  toggleDeleteTooltip(){
+    this.setState({
+      deleteTooltip: !this.state.deleteTooltip
+    });
+  }
+
   render() {
 
 
@@ -399,9 +409,17 @@ class WordList extends Component {
                 }
                 {
                   (!this.props.allWordsCategory) ? (
-                    <i onClick={() => this.props.deleteCategory(this.state.category)} className="far fa-trash-alt"></i>
+                    <i onClick={() => this.toggleDeleteTooltip()} className="far fa-trash-alt">
+                      <Tooltip
+                        text="Czy na pewno chcesz trwale usunąć tę kategorię?"
+                        yes={() => this.props.deleteCategory(this.state.category)}
+                        hide={this.state.deleteTooltip}
+                        no={() => this.toggleDeleteTooltip()} />
+                    </i>
                   ) : (null)
                 }
+                    
+    
               </h1>
               <ul className="panel-actions">
                   <li className="content-panel-item">Dodaj słówka</li>    

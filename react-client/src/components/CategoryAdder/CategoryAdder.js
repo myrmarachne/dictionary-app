@@ -153,7 +153,6 @@ class CategoryAdder extends Component {
     }
 
 
-
     render() {
         
         console.log(this.state.newCategoryName.length);

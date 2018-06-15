@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 
 import { createCategory, updateCategory } from '../../modules/categories';
 import { bindActionCreators } from 'redux';
+import Tooltip from '../Tooltip/Tolltip';
+
  
 class Word extends Component {
   constructor(props) {
@@ -21,7 +23,8 @@ class Word extends Component {
       wordLoadError: null,
       categories : undefined,
 
-      wordnameEditable: false
+      wordnameEditable: false,
+      deleteTooltip: true
     }
   }
 
@@ -143,6 +146,13 @@ class Word extends Component {
     this.updateWord(word);
   }
 
+  toggleDeleteTooltip(){
+    this.setState({
+      deleteTooltip: !this.state.deleteTooltip
+    });
+  }
+
+
   render() {
     if (this.state.word) {
 
@@ -169,7 +179,13 @@ class Word extends Component {
               <h1 className="panel-title editable">
                 {wordNameEdit}
                 <i onClick={() => this.toggleWordNameEditability()} className="fas fa-pencil-alt pencil-icon"></i>    
-                <i onClick={() => this.deleteWord(this.state.word)} className="far fa-trash-alt"></i>
+                <i onClick={() => this.toggleDeleteTooltip()} className="far fa-trash-alt">
+                  <Tooltip
+                    text="Czy na pewno chcesz trwale usunąć to słówko?"
+                    yes={() => this.deleteWord(this.state.word)}
+                    hide={this.state.deleteTooltip}
+                    no={() => this.toggleDeleteTooltip()} />
+                </i>
               </h1>
               <ul className="panel-actions"></ul>
             </div>

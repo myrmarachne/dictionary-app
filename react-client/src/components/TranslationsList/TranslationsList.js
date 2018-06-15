@@ -16,7 +16,9 @@ class TranslationsList extends Component {
 
       isMounted: false,
       word: undefined,
+      translationCounter: 0
     }
+
   }
 
   componentDidMount() {
@@ -31,9 +33,7 @@ class TranslationsList extends Component {
   static getDerivedStateFromProps(props, state){
     const newState = {};
 
-    if (state.word == null){
-      newState.newTranslationsNumber = 0;
-    }
+    newState.translationCounter = state.translationCounter;
 
     if (props.word != state.word){
         newState.word = props.word;
@@ -47,9 +47,11 @@ class TranslationsList extends Component {
       /* New empty translations should be added to current state */
 
       for (var i=0; i < newTranslationsAdded; i++){
+        
+        newState.translationCounter++;
 
         const newTranstlation = {
-          id: -(newState.newTranslations.length +1),
+          id: -(newState.translationCounter),
           wordId: props.word.id,
           domain: undefined,
           word: props.word.word.toLowerCase(),
@@ -66,7 +68,7 @@ class TranslationsList extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
       if (prevState.word !== this.state.word){
-         this.loadTranslations();
+     //    this.loadTranslations();
       }
   }
 
@@ -108,10 +110,14 @@ class TranslationsList extends Component {
       this.props.deleteNewTranslation();
 
       const newTranslations = this.state.newTranslations;
+      const translations = this.state.translations;
+
       newTranslations.pop();
-      
+      translations.unshift(translation);
+
       this.setState({
-        newTranslations
+        newTranslations,
+        translations
       });
 
     } else {
@@ -125,23 +131,49 @@ class TranslationsList extends Component {
       /* This is a new translation, still not created on the server */
       this.props.deleteNewTranslation();
 
-      const newTranslations = this.state.newTranslations;
-      newTranslations.pop();
-      
-      this.setState({
-        newTranslations
-      });
+      var indexNewTranslations = this.state.newTranslations.indexOf(translation);
+      var index = this.state.translations.indexOf(translation);
+
+      if (indexNewTranslations > -1){
+        const newTranslations = this.state.newTranslations;
+        newTranslations.splice(index, 1);
+
+        this.setState({
+          newTranslations
+        });
+      } 
+
+      if (index > -1){
+        const translations = this.state.translations;
+        translations.splice(index, 1);
+        
+        this.setState({
+          translations
+        })
+      }
+
 
     } else {
       /* It is an existing translation - delete it on server */
       this.props.deleteTranslation(translation);
+
+      var index = this.state.translations.indexOf(translation);
+      const translations = this.state.translations;
+      translations.splice(index, 1);
+      
+      this.setState({
+        translations
+      })
+
     }
   }
 
   render() {
 
-  const sortedTranslations = (this.state.translations || []).sort((a,b) =>{
-    if (a.id < b.id) return 1;
+  const sortedTranslations = (this.state.translations || []).sort((a,b) => {
+    if (a.id < 0 && b.id > 0) return -1;
+    else if (a.id < 0 && b.id < 0 && a.id > b.id) return 1;
+    else if (a.id < b.id) return 1;
     else if (a.id > b.id) return -1;
     else return 0;
   });

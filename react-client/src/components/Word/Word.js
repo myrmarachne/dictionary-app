@@ -143,7 +143,7 @@ class Word extends Component {
     
       /* Input for editing word name */
       const wordNameEdit = (this.state.wordnameEditable) ? (
-        <input type="text" className="panel-title editable"
+        <input type="text" className="panel-titlec editable"
           defaultValue={wordName} autoFocus
           onChange = {(event) => this.setWordName(event)}
           onKeyUp={(event) => this.updateWordName(event)} />
@@ -171,7 +171,7 @@ class Word extends Component {
         
                 <EditableImage word={this.state.word} />
               
-              <WordDescriptions word={this.state.word} />
+                <WordDescriptions word={this.state.word} />
 
             </div>
           </div>

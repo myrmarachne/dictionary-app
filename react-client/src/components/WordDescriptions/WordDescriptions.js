@@ -11,7 +11,8 @@ class WordDescriptions extends Component {
 
         this.state = {
             word: undefined,
-            newTranslationsNumber: 0
+            newTranslationsNumber: 0,
+            editing: false
         };
     }
 
@@ -60,7 +61,6 @@ class WordDescriptions extends Component {
         })
         .then(response => response.json())
         .catch(error => {
-
         });
     }
 
@@ -90,7 +90,6 @@ class WordDescriptions extends Component {
     }
 
     render(){
-        
         if(this.state.word){
 
             return (
@@ -98,7 +97,7 @@ class WordDescriptions extends Component {
                     <div className="translations-header">
                         Tłumaczenia
                         <i className={
-                            (this.state.newTranslationsNumber < 1) ? (
+                            (this.state.newTranslationsNumber < 1 || this.state.editing) ? (
                                 "fas fa-plus add-icon"
                             ) : (
                                 "fas fa-plus add-icon disabled"

@@ -20,7 +20,6 @@ class TranslationsListItem extends Component {
     }
   }
 
-
   static getDerivedStateFromProps(props, state){
 
     if (state.translation == null){
@@ -40,7 +39,6 @@ class TranslationsListItem extends Component {
     } else 
         return null;
   }
-
 
   toggleEditability(){
     /* Toggle the editability of the word name after clicking

@@ -24,7 +24,7 @@ class EditableImage extends Component {
                         ) : (
                             <div className="wrapper">
                                 <i className="fas fa-pencil-alt pencil-icon"></i>
-                                <div class="empty"></div>
+                                <div className="empty"></div>
                             </div>
                         )} 
                                             

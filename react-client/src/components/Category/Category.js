@@ -44,6 +44,8 @@ class Category extends Component {
 
       if (category) {
 
+        console.log(category);
+
         newState.category = category;
         newState.allWordsCategory = false;
         newState.wordsLoaded = false;
@@ -114,7 +116,7 @@ class Category extends Component {
     /* Texts renderred fot information box */
     const upperPartText = (
       <div>
-        Opanowałeś ten dział w <span className="fancy-text">{learnedPercentage}%</span>
+        Opanowałeś ten dział w <span className="fancy-text">{(learnedPercentage) ? learnedPercentage : "0"}%</span>
       </div>
     );
 

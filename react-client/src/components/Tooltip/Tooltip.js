@@ -10,11 +10,10 @@ class Tooltip extends Component {
     }
 
     render(){
-        console.log(this.props.hide);
         return(
             <div className={"tooltip" + ((this.props.hide) ? " disabled" : "")}>
                 <span className="tooltip-text">{this.props.text}</span>
-                <div class="icons">
+                <div className="icons">
                     <i className="far fa-check-circle"
                         onClick={() => this.props.yes()}></i>
                     <i className="far fa-times-circle"

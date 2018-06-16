@@ -121,6 +121,7 @@ export const updateCategory = (category, writeOnServer=true) => {
           type: UPDATE_CATEGORY,
           category,
         });
+        console.log(category);
       });
     };
   } else {

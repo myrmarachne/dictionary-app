@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 
 import { createCategory, updateCategory } from '../../modules/categories';
 import { bindActionCreators } from 'redux';
-import Tooltip from '../Tooltip/Tolltip';
+import Tooltip from '../Tooltip/Tooltip';
 
  
 class Word extends Component {

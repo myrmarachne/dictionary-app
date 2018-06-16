@@ -20,6 +20,7 @@
 }
 
 .top-panel .panel-actions .content-panel-item {
+    position: relative;
     display: inline-block;
     min-width: 120px;
     height: inherit;

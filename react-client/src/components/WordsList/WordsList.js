@@ -3,7 +3,7 @@ import fetch from 'cross-fetch';
 import configuration from '../../configuration';
 
 import WordsListItem from '../WordsListItem/WordsListItem';
-import Tooltip from '../Tooltip/Tolltip';
+import Tooltip from '../Tooltip/Tooltip';
 
 class WordList extends Component {
 
@@ -27,7 +27,8 @@ class WordList extends Component {
 
       dropdownVisible : false,
 
-      deleteTooltip: true
+      deleteTooltip: true,
+      wordsDeleteTooltip: true
 
     }
 
@@ -321,6 +322,22 @@ class WordList extends Component {
     });
   }
 
+  toggleWordsDeleteTooltip(){
+
+    const numberOfSelected =  (this.state.visibleWords || []).reduce(
+      function(acc, key){
+        return acc + ((this.state.selectedWords[key]) ? 1 : 0);
+    }.bind(this), 0);
+
+    if(numberOfSelected > 0){
+      
+      this.setState({
+        wordsDeleteTooltip: !this.state.wordsDeleteTooltip
+      });
+    }
+  }
+
+
   render() {
 
 
@@ -396,6 +413,9 @@ class WordList extends Component {
           </div>
     );
 
+
+
+
     return (
       <div className="content"> 
 
@@ -425,8 +445,13 @@ class WordList extends Component {
                   <li className="content-panel-item">Dodaj słówka</li>    
                   {
                     (!this.props.allWordsCategory) ? (
-                      <li className="content-panel-item" onClick={(event) => this.deleteSelected(event)}>
+                      <li className="content-panel-item" onClick={(event) => this.toggleWordsDeleteTooltip(event)}>
                         Usuń słówka
+                        <Tooltip
+                          text="Czy na pewno chcesz usunąć zaznaczone słówka?"
+                          yes={(event) => this.deleteSelected(event)}
+                          hide={this.state.wordsDeleteTooltip}
+                          no={() => this.toggleWordsDeleteTooltip()} />
                       </li>
                     ) : (null)
                   }                  

@@ -155,10 +155,12 @@ class CategoryAdder extends Component {
 
     render() {
         
-        console.log(this.state.newCategoryName.length);
 
-        const categoryAddInput = this.state.addCategoryInputVisible ? (
-            <div className="panel-item categories-item add-category">
+        const categoryAddInputClass = this.state.addCategoryInputVisible ? ("panel-item categories-item add-category") :
+            ("panel-item categories-item add-category disabled");
+
+        const categoryAddInput = (
+            <div className={categoryAddInputClass}>
                 <input type="text" value={this.state.newCategoryName}
                     onChange = {(event) => this.setNameOfNewCategory(event)}
                     onKeyUp = {(event) => this.createCategory(event)}
@@ -170,7 +172,7 @@ class CategoryAdder extends Component {
                 <i className="far fa-times-circle"
                     onClick={(event) => this.toggleNewCategoryInput()}></i>
             </div>
-        ) : (null);
+        );
 
 
         return (

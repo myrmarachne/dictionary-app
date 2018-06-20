@@ -171,10 +171,13 @@ class TranslationsList extends Component {
   render() {
 
   const sortedTranslations = (this.state.translations || []).sort((a,b) => {
-    if (a.id < 0 && b.id > 0) return -1;
-    else if (a.id < 0 && b.id < 0 && a.id > b.id) return 1;
-    else if (a.id < b.id) return 1;
-    else if (a.id > b.id) return -1;
+    if (a != null && b != null){
+      if (a.id < 0 && b.id > 0) return -1;
+      else if (a.id < 0 && b.id < 0 && a.id > b.id) return 1;
+      else if (a.id < b.id) return 1;
+      else if (a.id > b.id) return -1;
+      else return 0;
+    }
     else return 0;
   });
   
@@ -185,9 +188,10 @@ class TranslationsList extends Component {
     <div className="word-descriptions">
         {translations.map((translation, index) => {
 
+
             return (
-              
-              <TranslationsListItem
+              translation ? (
+                <TranslationsListItem
                 key={translation.id}
                 editable={this.props.editable}
                 index={index}
@@ -196,6 +200,8 @@ class TranslationsList extends Component {
                 updateTranslation={(translation) => this.updateTranslation(translation)}
                 word={this.state.word.word}
               />
+              )  : null
+              
             );
 
         })}

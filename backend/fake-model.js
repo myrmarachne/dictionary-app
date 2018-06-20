@@ -34,7 +34,7 @@ module.exports = {
     {
       id: 2,
       word: 'Banana',
-      imageUrl: null,
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Banana_and_cross_section.jpg/1024px-Banana_and_cross_section.jpg',
       creationTime: "Sun May 20 2018 00:33:30 GMT+0200 (CEST)",
       learnedTime: null,
       categories: [2],
@@ -43,7 +43,7 @@ module.exports = {
     {
       id: 3,
       word: 'Tangerine',
-      imageUrl: 'https://cdn.pixabay.com/photo/2015/09/06/00/29/tangerines-926634_960_720.jpg',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/TangerineFruit.jpg',
       creationTime: "Sun May 20 2018 00:33:30 GMT+0200 (CEST)",
       learnedTime: "Sun May 20 2018 00:33:30 GMT+0200 (CEST)",
       categories: [2],

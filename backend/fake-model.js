@@ -3,7 +3,7 @@ module.exports = {
     {
       id: 1,
       name: 'Warzywa',
-      words: []
+      words: [4]
     },
     {
       id: 2,
@@ -49,6 +49,15 @@ module.exports = {
       categories: [2],
       translations: [4],
     },
+    	{
+      id: 4,
+      word: 'Carrot',
+      imageUrl: 'https://t4.ftcdn.net/jpg/01/04/10/05/500_F_104100562_hptqaFEfkzz8vSK3fJyAkCLg4GEF97rg.jpg',
+      creationTime: "Sun May 20 2018 00:33:30 GMT+0200 (CEST)",
+      learnedTime: null,
+      categories: [1],
+      translations: [5],
+	  },
   ],
   wordTranslations: [
     {
@@ -86,6 +95,15 @@ module.exports = {
       wordTranslation: 'mandarynka',
       example: 'zdanie z mandarynką',
       exampleTranslation: 'Sentence with tangerine.'
+    },
+    	{
+      id: 5,
+      wordId: 4,
+      domain: 'ogólne',
+      word: 'carrot',
+      wordTranslation: 'marchewka',
+      example: 'zdanie z mandarynką',
+      exampleTranslation: 'Sentence with carrot'
     },
   ]
 }

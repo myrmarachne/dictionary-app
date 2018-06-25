@@ -1,6 +1,6 @@
 .panel-item .far.fa-check-circle, .panel-item .far.fa-times-circle {
     position: absolute;
-    top: 5px;
+    top: 1px;
 
     color: white;
     font-size: 1.5em;
@@ -9,7 +9,7 @@
 }
 
 .navigation-panel .far.fa-check-circle {
-    right: -30px;
+    right: 10px;
     top: 2px;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .navigation-panel .far.fa-times-circle {
-    right: -30px;
+    right: 10px;
 
     transform: translateY(100%) translateY(2px);
 }
@@ -33,14 +33,18 @@
   }
 
 .black-box .far.fa-check-circle {
-    right: -25px;
+    right: 3px;
     top: -3px;
 
 }
 
 .black-box .far.fa-times-circle {
-    right: -25px;
+    right: 3px;
     top: 18px;
+}
+
+.black-box .header-toolbar {
+    padding: 0;
 }
 
 .panel-item.categories-item.add-category:hover{

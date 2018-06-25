@@ -23,17 +23,10 @@ class EditableImage extends Component {
         if(this.props.word){
             return (
                 <div className="word-photo">
-                        {(this.props.word.imageUrl != null) ? (
-                                <div className="wrapper" onClick={() => this.addNewPicture()}>
-                                    <i className="fas fa-pencil-alt pencil-icon"></i>
-                                    <img src={this.props.word.imageUrl} alt={this.props.word.word} />
-                                </div>
-                            ) : (
-                                <div className="wrapper" onClick={() => this.addNewPicture()}>
-                                    <i className="fas fa-pencil-alt pencil-icon"></i>
-                                    <div className="empty"></div>
-                                </div>
-                        )}
+                        <div className="wrapper" onClick={() => this.addNewPicture()}>
+                            <i className="fas fa-pencil-alt pencil-icon"></i>
+                            <img src={this.props.word.imageUrl || '/empty-image.png'} alt={this.props.word.word || ''} />
+                        </div>
                         
                         <PictureAddBox hidden={!this.state.addNewPicture}
                             toggleVisibility={() => this.addNewPicture()}

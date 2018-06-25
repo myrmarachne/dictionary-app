@@ -78,7 +78,7 @@ class Home extends Component {
       hardWordsLoading: true,
       hardWordsLoadError: null,
     })
-    fetch(configuration.backendUrl + '/words?type=hard&limit=10')
+    fetch(configuration.backendUrl + '/words?type=hard&limit=8')
       .then(response => response.json())
       .then(ids => Promise.all(ids.map(id =>
         fetch(configuration.backendUrl + '/words/' + id)
@@ -113,7 +113,7 @@ class Home extends Component {
       lastWordsLoading: true,
       lastWordsLoadError: null,
     })
-    fetch(configuration.backendUrl + '/words?type=last&limit=10')
+    fetch(configuration.backendUrl + '/words?type=last&limit=8')
       .then(response => response.json())
       .then(ids => Promise.all(ids.map(id =>
         fetch(configuration.backendUrl + '/words/' + id)
@@ -156,7 +156,7 @@ class Home extends Component {
     /* Word of the day box */
 
     const wordOfTheDayName = (this.state.wordOfTheDay) ? (
-      <span className="fancy-text">{this.state.wordOfTheDay.word}</span>
+      <strong>{this.state.wordOfTheDay.word}</strong>
     ) : ("Ładowanie słówka dnia");
 
     /* Word of the day - picture */
@@ -168,7 +168,7 @@ class Home extends Component {
           ) : (null)
         }
        </div>
-        <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation.toUpperCase()}</div>
+        <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation}</div>
       </div>
     ) : ("Ładowanie ilustracji");
 
@@ -194,7 +194,7 @@ class Home extends Component {
 
     const upperPart = lastCategory ? ( 
       <div>
-        Ostatnio ćwiczyłeś słówka z kategorii <span className="fancy-text">{lastCategory.name}</span>
+        Ostatnio ćwiczyłeś słówka z kategorii <strong>{lastCategory.name}</strong>
       </div>
     ) : ("Ładowanie postępu nauki");
 

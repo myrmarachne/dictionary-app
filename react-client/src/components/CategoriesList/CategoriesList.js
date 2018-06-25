@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class categoriesList extends Component {
 
@@ -28,7 +29,7 @@ class categoriesList extends Component {
     render() {
 
         const categoriesList = (this.state.categories || [])
-            .filter(category => category.name.toUpperCase().includes(this.props.filter || ""))
+            .filter(category => category.name.toLowerCase().includes((this.props.filter || "").toLowerCase()))
             .sort((categoryA, categoryB) => categoryB.id-categoryA.id)
             .map(category =>
                 <li key={category.id} className="panel-item categories-item">
@@ -40,9 +41,15 @@ class categoriesList extends Component {
         );
 
         return (
+            <Scrollbars
+                renderThumbVertical={({ style, ...props }) =>
+                    <div {...props} style={{ ...style, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}/>
+                }
+            >
                 <ul className="categories">
                     {categoriesList}
                 </ul>
+            </Scrollbars>
         );
     }
     

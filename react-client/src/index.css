@@ -92,7 +92,7 @@ body {
 
 .navigation-panel .search-input .main-search {
   width: inherit;
-  height: 20px;
+  height: 24px;
 
   border: none;
 }
@@ -140,15 +140,11 @@ body {
 
 
 .categories {
-  
   list-style-type: none;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 
 .category-link {
-  text-transform: uppercase;
   text-decoration: none;
   color: white;
 }
@@ -159,9 +155,9 @@ body {
 .category-search {
   line-height: 38.6px;
   box-sizing: border-box;
-  letter-spacing: 2.4px;
+  letter-spacing: 1.5px;
 
-  font-family: 'Open Sans Light';
+  font-family: 'Open Sans';
 }
 
 .navigation-panel .category-search {
@@ -171,7 +167,7 @@ body {
 .category-link .category-text, .navigation-panel .all-words-link .category-link {
   line-height: 38.6px;
   font-size: 1.2em;
-  letter-spacing: 2.4px;
+  letter-spacing: 1.5px;
 }
 
 .category-text {
@@ -213,7 +209,12 @@ body {
 
   background-color: #232323;
   color: white;
-  font-family: 'Open Sans Light';
+  font-family: 'Open Sans';
+}
+
+.right-panel .black-box .main-navigation-item {
+  background-color: transparent;
+  padding: 0;
 }
 
 .right-panel .black-box.upper-box {
@@ -255,9 +256,8 @@ body {
   border-bottom: 1px solid #3C3C3C;
 
   text-align: center;
-  font-family: 'AmaticSC-Regular';
-  font-size: 2em;
-  letter-spacing: 1px;
+  font-family: 'Open Sans';
+  font-size: 1.33em;
 
 }
 
@@ -310,16 +310,17 @@ body {
 }
 
 .right-panel .black-box .add-icon {
-  position: absolute;
+  /* position: absolute;
   top: 50%;
   right: 0px;
-  transform: translateY(-50%);
+  transform: translateY(-50%); */
+  vertical-align: middle;
 
 }
 
 .right-panel .black-box .category-link {
   height: inherit;
-  margin-left: 24px;
+  /* margin-left: 24px; */
 }
 
 .right-panel .black-box .panel-item {
@@ -327,7 +328,7 @@ body {
   width: inherit;
   height: 38.6px;
 
-  margin: 0 10px;
+  /* margin: 0 10px; */
   border-bottom: 1px solid #3C3C3C;
 }
 
@@ -363,19 +364,21 @@ body {
 }
 
 .fancy-button {
-  width: 192px;
   height: 32px;
   box-sizing: border-box;
 
+  padding-left: 17px;
   padding-right: 48px;
-  background-color: white;
+  background-color: #777;
 
   line-height: 32px;
   text-align: right;
-  color: #232323;
+  color: white;
   text-decoration: none;
-  font-family: 'AmaticSC-Bold';
-  font-size: 1.8em;
+  font-family: 'Open Sans';
+  text-transform: uppercase;
+  font-size: 1.1em;
+  white-space: nowrap;
 }
 
 .fancy-button .fas.fa-play-circle {
@@ -432,7 +435,6 @@ body {
   font-size: 2.4em;
   letter-spacing: 2px;
   font-family: 'AmaticSC-Bold'; 
-  text-shadow: 4px 4px 4px rgba(0,0,0,0.65);
 
 }
 
@@ -452,12 +454,12 @@ body {
 }
 
 .top-panel .far.fa-trash-alt {
-  position: absolute;
-  top: 50%;
+  /* position: absolute;
+  top: 50%; */
 
   /* Value calculated so, that it is in the same 
   line as the trashes under it - for translations */
-  right: 50px; 
+  /* right: 50px;  */
 
   font-size: 0.8em;
   transform: translateY(-50%) translateX(50%);
@@ -564,22 +566,15 @@ body {
 
 /* Edit icon */
 
-.editable:hover .fas.fa-pencil-alt.pencil-icon {
-  display: block;
-}
-
 .fas.fa-pencil-alt.pencil-icon {
-  display: none;
 
-  position: absolute;
-  top: 50%;
-  right: 90px;
   font-size: 0.8em;
   transform: translateY(-50%) translateX(50%);
   cursor: pointer;
 }
 
 .word-translation .fas.fa-pencil-alt.pencil-icon {
+  position: absolute;
   top: 50%;
   right: 0;
 
@@ -587,4 +582,17 @@ body {
   font-size: 12px;
 }
 
+.header-toolbar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  border-left: 1px solid #232323;
+  padding: 0 10px;
+}
 
+.panel-title .header-toolbar .action-icon {
+  margin-right: 20px;
+  margin-top: 28px;
+  font-size: 0.6em;
+}

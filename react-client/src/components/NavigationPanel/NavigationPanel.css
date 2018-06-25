@@ -25,8 +25,6 @@
     background-repeat: no-repeat;
     background: url('../../images/logo.png');
     background-size: 272px 144px;
-  
-    border-bottom: 1px solid #3C3C3C;
   }
   
   /* Main page button */
@@ -52,59 +50,54 @@
   } 
 
 
+.main-navigation-item {
+  position: relative;
+  
+  width: inherit;
+  height: 40px;
+  box-sizing: border-box;
+
+  padding: 0 40px;
+
+  background-color: #425CBB;
+  text-align: center;
+
+  line-height: 40px;
+  color: #ffffff;
+  font-family: 'Open Sans Semibold';
+  letter-spacing: 1.5px;
+  font-size: 1.2em;
+
+  text-decoration: none;
+  border-bottom: 1px solid #3C3C3C;
+  text-transform: uppercase;
+}
+
+a.main-navigation-item:hover {
+  text-decoration: underline;
+}
+
 /* Categories */
 
-
-.navigation-panel .categories-header {
-    position: relative;
-  
-    width: inherit;
-    height: 40px;
-    box-sizing: border-box;
-  
-    padding: 0 40px;
-  
-    background-color: #272A35;
-    text-align: center;
-  
-  }
-  
-  .navigation-panel .categories-header .categories-header-text{
-    line-height: 40px;
-    color: #ffffff;
-    font-family: 'Open Sans Semibold';
-    letter-spacing: 2.4px;
-    font-size: 1.2em;
-  }
   
 
 /* The white circle plus - add icon */
 
-
-.navigation-panel .categories-header .add-icon {
-
-    position: absolute;
-    top: 50%;
-    right: 40px;
-    transform: translateY(-50%);
-  
-  }
-
-
 .navigation-panel .categories {
     flex-grow: 1;
     min-height: 40px;
+    text-align: center;
   }
   
   .navigation-panel .panel-item {
     position: relative;
     height: 38.6px;
-    margin: 0 39.5px 0 40px;
+    /* margin: 0 39.5px 0 40px; */
   
   }
   
   .navigation-panel .categories .panel-item {
-    margin: 0 30px 0 40px;
+    /* margin: 0 30px 0 40px; */
     border-bottom: 1px solid #3C3C3C;
   
   }
@@ -135,16 +128,17 @@
 /* Category search */
 
 .category-search {
-    max-width: 100%;
+    width: 100%;
 
     border: none;
     outline: none;
     border-bottom: none;
-    background-color: inherit;
+    background-color: #292929;
 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: center;
   }
 
  
@@ -152,7 +146,7 @@
   .category-search::placeholder, .categories-item .category-search::placeholder  {
     letter-spacing: 0;
     font-style: italic;
-    color: rgba(255,255,255,0.37);
+    color: rgba(255,255,255,0.6);
     text-transform: none;
   }
   
@@ -162,15 +156,15 @@
   .navigation-panel .categories-item .number-of-words {
     position: absolute;
     top: 50%;
-    right: 4px;
+    right: 14px;
   
-    padding: 1px 4px;
+    padding: 2px 5px;
     border-radius: 6px;
   
     transform: translateY(-50%);
     background-color: #0d0d0d;
   
-    font-size: 0.8em;
+    font-size: 1em;
   }
   
   /* Buttons on the bottom of panel */
@@ -184,13 +178,14 @@
   
     margin: 48px 8px 8px 8px;
   
-    background-color: #3c3c3c;
+    background-color: #777;
   
     line-height: 30px;
     text-align: center;
     color: white;    
-    letter-spacing: 2.4px;
+    letter-spacing: 1.5px;
     text-decoration: none;
-    font-size: 1.4em;
+    font-size: 1.1em;
+    text-transform: uppercase;
   }
   

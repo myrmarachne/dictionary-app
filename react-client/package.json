@@ -8,6 +8,7 @@
     "history": "^4.7.2",
     "react": "^16.4.0",
     "react-chartist": "0.13.1",
+    "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",

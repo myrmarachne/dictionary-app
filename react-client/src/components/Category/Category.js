@@ -116,7 +116,7 @@ class Category extends Component {
     /* Texts renderred fot information box */
     const upperPartText = (
       <div>
-        Opanowałeś ten dział w <span className="fancy-text">{(learnedPercentage) ? learnedPercentage : "0"}%</span>
+        Opanowałeś ten dział w <strong>{(learnedPercentage) ? learnedPercentage : "0"}%</strong>
       </div>
     );
 
@@ -127,11 +127,11 @@ class Category extends Component {
     ) : (
       (this.state.learnedPercentage === 100) ? (
         <div className="black-box-text">
-          Opanowałeś już wszystkie słówka z tego działu. Zawsze możesz tu powrócić, powtórzyć czego się już nauczyłeś."
+          Opanowałeś już wszystkie słówka z tego działu. Zawsze możesz tu powrócić, powtórzyć czego się już nauczyłeś.
         </div>
       ) : (
         <div className="black-box-text">
-          "Wybierz słówka i przejdź do ćwiczeń, aby poprawić swój wynik"
+          Wybierz słówka i przejdź do ćwiczeń, aby poprawić swój wynik
         </div>
       )
     );

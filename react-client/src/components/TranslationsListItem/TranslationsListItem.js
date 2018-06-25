@@ -111,6 +111,7 @@ class TranslationsListItem extends Component {
                 className={this.props.editable ? ("word-translation editable") : ("word-translation") }>
                 <div className="translation-category">
                     <TextInput
+                        placeholder="Dziedzina"
                         className="translation-category translation-input" 
                         defaultValue={(translation.domain || "")}
                         setTranslationParameter={(event) => this.setTranslationParameter(event, "domain")} 
@@ -128,21 +129,25 @@ class TranslationsListItem extends Component {
                         ) : (null)
                     }
                 </div>
-                <TextInput 
+                <TextInput
+                    placeholder="Słowo"
                     className="original-word translation-header translation-input" 
                     defaultValue={(this.state.translation.word || "")}
                     setTranslationParameter={(event) => this.setTranslationParameter(event, "word")}
                     validate={(value) => this.setWordValidity(value)} />
                 <TextInput 
+                    placeholder="Tłumaczenie słowa"
                     className="translated-word translation-header translation-input" 
                     defaultValue={(translation.wordTranslation || "")}
                     setTranslationParameter={(event) => this.setTranslationParameter(event, "wordTranslation")} 
                     validate={(value) => this.setWordTranslationValidity(value)} />
                 <textarea 
+                    placeholder="Przykład użycia"
                     className="original-word translation-textarea" 
                     defaultValue={(translation.exampleTranslation || "")}
                     onChange={(event) => this.setTranslationParameter(event, "exampleTranslation")} />
                 <textarea 
+                    placeholder="Tłumaczenie przykładu użycia"
                     className="translated-word translation-textarea" 
                     defaultValue={(translation.example || "")}
                     onChange={(event) => this.setTranslationParameter(event, "example")} />

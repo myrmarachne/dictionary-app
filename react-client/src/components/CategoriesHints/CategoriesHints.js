@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './CategoriesHints.css' 
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class categoriesList extends Component {
 
@@ -32,6 +33,7 @@ class categoriesList extends Component {
             .filter(category => category.name.toUpperCase().includes((this.props.filter || "").toUpperCase()))
             .filter(category => (this.props.hide.indexOf(category.id) < 0))
             .sort((categoryA, categoryB) => categoryB.id-categoryA.id)
+            .slice(0, 4)
             .map(category =>
                 <li key={category.id} className="panel-item categories-item">
                     <a className="category-link">

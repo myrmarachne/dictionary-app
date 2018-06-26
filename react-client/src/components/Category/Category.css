@@ -248,9 +248,7 @@
   /* Block with selected letter */
   
   .letter-category {
-    padding: 10px 0;
-    background-color: white;
-  
+    padding: 10px 0;  
   }
   
   .letter-category .letter-header {

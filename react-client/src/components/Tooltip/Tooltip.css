@@ -59,6 +59,7 @@
 .tooltip.disabled {
     opacity: 0;
     max-height: 0px;
+    z-index: -1;
 }
 
 .tooltip .tooltip-text {

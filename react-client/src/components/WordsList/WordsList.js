@@ -4,6 +4,7 @@ import configuration from '../../configuration';
 
 import WordsListItem from '../WordsListItem/WordsListItem';
 import Tooltip from '../Tooltip/Tooltip';
+import './WordsList.css' 
 
 class WordList extends Component {
 
@@ -417,7 +418,7 @@ class WordList extends Component {
 
 
     return (
-      <div className="content"> 
+      <div className="content words-list"> 
 
           <div className="top-panel">
               <h1 className="panel-title editable">

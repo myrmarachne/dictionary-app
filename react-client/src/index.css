@@ -219,7 +219,6 @@ body {
 
 .right-panel .black-box.upper-box {
   top: 177px; /* Same upper bound as Main Page button */
-  overflow: hidden;
 }
 
 .right-panel .black-box.bottom-box {
@@ -267,6 +266,7 @@ body {
   flex-direction: column;
 
   padding: 2.5px 0;
+  overflow: hidden;
 }
 
 .right-panel .black-box .bottom-part .scrollbar-container {

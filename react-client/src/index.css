@@ -205,7 +205,7 @@ body {
   box-sizing: border-box;
 
   margin: 0 19px;
-  padding: 27px 24px 54px 24px;
+  padding: 27px 24px 27px 24px;
 
   background-color: #232323;
   color: white;
@@ -219,6 +219,7 @@ body {
 
 .right-panel .black-box.upper-box {
   top: 177px; /* Same upper bound as Main Page button */
+  overflow: hidden;
 }
 
 .right-panel .black-box.bottom-box {
@@ -264,10 +265,16 @@ body {
 .right-panel .black-box .bottom-part {
   display: flex;
   flex-direction: column;
-  height: 140px;
 
   padding: 2.5px 0;
-  
+}
+
+.right-panel .black-box .bottom-part .scrollbar-container {
+  height: 200px;
+}
+
+.right-panel .black-box .add-category + .scrollbar-container {
+  height: 150px;
 }
 
 .right-panel .black-box .bottom-part .black-box-photo {
@@ -330,11 +337,6 @@ body {
 
   /* margin: 0 10px; */
   border-bottom: 1px solid #3C3C3C;
-}
-
-.right-panel .categories {
-  max-height: 160px;
-  margin-bottom: -24px;
 }
 
 .right-panel .categories .far.fa-trash-alt {

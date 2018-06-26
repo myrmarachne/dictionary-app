@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import './WordsCategories.css' 
 import InformationBox from '../InformationBox/InformationBox';
 import CategoryAdder from '../CategoryAdder/CategoryAdder';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 
 class WordsCategories extends Component {
@@ -144,9 +145,11 @@ class WordsCategories extends Component {
                 {(this.state.hintsVisible) ? (
                     null
                 ) : (
-                    <ul className="categories">
-                        {categories}
-                    </ul>
+                    <PerfectScrollbar>
+                        <ul className="categories">
+                            {categories}
+                        </ul>
+                    </PerfectScrollbar>
                 )}
                 
             </div>

@@ -6,6 +6,7 @@ import App from './components/App/App';
 import registerServiceWorker from './registerServiceWorker';
 import { ConnectedRouter } from 'react-router-redux';
 import store, { history } from './store';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 ReactDOM.render(
   <Provider store={store}>

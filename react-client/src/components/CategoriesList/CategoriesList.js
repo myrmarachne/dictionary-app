@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Scrollbars } from 'react-custom-scrollbars';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 class categoriesList extends Component {
 
@@ -41,15 +41,11 @@ class categoriesList extends Component {
         );
 
         return (
-            <Scrollbars
-                renderThumbVertical={({ style, ...props }) =>
-                    <div {...props} style={{ ...style, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}/>
-                }
-            >
+            <PerfectScrollbar>
                 <ul className="categories">
                     {categoriesList}
                 </ul>
-            </Scrollbars>
+            </PerfectScrollbar>
         );
     }
     

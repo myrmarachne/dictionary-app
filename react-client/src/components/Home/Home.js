@@ -10,6 +10,7 @@ import InformationBox from '../InformationBox/InformationBox';
 import { loadCategories } from '../../modules/categories';
 
 import './Home.css' 
+import MovingPictures from '../MovingPictures/MovingPictures';
 
 
 class Home extends Component {
@@ -140,14 +141,14 @@ class Home extends Component {
     const hardWordsList = (this.state.hardWords || []).map(word =>
       <li key={word.id}>
         <Link to={`/words/${word.id}`} className="link-to-word">
-          {word.word.charAt(0).toUpperCase() + word.word.slice(1).toLowerCase()}
+          {word.word}
         </Link>
       </li>
     );
     const lastWordsList = (this.state.lastWords || []).map(word =>
       <li key={word.id}>
         <Link to={`/words/${word.id}`} className="link-to-word">
-          {word.word.charAt(0).toUpperCase() + word.word.slice(1).toLowerCase()}
+          {word.word}
         </Link>
       </li>
     );
@@ -234,14 +235,12 @@ class Home extends Component {
                             <div className="box-title">Ostatnio dodane</div>
 
                             {this.state.lastWords ? (
-                              <ul className="list-of-words">
-                                {lastWordsList}
-                              </ul>
+                              <MovingPictures words={this.state.lastWords} />                            
                             ) : (
                               <p>Ładowanie ostatnio dodanych słówek...</p>
                             )}
  
-                            <Link className="fancy-button not-selectable" to={`/`}>Ćwicz nowe słówka<i className="fas fa-play-circle"></i></Link>
+                            <Link className="fancy-button not-selectable" to={`/`}>Ćwicz nowe słówka<i className="fas fa-arrow-circle-right"></i></Link>
                         </div>
 
                         <div className="hard-words-block content-block">

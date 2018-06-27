@@ -383,12 +383,12 @@ body {
   white-space: nowrap;
 }
 
-.fancy-button .fas.fa-play-circle {
+.fancy-button .fas.fa-arrow-circle-right {
   position: absolute;
   top: 50%;
   right: 24px;
   transform: translateY(-50%) translateX(50%);
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .not-selectable {

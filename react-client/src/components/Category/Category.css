@@ -16,7 +16,6 @@
 
     font-size: inherit;
     line-height: inherit;
-    text-transform: uppercase;
 }
 
 .top-panel .panel-actions .content-panel-item {
@@ -31,7 +30,6 @@
   
     text-align: center;
     color: white;
-    text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 2px;
     white-space: nowrap;

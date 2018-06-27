@@ -26,7 +26,7 @@ class InformationBox extends Component {
         const button = (this.props.button) ? (
             <Link className="fancy-button not-selectable" to={this.props.button}>{
                 (this.props.buttonText) ? (this.props.buttonText) : (null)
-            } <i className="fas fa-play-circle"></i></Link>
+            } <i className="fas fa-arrow-circle-right"></i></Link>
         ) : (null);
 
         return(

@@ -56,7 +56,7 @@ class TranslationsListItem extends Component {
             editable : !this.state.editable,
           }, () => {
               if (this.state.translation.id < 0)
-                this.props.deleteTranslation(this.state.translation);
+                this.props.cancelTranslation(this.state.translation);
           });
     }
   }

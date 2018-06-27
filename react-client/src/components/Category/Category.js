@@ -50,7 +50,7 @@ class Category extends Component {
         newState.allWordsCategory = false;
         newState.wordsLoaded = false;
 
-        document.title = category.name.toUpperCase();
+        document.title = category.name;
 
       } else if (categoryId === "all") {
         /* The category with all words */

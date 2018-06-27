@@ -15,7 +15,6 @@
     transition: all 0.25s linear;
 
     background-color: #3e3939;
-    border: 2px solid white;
     border-radius: 8px;
 
     line-height: initial;
@@ -30,13 +29,13 @@
 .tooltip::before {
     content: "";
     position: absolute;
-    top: -8px;
+    top: -7px;
     right: 8px;
     width: 0;
     height: 0;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    border-bottom: 8px solid white;
+    border-bottom: 8px solid #3e3939;
     filter: drop-shadow(0px -2px 2px #3e39397d);
 }
 

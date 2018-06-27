@@ -33,7 +33,8 @@ class PictureAddBox extends Component {
                 <div className="fancy-text">Wybierz zdjęcie</div>
                 <div className="picture-add-text">Ułatw sobie naukę nowych słówek dodając zdjęcie najlepiej ilustrujące wybrane słówko!</div>
                 <input onChange={(event) => this.setLink(event)}
-                    className="picture-link" type="text" />
+                    className="picture-link" type="text"
+                    placeholder="Wprowadź adres ilustracji" />
 
                 <i className="far fa-check-circle"
                     onClick={() => this.changePhoto()}></i>

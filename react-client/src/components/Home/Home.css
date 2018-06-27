@@ -4,11 +4,11 @@
 .statistics-container {
     display: flex;
     flex-direction: column;
+    margin-top: 100px;
   
     /* 100% - top margin (17px) top panel (80px) - bottom (38px) */
-    height: calc(100% - 135px);
     box-sizing: border-box;
-    padding: 24px 0;
+  
   }
   
   .statistics-container .content-block {
@@ -29,7 +29,7 @@
     position: relative;
     display: flex;
     flex: 1;
-    max-width: 250px;
+    max-width: 50%;
   }
   
   .progress-block {

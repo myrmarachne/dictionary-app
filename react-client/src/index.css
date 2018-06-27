@@ -171,11 +171,10 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-left: 5px;
 
   cursor: pointer;
 }
-
-
 
 /* Right side black boxes */ 
 

@@ -88,10 +88,9 @@
   /* Category search in top panel */
   
   .top-panel .search-input {
-    position: absolute;
-    right: 20px;
     min-width: 240px;
     height: 24px;
+    margin: 0 auto 10px auto;
     width: 30%;
   }
   .top-panel .search-input .main-search {

@@ -1,5 +1,5 @@
 .words-list {
-  margin-top: 160px;
+  margin-top: 200px;
 }
 
 .words-list .top-panel {
@@ -13,21 +13,21 @@
 
 .letter-category:first-child {
   position: relative;
-  top: -160px;
+  top: -200px;
 }
 
 .letter-category:first-child ~ .letter-category {
-  margin-top: -160px;
+  margin-top: -200px;
 }
 
 .letter-category:first-child + .letter-category {
-  margin-top: -320px;
+  margin-top: -400px;
 }
 
 .letter-category::before {
   content:"";
   display:  block;
-  height: 160px;
+  height: 200px;
 }
 
 .delete-word {

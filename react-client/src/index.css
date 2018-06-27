@@ -191,6 +191,7 @@ body {
 
 .right-panel .black-box {
   position: absolute;
+  right: 20px;
 
   display: flex;
   flex-direction: column;
@@ -401,7 +402,7 @@ body {
 .content {
   display: block;
 
-  margin: 17px 384px 38px 360px;
+  margin: 17px 384px 0 360px;
   min-width: 540px;
 
 }
@@ -409,7 +410,11 @@ body {
 /* Top panel */
 
 .top-panel {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 360px;
+  right: 380px;
+  z-index: 10000;  
 }
 
 .top-panel .main-page.panel-title {

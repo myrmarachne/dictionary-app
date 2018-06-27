@@ -246,9 +246,7 @@ class Home extends Component {
                         <div className="hard-words-block content-block">
                             <div className="box-title">Trudne słówka</div>
                             {this.state.hardWords ? (
-                              <ul className="list-of-words">
-                                {hardWordsList}
-                              </ul>
+                              <MovingPictures words={this.state.hardWords} />                            
                             ) : (
                               <p>Ładowanie trudnych słówek...</p>
                             )}

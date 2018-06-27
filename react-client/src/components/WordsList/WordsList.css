@@ -1,11 +1,10 @@
 .words-list {
-  margin-top: 177px;
+  margin-top: 160px;
 }
 
 .words-list .top-panel {
   position: fixed;
   top: 0;
-  padding-top: 17px;
   left: 360px;
   right: 380px;
   z-index: 10000;
@@ -14,21 +13,21 @@
 
 .letter-category:first-child {
   position: relative;
-  top: -177px;
+  top: -160px;
 }
 
 .letter-category:first-child ~ .letter-category {
-  margin-top: -177px;
+  margin-top: -160px;
 }
 
 .letter-category:first-child + .letter-category {
-  margin-top: -354px;
+  margin-top: -320px;
 }
 
 .letter-category::before {
   content:"";
   display:  block;
-  height: 177px;
+  height: 160px;
 }
 
 .delete-word {

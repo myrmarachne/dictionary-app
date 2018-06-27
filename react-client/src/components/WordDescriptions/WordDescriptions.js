@@ -99,9 +99,9 @@ class WordDescriptions extends Component {
                         Tłumaczenia
                         <i className={
                             (this.state.newTranslationsNumber < 1 || this.state.editing) ? (
-                                "fas fa-plus add-icon"
+                                "fas fa-plus-circle add-icon"
                             ) : (
-                                "fas fa-plus add-icon disabled"
+                                "fas fa-plus-circle add-icon disabled"
                             )
                         }
                             onClick={() => this.createNewTranslation()}></i>

@@ -28,15 +28,17 @@ class WordsListItem extends Component {
     return (
       <div className="letter-word-description">
         <div className="word-header">
+          <label className="checkbox-container">
+              <input type="checkbox"
+                checked={this.state.checked} 
+                onChange={(event) => {
+                  this.props.selectWords(word, event.target.checked)
+                  }} />
+              <span className="checkmark"></span>
+          </label>
             <Link className="word-header-link" to={`/words/${word.id}`}>{wordText}</Link>
-            <label className="checkbox-container">
-                <input type="checkbox"
-                  checked={this.state.checked} 
-                  onChange={(event) => {
-                    this.props.selectWords(word, event.target.checked)
-                    }} />
-                <span className="checkmark"></span>
-            </label>
+            <i className="far fa-trash-alt delete-word"
+                                onClick={() => this.props.delete()}></i>
         </div>
 
         <TranslationsList word={this.props.word} />

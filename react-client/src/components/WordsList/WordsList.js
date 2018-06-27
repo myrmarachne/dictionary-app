@@ -307,6 +307,11 @@ class WordList extends Component {
     return this.props.updateCategory(category);
   }
 
+  deleteOne(word) {
+    const category = Object.assign({}, this.state.category);
+    category.words = category.words.filter(w => w !== word.id);
+    return this.props.updateCategory(category);
+  }
 
   handleWordSelection(word, value) {
     var selectedWords = Object.assign({}, this.state.selectedWords);
@@ -383,8 +388,8 @@ class WordList extends Component {
     /* The button for all words selection */
     const selectButton = (
       <button onClick={() => this.selectAllWords()}
-        className="select-words-text select-words-button">
-        Zaznacz wszystkie
+        className="action-button select-words-text select-words-button">
+        <i className="fas fa-check-square"></i> Zaznacz wszystkie
       </button>
     );
 
@@ -396,6 +401,7 @@ class WordList extends Component {
       return wordsList.map(word => 
          <WordsListItem key={word.id} word={word} 
           checked={this.state.selectedWords[word.id]}
+          delete={() => this.deleteOne(word)}
           selectWords={(word, value) => this.handleWordSelection(word, value)} />
       );
     }.bind(this);
@@ -439,20 +445,7 @@ class WordList extends Component {
                 }
               </h1>
               <ul className="panel-actions">
-                  <li className="content-panel-item">Dodaj słówka</li>    
-                  {
-                    (!this.props.allWordsCategory) ? (
-                      <li className="content-panel-item" onClick={(event) => this.toggleWordsDeleteTooltip(event)}>
-                        Usuń słówka
-                        <Tooltip
-                          text="Czy na pewno chcesz usunąć zaznaczone słówka?"
-                          yes={(event) => this.deleteSelected(event)}
-                          hide={this.state.wordsDeleteTooltip}
-                          no={() => this.toggleWordsDeleteTooltip()} />
-                      </li>
-                    ) : (null)
-                  }                  
-
+                  
               </ul>
               <ul className="letter-index">
                 {letterIndex}
@@ -488,7 +481,20 @@ class WordList extends Component {
                           Odznacz wszystkie
                         </li>
                     </ul>
-                </div>              
+                </div>
+                <button className="action-button"><i className="fas fa-plus-circle"></i> Dodaj słówka</button>
+                {
+                  (!this.props.allWordsCategory) ? (
+                    <button className="action-button" onClick={(event) => this.toggleWordsDeleteTooltip(event)}>
+                      <i className="fas fa-trash-alt"></i> Usuń zaznaczone słówka
+                      <Tooltip
+                        text="Czy na pewno chcesz usunąć zaznaczone słówka?"
+                        yes={(event) => this.deleteSelected(event)}
+                        hide={this.state.wordsDeleteTooltip}
+                        no={() => this.toggleWordsDeleteTooltip()} />
+                    </button>
+                  ) : (null)
+                }          
           </div>
 
           <div className="content-block categories-content">

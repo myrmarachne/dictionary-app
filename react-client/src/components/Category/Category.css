@@ -1,3 +1,7 @@
+.words-list .top-panel {
+  padding-bottom: 20px;
+}
+
 .top-panel .panel-title .panel-title-text {
   margin: 0 auto;
   padding: 0 105px;
@@ -84,11 +88,11 @@
   /* Category search in top panel */
   
   .top-panel .search-input {
+    position: absolute;
+    right: 20px;
     min-width: 240px;
-    height: 20px;
+    height: 24px;
     width: 30%;
-    margin: auto;
-  
   }
   .top-panel .search-input .main-search {
     width: 100%;
@@ -99,15 +103,26 @@
   /* Select words button in top panel of Categories */
   
   .select-words {
-    position: absolute;
+    /* position: absolute;
     right: 20px;
-    bottom: 0;
+    bottom: 0; */
   
-    width: 124px;
-    height: 20px;
+    width: 174px;
+    height: 25px;
+    margin-left: 18px;
+    display: inline-block;
+    margin-right: 10px;
   }
+
+  .action-button {
+    position: relative;
+    background-color: #777;
   
-  .select-words-button {
+    color: white;
+    font-size: 0.9em;
+    letter-spacing: 0.7px;
+    line-height: 25px;
+
     display: inline-block;
     height: inherit;
   
@@ -115,23 +130,28 @@
     outline: none;
   
     cursor: pointer;
+    padding: 0 10px;
+    margin-right: 10px;
+    text-transform: uppercase;
+  }
+
+  .action-button .fas {
+    font-size: 1.1em;
   }
   
   .select-words-text {
     width: 90%;
-  
-    background-color: #425CBB;
-  
-    color: white;
-    font-size: 0.9em;
-    letter-spacing: 0.7px;
-  
+    padding: 0;
+    margin-right: 0px;
   }
   
   .select-words-arrow {
     position: relative;
     float: right;
     width: 10%;
+    height: 100%;
+    border: 0;
+    cursor: pointer;
   
     background-color: #232323;
   }
@@ -201,14 +221,14 @@
   
   .number-of-selected-words {
     position: absolute;
-    right: 0;
+    left: 20px;
     width: inherit;
     height: 20px;
   
     z-index: 1;
   
     font-family: 'Open Sans Bold';
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     font-size: 9px;
     text-align: center;
     line-height: 20px;
@@ -227,21 +247,7 @@
     min-height: calc(100% - 207px); 
     margin: 20px;
   
-  }
-  
-  /* The grey tape through the block */
-  .categories-content.content-block::before {
-    content: "";
-  
-    position: absolute;
-    bottom: 0;
-    top : -20px;
-    right: 30px;
-  
-    width: 60px;
-    background-color: rgba(247,247,247,0.4);
-  }
-  
+  }  
   
   /* Block with selected letter */
   
@@ -258,7 +264,7 @@
   
     padding: 0 20px;
   
-    background-color: #A2A2A2;
+    background-color: #bbb;
   
     line-height: 32px;
     color: white;
@@ -276,7 +282,7 @@
   
     z-index: -1;
     
-    box-shadow: -6px 5px 5px rgba(0,0,0,0.65);
+    box-shadow: -3px 3px 3px rgba(0,0,0,0.35);
   }
 
   .category .letter-word-description .word-header .word-header-link {
@@ -284,7 +290,8 @@
     text-decoration: none;
     color: #0d0d0d;
    
-    padding-right: 90px;
+    padding-left: 20px;
+    font-size: 1.2em;
   }
 
   .category .letter-word-description .word-translation {
@@ -299,7 +306,7 @@
     position: absolute;
     display: block;
   
-    width: 60px;
+    width: 30px;
     height: 100%;
   
     -webkit-user-select: none;
@@ -312,10 +319,10 @@
   }
   
   .letter-word-description .word-header .checkbox-container {
-    right: 60px;
+    left: 0px;
     top: 50%;
   
-    transform: translateX(50%) translateY(-50%);
+    transform: translateY(-50%);
   }
   
   .checkbox-container input {
@@ -332,6 +339,8 @@
   
     height: 16px;
     width: 16px;
+    box-sizing: border-box;
+    border: 1px solid #aaa;
   
     background-color: #dedede;
   }

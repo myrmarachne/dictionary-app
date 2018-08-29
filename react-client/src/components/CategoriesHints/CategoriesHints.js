@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './CategoriesHints.css' 
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 class categoriesList extends Component {
 
@@ -42,9 +43,11 @@ class categoriesList extends Component {
         );
 
         return (
+            <PerfectScrollbar>
                 <ul className="categories categories-hints">
                     {categoriesList}
                 </ul>
+            </PerfectScrollbar>
         );
     }
     

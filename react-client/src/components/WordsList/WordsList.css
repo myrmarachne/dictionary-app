@@ -1,0 +1,31 @@
+.words-list {
+  margin-top: 160px;
+}
+
+.words-list .top-panel {
+  position: fixed;
+  top: 0;
+  left: 360px;
+  right: 380px;
+  z-index: 10000;
+  background: white;
+}
+
+.letter-category:first-child {
+  position: relative;
+  top: -160px;
+}
+
+.letter-category:first-child ~ .letter-category {
+  margin-top: -160px;
+}
+
+.letter-category:first-child + .letter-category {
+  margin-top: -320px;
+}
+
+.letter-category::before {
+  content:"";
+  display:  block;
+  height: 160px;
+}

@@ -34,6 +34,7 @@ class WordDescriptions extends Component {
     }
 
     createTranslation(translation) {
+
         return fetch(configuration.backendUrl + '/word-translations', {
         method: 'POST',
         headers: {

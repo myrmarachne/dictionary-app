@@ -23,7 +23,7 @@ class WordsListItem extends Component {
   render() {
 
     const word = this.props.word;
-    const wordText = word.word.charAt(0).toUpperCase() + word.word.slice(1).toLowerCase();
+    const wordText = word.word;
 
     return (
       <div className="letter-word-description">

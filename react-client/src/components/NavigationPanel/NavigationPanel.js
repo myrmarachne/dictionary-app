@@ -22,7 +22,7 @@ class NavigationPanel extends Component {
     };
 
     categoryFilterChange(event) {
-        this.setState({categoryFilterValue : event.target.value.toUpperCase()});
+        this.setState({categoryFilterValue : event.target.value});
     }
 
     render() {
@@ -31,18 +31,16 @@ class NavigationPanel extends Component {
             <div className="navigation-panel">
 
                 <Link className="logo" to={`/`}></Link>
-                <Link className="main-page-button not-selectable" to={`/`}>Strona główna</Link>
-
                 <div className="search-input">
                     <input type="text" className="main-search" placeholder="Szukaj słówka..." />
                     <i className="fas fa-search search-icon"></i>
                 </div>
+                <Link className="main-navigation-item not-selectable" to={`/`}>Strona główna</Link>
+                <Link className="main-navigation-item not-selectable" to={`/category/all`}>Wszystkie słówka</Link>
+
+                
 
                 <CategoryAdder />
-
-                <div className="panel-item categories-item all-words-link clickable-menu-item">
-                    <Link className="category-link" to={`/category/all`}>Wszystkie słówka</Link>
-                </div>
 
                 <div className="panel-item">
                     <input type="text" value={this.state.categoryFilterValue} 

@@ -10,6 +10,7 @@ import InformationBox from '../InformationBox/InformationBox';
 import { loadCategories } from '../../modules/categories';
 
 import './Home.css' 
+import MovingPictures from '../MovingPictures/MovingPictures';
 
 
 class Home extends Component {
@@ -78,7 +79,7 @@ class Home extends Component {
       hardWordsLoading: true,
       hardWordsLoadError: null,
     })
-    fetch(configuration.backendUrl + '/words?type=hard&limit=10')
+    fetch(configuration.backendUrl + '/words?type=hard&limit=8')
       .then(response => response.json())
       .then(ids => Promise.all(ids.map(id =>
         fetch(configuration.backendUrl + '/words/' + id)
@@ -113,7 +114,7 @@ class Home extends Component {
       lastWordsLoading: true,
       lastWordsLoadError: null,
     })
-    fetch(configuration.backendUrl + '/words?type=last&limit=10')
+    fetch(configuration.backendUrl + '/words?type=last&limit=8')
       .then(response => response.json())
       .then(ids => Promise.all(ids.map(id =>
         fetch(configuration.backendUrl + '/words/' + id)
@@ -140,14 +141,14 @@ class Home extends Component {
     const hardWordsList = (this.state.hardWords || []).map(word =>
       <li key={word.id}>
         <Link to={`/words/${word.id}`} className="link-to-word">
-          {word.word.charAt(0).toUpperCase() + word.word.slice(1).toLowerCase()}
+          {word.word}
         </Link>
       </li>
     );
     const lastWordsList = (this.state.lastWords || []).map(word =>
       <li key={word.id}>
         <Link to={`/words/${word.id}`} className="link-to-word">
-          {word.word.charAt(0).toUpperCase() + word.word.slice(1).toLowerCase()}
+          {word.word}
         </Link>
       </li>
     );
@@ -156,7 +157,7 @@ class Home extends Component {
     /* Word of the day box */
 
     const wordOfTheDayName = (this.state.wordOfTheDay) ? (
-      <span className="fancy-text">{this.state.wordOfTheDay.word}</span>
+      <strong>{this.state.wordOfTheDay.word}</strong>
     ) : ("Ładowanie słówka dnia");
 
     /* Word of the day - picture */
@@ -168,7 +169,7 @@ class Home extends Component {
           ) : (null)
         }
        </div>
-        <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation.toUpperCase()}</div>
+        <div className="black-box-text">{this.state.wordOfTheDayTranslation.wordTranslation}</div>
       </div>
     ) : ("Ładowanie ilustracji");
 
@@ -194,7 +195,7 @@ class Home extends Component {
 
     const upperPart = lastCategory ? ( 
       <div>
-        Ostatnio ćwiczyłeś słówka z kategorii <span className="fancy-text">{lastCategory.name}</span>
+        Ostatnio ćwiczyłeś słówka z kategorii <strong>{lastCategory.name}</strong>
       </div>
     ) : ("Ładowanie postępu nauki");
 
@@ -234,22 +235,18 @@ class Home extends Component {
                             <div className="box-title">Ostatnio dodane</div>
 
                             {this.state.lastWords ? (
-                              <ul className="list-of-words">
-                                {lastWordsList}
-                              </ul>
+                              <MovingPictures words={this.state.lastWords} />                            
                             ) : (
                               <p>Ładowanie ostatnio dodanych słówek...</p>
                             )}
  
-                            <Link className="fancy-button not-selectable" to={`/`}>Ćwicz nowe słówka<i className="fas fa-play-circle"></i></Link>
+                            <Link className="fancy-button not-selectable" to={`/`}>Ćwicz nowe słówka<i className="fas fa-arrow-circle-right"></i></Link>
                         </div>
 
                         <div className="hard-words-block content-block">
                             <div className="box-title">Trudne słówka</div>
                             {this.state.hardWords ? (
-                              <ul className="list-of-words">
-                                {hardWordsList}
-                              </ul>
+                              <MovingPictures words={this.state.hardWords} />                            
                             ) : (
                               <p>Ładowanie trudnych słówek...</p>
                             )}

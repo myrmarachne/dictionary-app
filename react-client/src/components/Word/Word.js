@@ -89,7 +89,7 @@ class Word extends Component {
 
   setWordName(event){
     const word = this.state.word;
-    word.word = event.target.value.toUpperCase();
+    word.word = event.target.value;
     this.setState({
       word
     });
@@ -156,7 +156,7 @@ class Word extends Component {
   render() {
     if (this.state.word) {
 
-      const wordName = (this.state.word) ? (this.state.word.word || "").toUpperCase() : "Ładowanie słówka";
+      const wordName = (this.state.word) ? (this.state.word.word || "") : "Ładowanie słówka";
     
       /* Input for editing word name */
       const wordNameEdit = (this.state.wordnameEditable) ? (
@@ -178,14 +178,16 @@ class Word extends Component {
 
               <h1 className="panel-title editable">
                 {wordNameEdit}
-                <i onClick={() => this.toggleWordNameEditability()} className="fas fa-pencil-alt pencil-icon"></i>    
-                <i onClick={() => this.toggleDeleteTooltip()} className="far fa-trash-alt">
-                  <Tooltip
-                    text="Czy na pewno chcesz trwale usunąć to słówko?"
-                    yes={() => this.deleteWord(this.state.word)}
-                    hide={this.state.deleteTooltip}
-                    no={() => this.toggleDeleteTooltip()} />
-                </i>
+                <div className="header-toolbar">
+                  <i onClick={() => this.toggleWordNameEditability()} className="fas fa-pencil-alt pencil-icon action-icon"></i>    
+                  <i onClick={() => this.toggleDeleteTooltip()} className="far fa-trash-alt action-icon">
+                    <Tooltip
+                      text="Czy na pewno chcesz trwale usunąć to słówko?"
+                      yes={() => this.deleteWord(this.state.word)}
+                      hide={this.state.deleteTooltip}
+                      no={() => this.toggleDeleteTooltip()} />
+                  </i>
+                </div>
               </h1>
               <ul className="panel-actions"></ul>
             </div>

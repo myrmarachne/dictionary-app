@@ -178,11 +178,13 @@ class CategoryAdder extends Component {
         return (
             
             <div>
-                <div className="categories-header">
+                <div className="categories-header main-navigation-item">
                     <span className="categories-header-text">
                         Kategorie {this.props.word ? ("słówka") : (null)}
-                    </span><i className="fas fa-plus add-icon" 
-                        onClick={(event) => this.toggleNewCategoryInput()}></i>
+                    </span>
+                    <div className="header-toolbar">
+                        <i className="fas fa-plus add-icon" onClick={(event) => this.toggleNewCategoryInput()}></i>
+                    </div>
                 </div>
                 
                 {categoryAddInput}

@@ -40,21 +40,20 @@ class TranslationsList extends Component {
     }
 
     const newTranslationsAdded = props.newTranslationsNumber - (state.newTranslations || []).length;
+    newState.newTranslations = (state.newTranslations || []);
 
     if (newTranslationsAdded > 0){
 
-      newState.newTranslations = (state.newTranslations || []);
       /* New empty translations should be added to current state */
 
       for (var i=0; i < newTranslationsAdded; i++){
-        
         newState.translationCounter++;
 
         const newTranstlation = {
           id: -(newState.translationCounter),
           wordId: props.word.id,
           domain: undefined,
-          word: props.word.word.toLowerCase(),
+          word: props.word.word,
           wordTranslation: undefined,
           example: undefined,
           exampleTranslation: undefined
@@ -104,20 +103,27 @@ class TranslationsList extends Component {
 
   updateTranslation(translation) {
 
-    if (translation.id < 0){
-      /* The translation has not been created on the server yet */
-      this.props.createTranslation(translation);
-      this.props.deleteNewTranslation();
+    /* Check if this translation is a new or existing one */
+    const filteredNewTranslations = (this.state.newTranslations || []).filter(t => {
+      return translation.id == t.id
+    });
 
-      const newTranslations = this.state.newTranslations;
+    if (filteredNewTranslations.length > 0){
+      /* The translation has not been created on the server yet */
+
       const translations = this.state.translations;
 
-      newTranslations.pop();
-      translations.unshift(translation);
-
-      this.setState({
-        newTranslations,
-        translations
+      this.props.createTranslation(translation).then(t => {
+        translations.unshift(t)
+  
+        this.props.deleteNewTranslation();
+        const newTranslations = this.state.newTranslations;
+        newTranslations.pop();
+  
+        this.setState({
+          newTranslations,
+          translations
+        });
       });
 
     } else {
@@ -126,44 +132,55 @@ class TranslationsList extends Component {
     }
   }
 
+  cancelTranslation(translation){
+    /* Check if this translation is a new or existing one */
+    const filteredNewTranslations = (this.state.newTranslations || []).filter(t => {
+      return translation.id == t.id
+    });
+
+    if (filteredNewTranslations.length > 0){
+      this.deleteTranslation(translation);
+    }
+  }
+
   deleteTranslation(translation){
+
     if (translation.id < 0){
-      /* This is a new translation, still not created on the server */
-      this.props.deleteNewTranslation();
 
-      var indexNewTranslations = this.state.newTranslations.indexOf(translation);
-      var index = this.state.translations.indexOf(translation);
+        /* This is a new translation, still not created on the server */
+        this.props.deleteNewTranslation();
 
-      if (indexNewTranslations > -1){
-        const newTranslations = this.state.newTranslations;
-        newTranslations.splice(index, 1);
+        var indexNewTranslations = this.state.newTranslations.indexOf(translation);
+        var index = this.state.translations.indexOf(translation);
 
-        this.setState({
-          newTranslations
-        });
-      } 
+        if (indexNewTranslations > -1){
+          const newTranslations = this.state.newTranslations;
+          newTranslations.splice(index, 1);
 
-      if (index > -1){
-        const translations = this.state.translations;
-        translations.splice(index, 1);
-        
-        this.setState({
-          translations
-        })
-      }
+          this.setState({
+            newTranslations
+          });
+        } 
 
-
+        if (index > -1){
+          const translations = this.state.translations;
+          translations.splice(index, 1);
+          
+          this.setState({
+            translations
+          })
+        }
+      
     } else {
       /* It is an existing translation - delete it on server */
-      this.props.deleteTranslation(translation);
 
-      var index = this.state.translations.indexOf(translation);
-      const translations = this.state.translations;
-      translations.splice(index, 1);
-      
+      const translations = (this.state.translations || []).filter(t => {
+        return translation.id != t.id
+      });
+
       this.setState({
         translations
-      })
+      }, () => this.props.deleteTranslation(translation));
 
     }
   }
@@ -188,7 +205,6 @@ class TranslationsList extends Component {
     <div className="word-descriptions">
         {translations.map((translation, index) => {
 
-
             return (
               translation ? (
                 <TranslationsListItem
@@ -198,6 +214,7 @@ class TranslationsList extends Component {
                 translation={translation}
                 deleteTranslation={(translation) => this.deleteTranslation(translation)}
                 updateTranslation={(translation) => this.updateTranslation(translation)}
+                cancelTranslation={(translation) => this.cancelTranslation(translation)}
                 word={this.state.word.word}
               />
               )  : null
@@ -213,4 +230,3 @@ class TranslationsList extends Component {
 }
 
 export default TranslationsList;
-// {this.props.deleteTranslation && <button onClick={() => this.deleteTranslation(translation)}>Delete</button>}

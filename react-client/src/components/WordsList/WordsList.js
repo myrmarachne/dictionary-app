@@ -4,6 +4,7 @@ import configuration from '../../configuration';
 
 import WordsListItem from '../WordsListItem/WordsListItem';
 import Tooltip from '../Tooltip/Tooltip';
+import './WordsList.css' 
 
 class WordList extends Component {
 
@@ -342,7 +343,7 @@ class WordList extends Component {
 
 
     const categoryName = (this.state.categoryName) ? (
-      (this.state.category.id === "all") ? ("Wszystkie słówka") : (this.state.categoryName.toUpperCase()) 
+      (this.state.category.id === "all") ? "Wszystkie słówka" : this.state.categoryName
     ) : ("Ładowanie kategorii");
     
     /* Input for editing category name */
@@ -417,29 +418,25 @@ class WordList extends Component {
 
 
     return (
-      <div className="content"> 
+      <div className="content words-list"> 
 
           <div className="top-panel">
               <h1 className="panel-title editable">
                 {categoryNameEdit}
                 {
                   (!this.props.allWordsCategory) ? (
-                    <i onClick={() => this.toggleCategoryNameEditability()} className="fas fa-pencil-alt pencil-icon"></i>
+                    <div className="header-toolbar">
+                      <i onClick={() => this.toggleCategoryNameEditability()} className="fas fa-pencil-alt pencil-icon action-icon"></i>
+                      <i onClick={() => this.toggleDeleteTooltip()} className="far fa-trash-alt action-icon">
+                        <Tooltip
+                          text="Czy na pewno chcesz trwale usunąć tę kategorię?"
+                          yes={() => this.props.deleteCategory(this.state.category)}
+                          hide={this.state.deleteTooltip}
+                          no={() => this.toggleDeleteTooltip()} />
+                      </i>
+                    </div>
                   ) : (null)
                 }
-                {
-                  (!this.props.allWordsCategory) ? (
-                    <i onClick={() => this.toggleDeleteTooltip()} className="far fa-trash-alt">
-                      <Tooltip
-                        text="Czy na pewno chcesz trwale usunąć tę kategorię?"
-                        yes={() => this.props.deleteCategory(this.state.category)}
-                        hide={this.state.deleteTooltip}
-                        no={() => this.toggleDeleteTooltip()} />
-                    </i>
-                  ) : (null)
-                }
-                    
-    
               </h1>
               <ul className="panel-actions">
                   <li className="content-panel-item">Dodaj słówka</li>    

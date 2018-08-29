@@ -59,6 +59,7 @@ class TextInput extends Component {
       return(
         <input 
             type="text"
+            placeholder={this.props.placeholder || ""}
             defaultValue={this.props.defaultValue || ""}
             className={this.state.className || ""}
             onBlur={(event) => this.inputHandler(event)}
